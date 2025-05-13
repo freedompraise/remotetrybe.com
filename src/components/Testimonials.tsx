@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 const testimonialData = [
   {
@@ -15,14 +16,14 @@ const testimonialData = [
     name: "Ijeoma Ezenwa",
     role: "Virtual Assistant for CEOs and Startup Founders",
     image: "/lovable-uploads/2426120c-5f9e-4e15-986b-68cce0ca9293.png",
-    quote: "Remote Trybe Academy will melt, remold, and humble you. No jokes! But trust me, the growth is worth it. I'm so proud of this new version of me."
+    quote: "Remote Trybe Academy will melt, remold, and humble you. No jokes! But trust me, the growth is worth it."
   },
   {
     id: 3,
     name: "Miriam Okpalaeke",
     role: "Administrative Virtual Assistant",
     image: "/lovable-uploads/a588deb7-10f0-44b8-9a94-5607a4dfeb1d.png",
-    quote: "One of the best decisions I've made this year and I'm so proud of myself for taking these small but meaningful steps. It's amazing how little changes can lead to big growth!"
+    quote: "One of the best decisions I've made this year and I'm proud of myself for taking these small but meaningful steps. It's amazing how little changes can lead to big growth!"
   },
   {
     id: 4,
@@ -57,23 +58,22 @@ const testimonialData = [
     name: "Blessing Umanah",
     role: "Virtual Assistant Executive at Digital Marketing Hub",
     image: "/lovable-uploads/1f0d58eb-b7f0-4437-b9a0-02868b37fe52.png",
-    quote: "We are officially stepping into week 4 in Remote Trybe. Odosa Egharevba has been guiding and drilling us intensively, and I must say, it's truly worth it."
+    quote: "We are officially stepping into week 4 in Remote Trybe. Odosa Egharevba has been guiding and drilling us intensively, and I must say, it's truly worth it! All the tasks have been designed so far, offering a glimpse into the challenges we face."
   },
 ];
 
 const Testimonials = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeTestimonial, setActiveTestimonial] = useState(null);
   
   const nextSlide = () => {
     setCurrentSlide((prev) => 
-      prev === Math.ceil(testimonialData.length / 2) - 1 ? 0 : prev + 1
+      prev === Math.ceil(testimonialData.length / 4) - 1 ? 0 : prev + 1
     );
   };
   
   const prevSlide = () => {
     setCurrentSlide((prev) => 
-      prev === 0 ? Math.ceil(testimonialData.length / 2) - 1 : prev - 1
+      prev === 0 ? Math.ceil(testimonialData.length / 4) - 1 : prev - 1
     );
   };
 
@@ -81,14 +81,14 @@ const Testimonials = () => {
     <section id="testimonials" className="py-16 bg-cream">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto reveal">
-          <h2 className="section-title">Success Stories</h2>
+          <h2 className="section-title">Student Success Stories</h2>
           <p className="section-subtitle">
             Hear from our community of graduates who have transformed their careers through our training programs.
           </p>
         </div>
         
         <div className="relative mt-12 reveal">
-          <div className="hidden md:flex justify-between absolute top-1/2 -translate-y-1/2 w-full px-4">
+          <div className="hidden md:flex justify-between absolute top-1/2 -translate-y-1/2 w-full px-4 z-10">
             <button 
               onClick={prevSlide}
               className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
@@ -105,60 +105,73 @@ const Testimonials = () => {
             </button>
           </div>
           
-          <div className="hidden md:block">
-            <div className="grid grid-cols-2 gap-6" 
-                 style={{ transform: `translateX(-${currentSlide * 100}%)`, transition: 'transform 0.5s ease' }}>
+          {/* Desktop View: Grid Layout */}
+          <div className="hidden md:block overflow-hidden">
+            <div 
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+              style={{ 
+                transform: `translateX(-${currentSlide * 100}%)`, 
+                transition: 'transform 0.5s ease',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+              }}
+            >
               {testimonialData.map((testimonial) => (
-                <div key={testimonial.id} className="card">
-                  <div className="flex items-start space-x-4">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                    <div>
-                      <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                      <p className="text-sm text-gray-600">{testimonial.role}</p>
-                      <div className="flex mt-1 mb-3">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={14} className="text-yellow-500 fill-yellow-500" />
-                        ))}
+                <Card key={testimonial.id} className="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                  <CardContent className="p-4">
+                    <div className="flex items-start space-x-3">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div>
+                        <h3 className="font-bold text-sm">{testimonial.name}</h3>
+                        <p className="text-xs text-gray-600">{testimonial.role}</p>
+                        <div className="flex mt-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={12} className="text-yellow-500 fill-yellow-500" />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <p className="text-gray-700 mt-4">"{testimonial.quote}"</p>
-                </div>
+                    <p className="text-sm text-gray-700 mt-3">{testimonial.quote}</p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
           
-          {/* Mobile view: show one testimonial at a time */}
+          {/* Mobile View: Single Card Slider */}
           <div className="md:hidden">
             <div className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 pb-6">
               {testimonialData.map((testimonial) => (
-                <div key={testimonial.id} className="card min-w-[85%] snap-center">
-                  <div className="flex items-start space-x-4">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                    <div>
-                      <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                      <p className="text-sm text-gray-600">{testimonial.role}</p>
-                      <div className="flex mt-1 mb-3">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={14} className="text-yellow-500 fill-yellow-500" />
-                        ))}
+                <Card key={testimonial.id} className="min-w-[85%] snap-center bg-white rounded-xl shadow-md overflow-hidden">
+                  <CardContent className="p-4">
+                    <div className="flex items-start space-x-3">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div>
+                        <h3 className="font-bold text-sm">{testimonial.name}</h3>
+                        <p className="text-xs text-gray-600">{testimonial.role}</p>
+                        <div className="flex mt-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={12} className="text-yellow-500 fill-yellow-500" />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <p className="text-gray-700 mt-4">"{testimonial.quote}"</p>
-                </div>
+                    <p className="text-sm text-gray-700 mt-3">{testimonial.quote}</p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
           
+          {/* Mobile Navigation Controls */}
           <div className="flex justify-center mt-8 md:hidden">
             <button 
               onClick={prevSlide}
@@ -176,9 +189,10 @@ const Testimonials = () => {
             </button>
           </div>
 
+          {/* Pagination Dots */}
           <div className="flex justify-center mt-8">
             <div className="flex space-x-2">
-              {[...Array(Math.ceil(testimonialData.length / 2))].map((_, index) => (
+              {[...Array(Math.ceil(testimonialData.length / 4))].map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}

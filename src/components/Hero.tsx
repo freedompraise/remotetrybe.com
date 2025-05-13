@@ -1,6 +1,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import VideoPlayer from "./VideoPlayer";
 
 const Hero = () => {
   return (
@@ -24,24 +25,12 @@ const Hero = () => {
             </div>
           </div>
           
-          <div className="rounded-2xl overflow-hidden shadow-xl animate-fade-in">
-            <div className="aspect-w-16 aspect-h-9 relative">
-              <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-                <p className="text-gray-600">Video Player: Gift's Success Story</p>
-              </div>
-              {/* Video would be embedded here in production */}
-              {/* <iframe 
-                width="100%" 
-                height="100%" 
-                src="https://drive.google.com/file/d/1JOUbOmyEDD9hfwrOPeOxwY-moxORbjml/preview" 
-                title="Remote Trybe Success Story" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-                className="absolute inset-0"
-              ></iframe> */}
-            </div>
-          </div>
+          <VideoPlayer 
+            src="https://drive.google.com/file/d/1JOUbOmyEDD9hfwrOPeOxwY-moxORbjml" 
+            title="Gift's Success Story" 
+            className="animate-fade-in" 
+            lazy={true}
+          />
         </div>
       </div>
     </section>

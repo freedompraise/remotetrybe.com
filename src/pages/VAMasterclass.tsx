@@ -1,9 +1,9 @@
-
 import { useEffect } from "react";
 import { ChevronDown, Check, ArrowRight, Calendar, Clock, Users } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
+import VideoPlayer from "../components/VideoPlayer";
 
 const VAMasterclass = () => {
   // Change page title when component mounts
@@ -75,6 +75,30 @@ const VAMasterclass = () => {
     }
   ];
 
+  // Testimonial videos data
+  const testimonialVideos = [
+    {
+      id: 1,
+      title: "Success Story: From Beginner to Earning $25/hr",
+      src: "https://youtu.be/iCBzkVCedr4"
+    },
+    {
+      id: 2,
+      title: "How I Landed My First International Client",
+      src: "https://drive.google.com/file/d/1du8J0evGHRLw5gAO_rdWwjIAF5QN6bqr"
+    },
+    {
+      id: 3,
+      title: "My Journey to Financial Freedom with Remote Work",
+      src: "https://youtu.be/7OJ0pFXgcRc"
+    },
+    {
+      id: 4,
+      title: "Building a Sustainable VA Career",
+      src: "https://youtu.be/Y3Xyi1-S0l4"
+    }
+  ];
+
   return (
     <>
       <Navbar />
@@ -112,24 +136,12 @@ const VAMasterclass = () => {
                 </a>
               </div>
               
-              <div className="rounded-2xl overflow-hidden shadow-xl animate-fade-in">
-                <div className="aspect-w-16 aspect-h-9 relative">
-                  <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-                    <p className="text-gray-600">Video Player: Course Overview</p>
-                  </div>
-                  {/* Video would be embedded here in production */}
-                  {/* <iframe 
-                    width="100%" 
-                    height="100%" 
-                    src="https://www.youtube.com/embed/smGt67w3PyM" 
-                    title="VA Masterclass Introduction" 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowFullScreen
-                    className="absolute inset-0"
-                  ></iframe> */}
-                </div>
-              </div>
+              <VideoPlayer
+                src="https://youtu.be/smGt67w3PyM"
+                title="Course Overview"
+                className="animate-fade-in"
+                lazy={true}
+              />
             </div>
           </div>
         </section>
@@ -389,23 +401,16 @@ const VAMasterclass = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-              <div className="card reveal">
-                <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg mb-6">
-                  <div className="flex items-center justify-center">
-                    <p className="text-gray-600">Video Testimonial 1</p>
-                  </div>
+              {testimonialVideos.map(video => (
+                <div key={video.id} className="card reveal">
+                  <VideoPlayer
+                    src={video.src}
+                    title={video.title}
+                    lazy={true}
+                  />
+                  <h3 className="font-bold mt-4">{video.title}</h3>
                 </div>
-                <h3 className="font-bold">Success Story: From Beginner to Earning $25/hr</h3>
-              </div>
-              
-              <div className="card reveal">
-                <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg mb-6">
-                  <div className="flex items-center justify-center">
-                    <p className="text-gray-600">Video Testimonial 2</p>
-                  </div>
-                </div>
-                <h3 className="font-bold">How I Landed My First International Client</h3>
-              </div>
+              ))}
             </div>
           </div>
         </section>
