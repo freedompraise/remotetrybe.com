@@ -1,15 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, Check, ArrowRight, Calendar, Clock, Users } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import VideoPlayer from "../components/VideoPlayer";
+import PaymentModal from "../components/PaymentModal";
 
 const VAMasterclass = () => {
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  
   // Change page title when component mounts
   useEffect(() => {
     document.title = "Virtual Assistant Masterclass | RemoteTrybe";
   }, []);
+
+  // Handle enrollment button clicks
+  const handleEnrollClick = () => {
+    setShowPaymentModal(true);
+  };
 
   // Modules data for the curriculum section
   const modules = [
@@ -104,7 +112,7 @@ const VAMasterclass = () => {
       <Navbar />
       <main>
         {/* Hero Section */}
-        <section className="pt-28 pb-16 md:pt-32 md:pb-20 bg-cream">
+        <section className="pt-28 pb-16 md:pt-32 md:pb-20 bg-cream" id="hero">
           <div className="container mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="animate-fade-in">
@@ -147,7 +155,7 @@ const VAMasterclass = () => {
         </section>
 
         {/* Course Overview & Benefits */}
-        <section className="py-16">
+        <section className="py-16" id="overview">
           <div className="container mx-auto">
             <div className="text-center max-w-3xl mx-auto reveal">
               <h2 className="section-title">Course Overview & Benefits</h2>
@@ -201,7 +209,7 @@ const VAMasterclass = () => {
         </section>
         
         {/* Curriculum & Learning Outcomes */}
-        <section className="py-16 bg-cream">
+        <section className="py-16 bg-cream" id="curriculum">
           <div className="container mx-auto">
             <div className="text-center max-w-3xl mx-auto reveal">
               <h2 className="section-title">Curriculum & Learning Outcomes</h2>
@@ -274,7 +282,7 @@ const VAMasterclass = () => {
         </section>
         
         {/* Instructor Bio */}
-        <section className="py-16">
+        <section className="py-16" id="instructor">
           <div className="container mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center reveal">
               <div className="md:col-span-1">
@@ -377,7 +385,10 @@ const VAMasterclass = () => {
                     <p className="text-gray-600">Limited spots available. Secure your place now!</p>
                   </div>
                   
-                  <button className="btn-primary w-full text-lg py-4">
+                  <button 
+                    className="btn-primary w-full text-lg py-4"
+                    onClick={handleEnrollClick}
+                  >
                     Enroll Now
                   </button>
                   
@@ -391,7 +402,7 @@ const VAMasterclass = () => {
         </section>
         
         {/* Testimonials */}
-        <section className="py-16">
+        <section className="py-16" id="testimonials">
           <div className="container mx-auto">
             <div className="text-center max-w-3xl mx-auto reveal">
               <h2 className="section-title">Student Success Stories</h2>
@@ -416,7 +427,7 @@ const VAMasterclass = () => {
         </section>
         
         {/* FAQ */}
-        <section className="py-16 bg-cream">
+        <section className="py-16 bg-cream" id="faq">
           <div className="container mx-auto">
             <div className="text-center max-w-3xl mx-auto reveal">
               <h2 className="section-title">Frequently Asked Questions</h2>
@@ -462,12 +473,12 @@ const VAMasterclass = () => {
         
         {/* Floating "Enroll Now" Button */}
         <div className="fixed bottom-6 right-6 z-40">
-          <a 
-            href="#pricing" 
+          <button 
             className="btn-primary shadow-lg"
+            onClick={handleEnrollClick}
           >
             Enroll Now
-          </a>
+          </button>
         </div>
         
         {/* WhatsApp Chat Icon */}
@@ -484,6 +495,13 @@ const VAMasterclass = () => {
             </svg>
           </a>
         </div>
+
+        {/* Payment Modal */}
+        <PaymentModal 
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          amount={3200000} // ₦32,000 in kobo (smallest currency unit)
+        />
       </main>
       <Footer />
       <ScrollReveal />

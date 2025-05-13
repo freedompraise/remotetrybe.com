@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +20,33 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Function to handle navigation to sections with proper scroll behavior
+  const handleNavigation = (sectionId: string) => {
+    setIsMenuOpen(false);
+    
+    // If we're already on the page with the target section
+    if (location.pathname === "/" && sectionId.startsWith("/#")) {
+      const elementId = sectionId.replace("/#", "");
+      const element = document.getElementById(elementId);
+      
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    // If we need to navigate to another page first
+    else if (sectionId.startsWith("/#")) {
+      // We'll let React Router handle the navigation,
+      // but we need to scroll to the element after the page loads
+      const elementId = sectionId.replace("/#", "");
+      setTimeout(() => {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  };
 
   return (
     <header
@@ -45,25 +73,53 @@ const Navbar = () => {
         
         {/* Desktop menu */}
         <nav className="hidden lg:flex items-center space-x-8">
-          <Link to="/" className="text-gray-800 hover:text-primary font-medium">
+          <Link 
+            to="/" 
+            className="text-gray-800 hover:text-primary font-medium"
+            onClick={() => handleNavigation("/")}
+          >
             Home
           </Link>
-          <Link to="/#about" className="text-gray-800 hover:text-primary font-medium">
+          <Link 
+            to="/#about" 
+            className="text-gray-800 hover:text-primary font-medium"
+            onClick={() => handleNavigation("/#about")}
+          >
             About
           </Link>
-          <Link to="/#programs" className="text-gray-800 hover:text-primary font-medium">
+          <Link 
+            to="/#programs" 
+            className="text-gray-800 hover:text-primary font-medium"
+            onClick={() => handleNavigation("/#programs")}
+          >
             Programs
           </Link>
-          <Link to="/#volunteer" className="text-gray-800 hover:text-primary font-medium">
+          <Link 
+            to="/#volunteer" 
+            className="text-gray-800 hover:text-primary font-medium"
+            onClick={() => handleNavigation("/#volunteer")}
+          >
             Volunteer
           </Link>
-          <Link to="/#testimonials" className="text-gray-800 hover:text-primary font-medium">
+          <Link 
+            to="/#testimonials" 
+            className="text-gray-800 hover:text-primary font-medium"
+            onClick={() => handleNavigation("/#testimonials")}
+          >
             Testimonials
           </Link>
-          <Link to="/#contact" className="text-gray-800 hover:text-primary font-medium">
+          <Link 
+            to="/#contact" 
+            className="text-gray-800 hover:text-primary font-medium"
+            onClick={() => handleNavigation("/#contact")}
+          >
             Contact
           </Link>
-          <Link to="/va-masterclass" className="btn-primary">
+          <Link 
+            to="/va-masterclass" 
+            className="btn-primary"
+            onClick={() => handleNavigation("/va-masterclass")}
+          >
             Enroll Now
           </Link>
         </nav>
@@ -73,32 +129,53 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="lg:hidden bg-white shadow-lg py-4">
           <div className="container flex flex-col space-y-4">
-            <Link to="/" className="text-gray-800 hover:text-primary font-medium py-2"
-                onClick={() => setIsMenuOpen(false)}>
+            <Link 
+              to="/" 
+              className="text-gray-800 hover:text-primary font-medium py-2"
+              onClick={() => handleNavigation("/")}
+            >
               Home
             </Link>
-            <Link to="/#about" className="text-gray-800 hover:text-primary font-medium py-2"
-                onClick={() => setIsMenuOpen(false)}>
+            <Link 
+              to="/#about" 
+              className="text-gray-800 hover:text-primary font-medium py-2"
+              onClick={() => handleNavigation("/#about")}
+            >
               About
             </Link>
-            <Link to="/#programs" className="text-gray-800 hover:text-primary font-medium py-2"
-                onClick={() => setIsMenuOpen(false)}>
+            <Link 
+              to="/#programs" 
+              className="text-gray-800 hover:text-primary font-medium py-2"
+              onClick={() => handleNavigation("/#programs")}
+            >
               Programs
             </Link>
-            <Link to="/#volunteer" className="text-gray-800 hover:text-primary font-medium py-2"
-                onClick={() => setIsMenuOpen(false)}>
+            <Link 
+              to="/#volunteer" 
+              className="text-gray-800 hover:text-primary font-medium py-2"
+              onClick={() => handleNavigation("/#volunteer")}
+            >
               Volunteer
             </Link>
-            <Link to="/#testimonials" className="text-gray-800 hover:text-primary font-medium py-2"
-                onClick={() => setIsMenuOpen(false)}>
+            <Link 
+              to="/#testimonials" 
+              className="text-gray-800 hover:text-primary font-medium py-2"
+              onClick={() => handleNavigation("/#testimonials")}
+            >
               Testimonials
             </Link>
-            <Link to="/#contact" className="text-gray-800 hover:text-primary font-medium py-2"
-                onClick={() => setIsMenuOpen(false)}>
+            <Link 
+              to="/#contact" 
+              className="text-gray-800 hover:text-primary font-medium py-2"
+              onClick={() => handleNavigation("/#contact")}
+            >
               Contact
             </Link>
-            <Link to="/va-masterclass" className="btn-primary"
-                onClick={() => setIsMenuOpen(false)}>
+            <Link 
+              to="/va-masterclass" 
+              className="btn-primary"
+              onClick={() => handleNavigation("/va-masterclass")}
+            >
               Enroll Now
             </Link>
           </div>
