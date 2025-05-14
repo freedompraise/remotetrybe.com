@@ -297,8 +297,8 @@ const VAMasterclass = () => {
                 <h2 className="section-title">Meet Your Instructor</h2>
                 <h3 className="text-2xl font-bold mb-4">Odosa Egharevba</h3>
                 <p className="text-gray-700 mb-6">
-                  Odosa Egharevba is a top-rated Upwork freelancer with a thriving 1,000-member community. 
-                  She has 24,000+ LinkedIn followers and has hosted live sessions for more than 5,000 viewers.
+                  Odosa Egharevba is a top-rated Upwork freelancer with earnings of over $30K on Upwork
+                  She has 32,000+ LinkedIn followers and has hosted live sessions for more than 5,000 viewers.
                 </p>
                 <p className="text-gray-700 mb-8">
                   With years of experience in training virtual assistants, Odosa has helped hundreds of professionals 
