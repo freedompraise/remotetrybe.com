@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { AspectRatio } from './ui/aspect-ratio';
 
@@ -7,17 +6,19 @@ interface VideoPlayerProps {
   title: string;
   className?: string;
   lazy?: boolean;
+  thumbnail?: string;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', lazy = true }) => {
-  const [loaded, setLoaded] = useState(!lazy);
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', lazy = true, thumbnail }) => {
+  const [shouldLoadIframe, setShouldLoadIframe] = useState(!lazy);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
   useEffect(() => {
     if (lazy) {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            setLoaded(true);
+            setShouldLoadIframe(true);
             observer.disconnect();
           }
         },
@@ -37,9 +38,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', l
     }
   }, [lazy, title]);
 
-  // Determine if it's a YouTube or Google Drive video
   const getEmbedUrl = (url: string): string => {
-    // YouTube URL patterns
     const youtubeRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const youtubeMatch = url.match(youtubeRegex);
     
@@ -47,15 +46,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', l
       return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=0&modestbranding=1&rel=0`;
     }
     
-    // Google Drive URL
     if (url.includes('drive.google.com/file/d/')) {
       const fileId = url.split('file/d/')[1]?.split('/')[0];
       if (fileId) {
         return `https://drive.google.com/file/d/${fileId}/preview`;
       }
     }
-    
-    // Return the original URL if no patterns match
+
     return url;
   };
 
@@ -64,20 +61,27 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', l
 
   return (
     <div id={containerId} className={`w-full rounded-2xl overflow-hidden shadow-xl ${className}`}>
-      <AspectRatio ratio={16/9} className="bg-gray-200">
-        {loaded ? (
+      <AspectRatio ratio={16 / 9} className="bg-gray-200 relative">
+        {thumbnail && (
+          <img
+            src={thumbnail}
+            alt={`Thumbnail for ${title}`}
+            className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-500 ${
+              iframeLoaded ? 'opacity-0' : 'opacity-100'
+            }`}
+          />
+        )}
+
+        {shouldLoadIframe && (
           <iframe
             src={embedUrl}
             title={title}
             allowFullScreen
             className="w-full h-full absolute inset-0 border-0"
             loading="lazy"
+            onLoad={() => setIframeLoaded(true)}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <p className="text-gray-600">Loading {title}...</p>
-          </div>
         )}
       </AspectRatio>
     </div>

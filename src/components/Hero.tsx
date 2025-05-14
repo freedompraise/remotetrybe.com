@@ -1,4 +1,3 @@
-
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import VideoPlayer from "./VideoPlayer";
@@ -28,8 +27,9 @@ const Hero = () => {
           <VideoPlayer 
             src="https://drive.google.com/file/d/1JOUbOmyEDD9hfwrOPeOxwY-moxORbjml" 
             title="Gift's Success Story" 
-            className="animate-fade-in" 
+            className="animate-fade-in"
             lazy={true}
+            thumbnail="/thumbnails/gift.webp"
           />
         </div>
       </div>
