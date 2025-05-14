@@ -1,9 +1,9 @@
 
 import { ArrowRight } from "lucide-react";
 
-const Volunteer = () => {
+const Career = () => {
   return (
-    <section id="volunteer" className="py-16">
+    <section id="career" className="py-16">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto reveal">
           <h2 className="section-title">Volunteer Opportunities</h2>
@@ -76,4 +76,4 @@ const Volunteer = () => {
   );
 };
 
-export default Volunteer;
+export default Career;

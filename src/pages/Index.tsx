@@ -5,7 +5,7 @@ import Hero from "../components/Hero";
 import About from "../components/About";
 import Programs from "../components/Programs";
 import Testimonials from "../components/Testimonials";
-import Volunteer from "../components/Volunteer";
+import Career from "../components/Career";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
@@ -24,7 +24,7 @@ const Index = () => {
         <About />
         <Programs />
         <Testimonials />
-        <Volunteer />
+        <Career />
         <CTA />
       </main>
       <Footer />

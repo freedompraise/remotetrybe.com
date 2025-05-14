@@ -95,11 +95,11 @@ const Navbar = () => {
             Programs
           </Link>
           <Link 
-            to="/#volunteer" 
+            to="/#career" 
             className="text-gray-800 hover:text-primary font-medium"
-            onClick={() => handleNavigation("/#volunteer")}
+            onClick={() => handleNavigation("/#career")}
           >
-            Volunteer
+            Career
           </Link>
           <Link 
             to="/#testimonials" 
@@ -151,11 +151,11 @@ const Navbar = () => {
               Programs
             </Link>
             <Link 
-              to="/#volunteer" 
+              to="/#career" 
               className="text-gray-800 hover:text-primary font-medium py-2"
-              onClick={() => handleNavigation("/#volunteer")}
+              onClick={() => handleNavigation("/#career")}
             >
-              Volunteer
+              Career
             </Link>
             <Link 
               to="/#testimonials" 
