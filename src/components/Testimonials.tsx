@@ -189,21 +189,6 @@ const Testimonials = () => {
             </button>
           </div>
 
-          {/* Pagination Dots */}
-          <div className="flex justify-center mt-8">
-            <div className="flex space-x-2">
-              {[...Array(Math.ceil(testimonialData.length / 4))].map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full ${
-                    currentSlide === index ? 'bg-primary' : 'bg-gray-300'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>
