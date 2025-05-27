@@ -82,6 +82,10 @@ const VAMasterclass = () => {
       answer: "Yes, upon successful completion of all modules and the final project, you will receive an official RemoteTrybe certification."
     },
     {
+      question: "Do I require a laptop to participate?",
+      answer: "For a start, a smartphone is sufficient to join the live classes and access course materials. However, a laptop is recommended for completing assignments and projects effectively."
+    },
+    {
       question: "Is there ongoing support after the program ends?",
       answer: "Absolutely! You'll have lifetime access to course materials and join our 400+ VA community with ongoing mentorship and resources."
     }
@@ -108,6 +112,16 @@ const VAMasterclass = () => {
       id: 4,
       title: "Building a Sustainable VA Career",
       src: "https://youtu.be/Y3Xyi1-S0l4"
+    },
+    {
+      id: 5,
+      title: "Blessing's Review",
+      src: "https://youtu.be/0UosFFrkRPk?si=E47dGUpqDOVNEEnt"
+    },
+    {
+      id: 6,
+      title: "Toyosi's Review",
+      src:"https://youtube.com/shorts/UIAFpnXmKuI?si=w5A1ccSRFoN2quy9"
     }
   ];
 
