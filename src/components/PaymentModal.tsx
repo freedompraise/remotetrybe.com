@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
 import { X } from "lucide-react";
@@ -84,14 +83,9 @@ const PaymentModal = ({ isOpen, onClose, amount }: PaymentModalProps) => {
     
     // Initialize Paystack payment
     initializePayment({
-      onSuccess: () => {
+      onSuccess: (response: any) => {
         setIsProcessing(false);
-        toast({
-          title: "Payment Successful!",
-          description: "Thank you for enrolling in our VA Masterclass!",
-        });
-        // Show success information and next steps
-        showSuccessModal();
+        window.location.href = `/thank-you?ref=${response.reference}`;
       },
       onClose: () => {
         setIsProcessing(false);
@@ -106,10 +100,7 @@ const PaymentModal = ({ isOpen, onClose, amount }: PaymentModalProps) => {
 
   const showSuccessModal = () => {
     // Close payment modal
-    onClose();
-    
-    // Show thank you modal or redirect to thank you page
-    // This could be expanded based on requirements
+    onClose()
     toast({
       title: "Welcome to RemoteTrybe!",
       description: "You'll receive an email with details to join our WhatsApp group shortly.",
