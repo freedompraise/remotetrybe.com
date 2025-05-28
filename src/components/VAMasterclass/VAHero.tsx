@@ -20,7 +20,7 @@ const VAHero = ({ onEnrollClick }: VAHeroProps) => {
             <div className="flex flex-wrap gap-4 mb-8">
               <div className="flex items-center">
                 <Calendar className="text-primary mr-2" size={20} />
-                <span className="text-gray-700">Starts May 30th</span>
+                <span className="text-gray-700">Starts July 28th</span>
               </div>
               <div className="flex items-center">
                 <Clock className="text-primary mr-2" size={20} />

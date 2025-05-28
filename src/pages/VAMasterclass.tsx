@@ -282,7 +282,7 @@ const VAMasterclass = () => {
                   </ul>
                   
                   <div className="bg-gray-50 p-6 rounded-lg mb-8">
-                    <h4 className="font-bold mb-2">Next Cohort Starts: May 30th</h4>
+                    <h4 className="font-bold mb-2">Next Cohort Starts: July 28th</h4>
                     <p className="text-gray-600">Limited spots available. Secure your place now!</p>
                   </div>
                   
@@ -308,7 +308,7 @@ const VAMasterclass = () => {
           <div className="container mx-auto text-center reveal">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Launch Your VA Career?</h2>
             <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-              Join our next cohort starting May 30th and start your journey toward a successful remote career.
+              Join our next cohort starting July 28th and start your journey toward a successful remote career.
             </p>
             <a 
               href="#pricing" 
