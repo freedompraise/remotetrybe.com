@@ -70,10 +70,6 @@ const VAMasterclass = () => {
       answer: "The Virtual Assistant Masterclass costs ₦32,000 or $23. We offer flexible payment options and early-bird discounts for select cohorts."
     },
     {
-      question: "When does the next cohort start?",
-      answer: "Our next cohort begins on May 30th. We run classes Fridays through Sundays from 4PM to 7PM."
-    },
-    {
       question: "Do I need prior experience to enroll?",
       answer: "No prior experience is required. Our curriculum is designed to take you from beginner to job-ready, regardless of your starting point."
     },
@@ -151,15 +147,6 @@ const VAMasterclass = () => {
                 </p>
               </div>
               
-              <div className="card reveal">
-                <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  <Clock className="text-primary" size={28} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Lifetime Access</h3>
-                <p className="text-gray-600">
-                  Get unlimited access to all course materials, including recordings of live sessions and future updates.
-                </p>
-              </div>
               
               <div className="card reveal">
                 <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
@@ -168,6 +155,16 @@ const VAMasterclass = () => {
                 <h3 className="text-xl font-semibold mb-3">Real-world Assignments</h3>
                 <p className="text-gray-600">
                   Practice with practical tasks that simulate actual client work, with detailed feedback loops.
+                </p>
+              </div>
+
+              <div className="card reveal">
+                <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                  <Clock className="text-primary" size={28} />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Flexible Learning Schedule</h3>
+                <p className="text-gray-600">
+                  Classes held Fridays to Sundays, allowing you to balance learning with your current commitments.
                 </p>
               </div>
               

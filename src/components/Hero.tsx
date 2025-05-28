@@ -16,7 +16,7 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/va-masterclass" className="btn-primary">
-                Register for May Cohort <ArrowRight className="ml-2" size={18} />
+                Register for June Cohort <ArrowRight className="ml-2" size={18} />
               </Link>
               <Link to="/#programs" className="btn-secondary">
                 Explore Programs

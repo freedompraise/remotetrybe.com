@@ -65,13 +65,7 @@ const VACurriculum = ({ modules }: VACurriculumProps) => {
                 <span className="text-gray-700"> Creation of two professional portfolios as graduation requirement</span>
               </div>
             </li>
-            <li className="flex items-start">
-              <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
-              <div>
-                <span className="font-medium">Self-Study:</span>
-                <span className="text-gray-700"> Approximately 5-10 hours weekly for optimal results</span>
-              </div>
-            </li>
+      
             <li className="flex items-start">
               <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
               <div>
