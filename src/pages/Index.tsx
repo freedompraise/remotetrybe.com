@@ -9,6 +9,7 @@ import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import { getActiveCohort, Cohort } from "../utils/cohorts";
+import { formatDate } from "../utils/dateUtils";
 
 const Index = () => {
   const [activeCohort, setActiveCohort] = useState<Cohort | undefined>(undefined);
@@ -20,11 +21,6 @@ const Index = () => {
   }, []);
 
   const isRegistrationOpen = activeCohort && new Date() >= new Date(activeCohort.registrationStart) && new Date() <= new Date(activeCohort.registrationEnd);
-
-  const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
 
   // Pass dynamic data to CTA component
   const ctaText = activeCohort 

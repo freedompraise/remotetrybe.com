@@ -9,6 +9,7 @@ import VAHero from "../components/VAMasterclass/VAHero";
 import VAFAQ from "../components/VAMasterclass/VAFAQ";
 import VACurriculum from "../components/VAMasterclass/VACurriculum";
 import { Cohort, cohorts, getCohortById } from "../utils/cohorts";
+import { formatDate, formatDateRange } from "../utils/dateUtils";
 
 const VAMasterclass = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -41,31 +42,6 @@ const VAMasterclass = () => {
         setSelectedCohortDetails(undefined);
     }
   }, [selectedCohortId]);
-
-  // Helper to format dates
-  const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
-  const formatDateRange = (start: string, end: string) => {
-    const startMonth = new Date(start).toLocaleDateString(undefined, { month: 'long' });
-    const endMonth = new Date(end).toLocaleDateString(undefined, { month: 'long' });
-    const startDay = new Date(start).toLocaleDateString(undefined, { day: 'numeric' });
-    const endDay = new Date(end).toLocaleDateString(undefined, { day: 'numeric' });
-    const startYear = new Date(start).getFullYear();
-    const endYear = new Date(end).getFullYear();
-
-    if (startYear === endYear) {
-      if (startMonth === endMonth) {
-        return `${startMonth} ${startDay} - ${endDay}, ${startYear}`;
-      } else {
-        return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${startYear}`;
-      }
-    } else {
-      return `${startMonth} ${startDay}, ${startYear} - ${endMonth} ${endDay}, ${endYear}`;
-    }
-  };
 
   // Handle enrollment button clicks
   const handleEnrollClick = () => {
@@ -186,7 +162,10 @@ const VAMasterclass = () => {
   return (
     <>
       <Navbar />      <main>
-        <VAHero onEnrollClick={() => handleEnrollClick()} />
+        <VAHero 
+          onEnrollClick={() => handleEnrollClick()}
+          registrationStartDate={firstUpcomingCohort?.registrationStart}
+        />
 
         {/* Course Overview & Benefits */}
         <section className="py-16" id="overview">

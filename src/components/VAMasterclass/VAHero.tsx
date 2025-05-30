@@ -1,11 +1,14 @@
+import { useEffect, useState } from "react";
 import { Calendar, Clock, Users, ArrowRight } from "lucide-react";
 import VideoPlayer from "../VideoPlayer";
+import { formatDate } from "../../utils/dateUtils";
 
 interface VAHeroProps {
   onEnrollClick: () => void;
+  registrationStartDate?: string;
 }
 
-const VAHero = ({ onEnrollClick }: VAHeroProps) => {
+const VAHero = ({ onEnrollClick, registrationStartDate }: VAHeroProps) => {
   return (
     <section className="pt-28 pb-16 md:pt-32 md:pb-20 bg-cream" id="hero">
       <div className="container mx-auto">
@@ -20,7 +23,9 @@ const VAHero = ({ onEnrollClick }: VAHeroProps) => {
             <div className="flex flex-wrap gap-4 mb-8">
               <div className="flex items-center">
                 <Calendar className="text-primary mr-2" size={20} />
-                <span className="text-gray-700">Starts July 28th</span>
+                <span className="text-gray-700">
+                  {registrationStartDate ? `Registration Starts ${formatDate(registrationStartDate)}` : "Dates coming soon"}
+                </span>
               </div>
               <div className="flex items-center">
                 <Clock className="text-primary mr-2" size={20} />
