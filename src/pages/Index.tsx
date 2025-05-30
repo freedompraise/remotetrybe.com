@@ -1,5 +1,4 @@
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
@@ -9,12 +8,30 @@ import Career from "../components/Career";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
+import { getActiveCohort, Cohort } from "../utils/cohorts";
 
 const Index = () => {
-  // Change page title when component mounts
+  const [activeCohort, setActiveCohort] = useState<Cohort | undefined>(undefined);
+
+  // Change page title and get active cohort when component mounts
   useEffect(() => {
     document.title = "RemoteTrybe - Expert Training for Executive Support";
+    setActiveCohort(getActiveCohort());
   }, []);
+
+  const isRegistrationOpen = activeCohort && new Date() >= new Date(activeCohort.registrationStart) && new Date() <= new Date(activeCohort.registrationEnd);
+
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  // Pass dynamic data to CTA component
+  const ctaText = activeCohort 
+    ? isRegistrationOpen 
+      ? `Ready to transform your career? Join our ${activeCohort.name} cohort, with registration ending on ${formatDate(activeCohort.registrationEnd)}.`
+      : `Interested in our next cohort? Registration for ${activeCohort.name} opens on ${formatDate(activeCohort.registrationStart)}. Get ready!`
+    : "Ready to transform your career? Contact us to learn about upcoming opportunities.";
 
   return (
     <>
@@ -25,7 +42,7 @@ const Index = () => {
         <Programs />
         <Testimonials />
         <Career />
-        <CTA />
+        <CTA text={ctaText} link={activeCohort && isRegistrationOpen ? "/va-masterclass#pricing" : "/va-masterclass"} />
       </main>
       <Footer />
       <ScrollReveal />

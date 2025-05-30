@@ -3,25 +3,87 @@ import { ChevronDown, Check, ArrowRight, Calendar, Clock, Users } from "lucide-r
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
-import VideoPlayer from "../components/VideoPlayer";
 import PaymentModal from "../components/PaymentModal";
 import VATestimonials from "../components/VAMasterclass/VATestimonials";
 import VAHero from "../components/VAMasterclass/VAHero";
 import VAFAQ from "../components/VAMasterclass/VAFAQ";
 import VACurriculum from "../components/VAMasterclass/VACurriculum";
+import { Cohort, cohorts, getCohortById } from "../utils/cohorts";
 
 const VAMasterclass = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  
-  // Change page title when component mounts
+  const [selectedCohortId, setSelectedCohortId] = useState<string | undefined>(undefined);
+  const [upcomingCohorts, setUpcomingCohorts] = useState<Cohort[]>([]);
+  const [selectedCohortDetails, setSelectedCohortDetails] = useState<Cohort | undefined>(undefined);
+
+  // Change page title when component mounts and get upcoming cohorts
   useEffect(() => {
     document.title = "Virtual Assistant Masterclass | RemoteTrybe";
+    // Filter cohorts whose registration hasn't ended yet
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const relevant = cohorts.filter(cohort => new Date(cohort.registrationEnd) >= today)
+                              .sort((a, b) => new Date(a.registrationStart).getTime() - new Date(b.registrationStart).getTime());
+    console.log("relevant cohorts", relevant)
+    setUpcomingCohorts(relevant);
+    // Set initial selected cohort to the first one if available
+    if (relevant.length > 0) {
+        setSelectedCohortId(relevant[0].id);
+    }
   }, []);
+
+  // Update selected cohort details when selectedCohortId changes
+  useEffect(() => {
+    if (selectedCohortId) {
+        const details = getCohortById(selectedCohortId);
+        setSelectedCohortDetails(details);
+    } else {
+        setSelectedCohortDetails(undefined);
+    }
+  }, [selectedCohortId]);
+
+  // Helper to format dates
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const formatDateRange = (start: string, end: string) => {
+    const startMonth = new Date(start).toLocaleDateString(undefined, { month: 'long' });
+    const endMonth = new Date(end).toLocaleDateString(undefined, { month: 'long' });
+    const startDay = new Date(start).toLocaleDateString(undefined, { day: 'numeric' });
+    const endDay = new Date(end).toLocaleDateString(undefined, { day: 'numeric' });
+    const startYear = new Date(start).getFullYear();
+    const endYear = new Date(end).getFullYear();
+
+    if (startYear === endYear) {
+      if (startMonth === endMonth) {
+        return `${startMonth} ${startDay} - ${endDay}, ${startYear}`;
+      } else {
+        return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${startYear}`;
+      }
+    } else {
+      return `${startMonth} ${startDay}, ${startYear} - ${endMonth} ${endDay}, ${endYear}`;
+    }
+  };
 
   // Handle enrollment button clicks
   const handleEnrollClick = () => {
-    setShowPaymentModal(true);
+    if (selectedCohortId) {
+      setShowPaymentModal(true);
+    } else {
+      // Should not happen if button is disabled when no cohort is selected
+      console.log("No cohort selected.");
+    }
   };
+
+  const isRegistrationOpenForSelectedCohort = selectedCohortDetails && new Date() >= new Date(selectedCohortDetails.registrationStart) && new Date() <= new Date(selectedCohortDetails.registrationEnd);
+  const isRegistrationUpcomingForSelectedCohort = selectedCohortDetails && new Date() < new Date(selectedCohortDetails.registrationStart);
+  const hasRegistrationEndedForSelectedCohort = selectedCohortDetails && new Date() > new Date(selectedCohortDetails.registrationEnd);
+
+  // Find the first upcoming cohort to display in Hero/CTA if needed
+  const firstUpcomingCohort = upcomingCohorts.length > 0 ? upcomingCohorts[0] : undefined;
+  const isRegistrationOpenForFirstCohort = firstUpcomingCohort && new Date() >= new Date(firstUpcomingCohort.registrationStart) && new Date() <= new Date(firstUpcomingCohort.registrationEnd);
 
   // Modules data for the curriculum section
   const modules = [
@@ -83,7 +145,7 @@ const VAMasterclass = () => {
     },
     {
       question: "Is there ongoing support after the program ends?",
-      answer: "Absolutely! You'll have lifetime access to course materials and join our 400+ VA community with ongoing mentorship and resources."
+      answer: "Absolutely! You'll have lifetime access to our 400+ VA community with ongoing mentorship and resources."
     }
   ];
 
@@ -124,7 +186,7 @@ const VAMasterclass = () => {
   return (
     <>
       <Navbar />      <main>
-        <VAHero onEnrollClick={handleEnrollClick} />
+        <VAHero onEnrollClick={() => handleEnrollClick()} />
 
         {/* Course Overview & Benefits */}
         <section className="py-16" id="overview">
@@ -229,87 +291,127 @@ const VAMasterclass = () => {
           </div>
         </section>
         
-        {/* Pricing & Enrollment */}
+        {/* Dynamic Pricing & Enrollment Section */}
         <section id="pricing" className="py-16 bg-cream">
           <div className="container mx-auto">
             <div className="text-center max-w-3xl mx-auto reveal">
               <h2 className="section-title">Pricing & Enrollment</h2>
               <p className="section-subtitle">
-                Invest in your future with our comprehensive Virtual Assistant Masterclass.
+                Choose the cohort that fits your schedule and start your journey.
               </p>
             </div>
             
-            <div className="max-w-3xl mx-auto mt-12">
-              <div className="bg-white rounded-2xl overflow-hidden shadow-lg reveal">
-                <div className="bg-primary text-white py-6 px-8">
-                  <h3 className="text-2xl font-bold">Virtual Assistant Masterclass</h3>
-                  <p className="opacity-90">6-week intensive training program</p>
-                </div>
-                
-                <div className="p-8">
-                  <div className="flex justify-center mb-8">
-                    <div className="text-center">
-                      <div className="text-4xl font-bold text-primary">₦32,000</div>
-                      <div className="text-gray-500">or $23 USD</div>
+            <div className="max-w-md mx-auto mt-12">
+              {upcomingCohorts.length > 0 ? (
+                <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
+                  <div className="bg-primary text-white py-6 px-8">
+                    <h3 className="text-2xl font-bold">Select Your Cohort</h3>
+                  </div>
+                  
+                  <div className="p-8">
+                    <div className="mb-6">
+                      <label htmlFor="cohort-select" className="block text-sm font-medium text-gray-700 mb-2">Choose a Cohort:</label>
+                      <select 
+                        id="cohort-select"
+                        value={selectedCohortId || ''}
+                        onChange={(e) => setSelectedCohortId(e.target.value)}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                      >
+                        {upcomingCohorts.map(cohort => (
+                          <option key={cohort.id} value={cohort.id}>
+                            {cohort.name} ({formatDate(cohort.registrationStart)} - {formatDate(cohort.trainingEnd)})
+                          </option>
+                        ))}
+                      </select>
                     </div>
+
+                    {selectedCohortDetails && (
+                       <div className="space-y-4 mb-8">
+                           <div className="bg-gray-50 p-6 rounded-lg">
+                             {isRegistrationOpenForSelectedCohort && (
+                               <h4 className="font-bold mb-2">Registration closes: {formatDate(selectedCohortDetails.registrationEnd)}</h4>
+                             )}
+                              {isRegistrationUpcomingForSelectedCohort && (
+                               <h4 className="font-bold mb-2">Registration opens: {formatDate(selectedCohortDetails.registrationStart)}</h4>
+                             )}
+                              {hasRegistrationEndedForSelectedCohort && (
+                               <h4 className="font-bold mb-2 text-red-600">Registration closed. Training starts: {formatDate(selectedCohortDetails.trainingStart)}</h4>
+                             )}
+                             
+                             <p className="text-gray-600">
+                               Training dates: {formatDateRange(selectedCohortDetails.trainingStart, selectedCohortDetails.trainingEnd)}
+                             </p>
+                           </div>
+
+                           {/* Include key features here as well, maybe condensed or linked */}
+                            <ul className="space-y-4">
+                               <li className="flex items-start">
+                                 <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
+                                 <span className="text-gray-700">Live interactive training sessions (Fri-Sun)</span>
+                               </li>
+                               <li className="flex items-start">
+                                 <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
+                                 <span className="text-gray-700">Lifetime access to our community</span>
+                               </li>
+                               {/* ... add other key features ... */}
+                             </ul>
+
+                       </div>
+                    )}
+
+                    {!selectedCohortDetails && upcomingCohorts.length > 0 && (
+                         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
+                            <p className="font-bold">Please select a cohort</p>
+                            <p className="text-sm">Choose an upcoming cohort from the dropdown above to see details and enroll.</p>
+                         </div>
+                    )}
+
+                    <div className="flex justify-center mb-8">
+                        <div className="text-center">
+                            <div className="text-4xl font-bold text-primary">₦32,000</div>
+                            <div className="text-gray-500">or $23 USD</div>
+                          </div>
+                    </div>
+                    
+                    <button 
+                      className="btn-primary w-full text-lg py-4"
+                      onClick={handleEnrollClick}
+                      disabled={!selectedCohortDetails || !isRegistrationOpenForSelectedCohort} // Disable if no cohort selected or registration closed
+                    >
+                      {isRegistrationOpenForSelectedCohort ? "Enroll Now" : "Registration Closed"}
+                    </button>
+                    
+                    <p className="text-center text-sm text-gray-500 mt-4">
+                      Payment processed securely through Paystack
+                    </p>
                   </div>
-                  
-                  <ul className="space-y-4 mb-8">
-                    <li className="flex items-start">
-                      <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
-                      <span className="text-gray-700">Live interactive training sessions (Fri-Sun)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
-                      <span className="text-gray-700">Lifetime access to course materials</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
-                      <span className="text-gray-700">Personal feedback on assignments</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
-                      <span className="text-gray-700">Official RemoteTrybe certification</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
-                      <span className="text-gray-700">Access to 400+ VA community network</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
-                      <span className="text-gray-700">Job opportunity notifications</span>
-                    </li>
-                  </ul>
-                  
-                  <div className="bg-gray-50 p-6 rounded-lg mb-8">
-                    <h4 className="font-bold mb-2">Next Cohort Starts: July 28th</h4>
-                    <p className="text-gray-600">Limited spots available. Secure your place now!</p>
-                  </div>
-                  
-                  <button 
-                    className="btn-primary w-full text-lg py-4"
-                    onClick={handleEnrollClick}
-                  >
-                    Enroll Now
-                  </button>
-                  
-                  <p className="text-center text-sm text-gray-500 mt-4">
-                    Payment processed securely through Paystack
-                  </p>
                 </div>
-              </div>
+              ) : (
+                 <div className="col-span-1 text-center">
+                   <h4 className="text-xl font-bold text-gray-700">No upcoming cohorts scheduled at this time. Please check back later!</h4>
+                 </div>
+              )}
             </div>
           </div>
-        </section>        <VATestimonials testimonialVideos={testimonialVideos} />
+        </section>
+        
+        
+           <VATestimonials testimonialVideos={testimonialVideos} />
         <VAFAQ faqs={faqs} />
         
         {/* Final CTA */}
         <section className="py-16 bg-primary text-white">
           <div className="container mx-auto text-center reveal">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Launch Your VA Career?</h2>
-            <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-              Join our next cohort starting July 28th and start your journey toward a successful remote career.
-            </p>
+            {firstUpcomingCohort && (
+              <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                {isRegistrationOpenForFirstCohort ? 
+                 `Join our ${firstUpcomingCohort.name} cohort, with registration ending on ${formatDate(firstUpcomingCohort.registrationEnd)}.` :
+                 `Registration for our next cohort (${firstUpcomingCohort.name}) opens on ${formatDate(firstUpcomingCohort.registrationStart)}. Stay tuned!`
+                }
+              </p>
+            )}
+            
             <a 
               href="#pricing" 
               className="bg-white text-primary px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-all inline-flex items-center"
@@ -323,7 +425,7 @@ const VAMasterclass = () => {
         <div className="fixed bottom-6 right-6 z-40">
           <button 
             className="btn-primary shadow-lg"
-            onClick={handleEnrollClick}
+            onClick={() => handleEnrollClick()}
           >
             Enroll Now
           </button>
@@ -350,6 +452,7 @@ const VAMasterclass = () => {
           isOpen={showPaymentModal}
           onClose={() => setShowPaymentModal(false)}
           amount={3200000} // ₦32,000 in kobo (smallest currency unit)
+          cohortId={selectedCohortId} // Pass the selected cohort ID
         />
       </main>
       <Footer />

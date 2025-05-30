@@ -7,6 +7,7 @@ interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
   amount: number; // in kobo (smallest currency unit)
+  cohortId?: string; // Add cohortId prop (optional initially)
 }
 
 interface PaymentData {
@@ -15,7 +16,7 @@ interface PaymentData {
   phone: string;
 }
 
-const PaymentModal = ({ isOpen, onClose, amount }: PaymentModalProps) => {
+const PaymentModal = ({ isOpen, onClose, amount, cohortId }: PaymentModalProps) => {
   const [formData, setFormData] = useState<PaymentData>({
     email: "",
     name: "",
@@ -44,6 +45,12 @@ const PaymentModal = ({ isOpen, onClose, amount }: PaymentModalProps) => {
           variable_name: "phone",
           value: formData.phone,
         },
+        // Add cohort ID to metadata
+        ...(cohortId ? [{
+          display_name: "Cohort ID",
+          variable_name: "cohort_id",
+          value: cohortId,
+        }] : []),
       ],
     },
   };
@@ -85,7 +92,9 @@ const PaymentModal = ({ isOpen, onClose, amount }: PaymentModalProps) => {
     initializePayment({
       onSuccess: (response: any) => {
         setIsProcessing(false);
-        window.location.href = `/thank-you?ref=${response.reference}`;
+        // Redirect to thank you page with the transaction reference and cohort ID
+        const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}`;
+        window.location.href = redirectUrl;
       },
       onClose: () => {
         setIsProcessing(false);
