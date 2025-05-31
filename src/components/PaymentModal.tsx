@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
 import { X } from "lucide-react";
 import { usePaystackPayment } from "react-paystack";
+import { supabase } from '../lib/supabase';
 
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
   amount: number; // in kobo (smallest currency unit)
-  cohortId?: string; // Add cohortId prop (optional initially)
+  cohortId?: string;
+  referralCode?: string | null;
 }
 
 interface PaymentData {
@@ -16,7 +18,7 @@ interface PaymentData {
   phone: string;
 }
 
-const PaymentModal = ({ isOpen, onClose, amount, cohortId }: PaymentModalProps) => {
+const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: PaymentModalProps) => {
   const [formData, setFormData] = useState<PaymentData>({
     email: "",
     name: "",
@@ -31,7 +33,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId }: PaymentModalProps) 
   const config = {
     reference: new Date().getTime().toString(),
     email: formData.email,
-    amount, // in kobo
+    amount,
     publicKey,
     metadata: {
       custom_fields: [
@@ -45,11 +47,15 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId }: PaymentModalProps) 
           variable_name: "phone",
           value: formData.phone,
         },
-        // Add cohort ID to metadata
         ...(cohortId ? [{
           display_name: "Cohort ID",
           variable_name: "cohort_id",
           value: cohortId,
+        }] : []),
+        ...(referralCode ? [{
+          display_name: "Referral Code",
+          variable_name: "referral_code",
+          value: referralCode,
         }] : []),
       ],
     },
@@ -90,9 +96,18 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId }: PaymentModalProps) 
     
     // Initialize Paystack payment
     initializePayment({
-      onSuccess: (response: any) => {
+      onSuccess: async (response: any) => { // Made async to await RPC call
         setIsProcessing(false);
-        // Redirect to thank you page with the transaction reference and cohort ID
+
+        // Call the Supabase RPC to tally affiliate referral
+        if (referralCode) {
+          const { error } = await supabase.rpc('tally_affiliate_referral', { p_referral_code: referralCode });
+          if (error) {
+            console.error('Error tallying affiliate referral:', error);
+            // Decide how to handle this error - maybe log it server-side or show a non-critical toast
+          }
+        }
+
         const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}`;
         window.location.href = redirectUrl;
       },

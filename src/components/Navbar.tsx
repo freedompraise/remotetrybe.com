@@ -118,7 +118,7 @@ const Navbar = () => {
           <Link 
             to="/va-masterclass" 
             className="btn-primary"
-            onClick={() => handleNavigation("/va-masterclass")}
+            onClick={() => handleNavigation("/va-masterclass#pricing")}
           >
             Enroll Now
           </Link>

@@ -5,7 +5,7 @@ export interface Cohort {
   registrationEnd: string; // YYYY-MM-DD
   trainingStart: string; // YYYY-MM-DD
   trainingEnd: string; // YYYY-MM-DD
-  whatsappLink: string;
+  whatsappLink: string; // This will now be an env var key
 }
 
 export const cohorts: Cohort[] = [
@@ -16,7 +16,7 @@ export const cohorts: Cohort[] = [
     registrationEnd: "2025-07-20",
     trainingStart: "2025-07-25",
     trainingEnd: "2025-08-31",
-    whatsappLink: "https://chat.whatsapp.com/KsP9fOrAE8H8DxPYWD6h3Q"
+    whatsappLink: import.meta.env.VITE_COHORT4_WA_LINK as string
   },
   {
     id: "cohort5",
@@ -25,7 +25,7 @@ export const cohorts: Cohort[] = [
     registrationEnd: "2025-09-07",
     trainingStart: "2025-09-12",
     trainingEnd: "2025-10-19",
-    whatsappLink: "https://chat.whatsapp.com/Jlq6S7IjTCb9YYzbe9BWYG"
+    whatsappLink: import.meta.env.VITE_COHORT5_WA_LINK as string
   },
   {
     id: "cohort6",
@@ -34,7 +34,7 @@ export const cohorts: Cohort[] = [
     registrationEnd: "2025-11-02",
     trainingStart: "2025-11-07",
     trainingEnd: "2025-12-14",
-    whatsappLink: "https://chat.whatsapp.com/CeEXpZBXY24GyMS7wWZP9I"
+    whatsappLink: import.meta.env.VITE_COHORT6_WA_LINK as string
   }
 ];
 
@@ -46,7 +46,6 @@ export const getActiveCohort = (): Cohort | undefined => {
   const relevantCohorts = cohorts.filter(cohort => new Date(cohort.trainingEnd) >= today)
                                   .sort((a, b) => new Date(a.registrationStart).getTime() - new Date(b.registrationStart).getTime());
 
-  // Return the first relevant cohort found, or undefined if all cohorts' training has ended
   return relevantCohorts[0];
 };
 

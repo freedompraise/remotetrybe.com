@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
-import { ChevronDown, Check, ArrowRight, Calendar, Clock, Users } from "lucide-react";
+import { ChevronDown, Check, ArrowRight, Calendar, Clock, Users, Share2 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import PaymentModal from "../components/PaymentModal";
+import AffiliateModal from "../components/AffiliateModal";
 import VATestimonials from "../components/VAMasterclass/VATestimonials";
 import VAHero from "../components/VAMasterclass/VAHero";
 import VAFAQ from "../components/VAMasterclass/VAFAQ";
 import VACurriculum from "../components/VAMasterclass/VACurriculum";
 import { Cohort, cohorts, getCohortById } from "../utils/cohorts";
 import { formatDate, formatDateRange } from "../utils/dateUtils";
+import { useReferralCode } from "../hooks/useReferralCode";
 
 const VAMasterclass = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showAffiliateModal, setShowAffiliateModal] = useState(false);
   const [selectedCohortId, setSelectedCohortId] = useState<string | undefined>(undefined);
   const [upcomingCohorts, setUpcomingCohorts] = useState<Cohort[]>([]);
   const [selectedCohortDetails, setSelectedCohortDetails] = useState<Cohort | undefined>(undefined);
+  const referralCode = useReferralCode();
 
   // Change page title when component mounts and get upcoming cohorts
   useEffect(() => {
@@ -25,7 +29,6 @@ const VAMasterclass = () => {
     today.setHours(0, 0, 0, 0);
     const relevant = cohorts.filter(cohort => new Date(cohort.trainingEnd) >= today)
                               .sort((a, b) => new Date(a.trainingStart).getTime() - new Date(b.trainingStart).getTime());
-    console.log("relevant cohorts", relevant)
     setUpcomingCohorts(relevant);
     // Set initial selected cohort to the first one if available
     if (relevant.length > 0) {
@@ -371,6 +374,50 @@ const VAMasterclass = () => {
         
            <VATestimonials testimonialVideos={testimonialVideos} />
         <VAFAQ faqs={faqs} />
+
+          {/* Affiliate CTA Section */}
+          <section className="py-16 bg-cream">
+          <div className="container mx-auto">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Earn While Making a Difference</h2>
+              <p className="text-lg text-gray-600 mb-8">
+                Join our affiliate program and earn 5% commission for every successful enrollment you refer.
+                Share the opportunity with your network and start earning passive income today!
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold mb-2">Easy Earnings</h3>
+                  <p className="text-gray-600 text-sm">5% commission for every successful enrollment</p>
+                </div>
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold mb-2">Big Rewards</h3>
+                  <p className="text-gray-600 text-sm">Earn up to ₦20,000 for 10 successful referrals</p>
+                </div>
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold mb-2">Get Paid</h3>
+                  <p className="text-gray-600 text-sm">Eligible for payout after 5 successful referrals</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowAffiliateModal(true)}
+                className="bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
+              >
+                <Share2 size={20} />
+                Become an Affiliate
+              </button>
+            </div>
+          </div>
+        </section>
+
         
         {/* Final CTA */}
         <section className="py-16 bg-primary text-white">
@@ -426,6 +473,13 @@ const VAMasterclass = () => {
           onClose={() => setShowPaymentModal(false)}
           amount={3200000} // ₦32,000 in kobo (smallest currency unit)
           cohortId={selectedCohortId} // Pass the selected cohort ID
+          referralCode={referralCode} // Pass the referral code if present
+        />
+
+        {/* Affiliate Modal */}
+        <AffiliateModal
+          isOpen={showAffiliateModal}
+          onClose={() => setShowAffiliateModal(false)}
         />
       </main>
       <Footer />
