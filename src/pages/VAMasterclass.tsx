@@ -20,11 +20,11 @@ const VAMasterclass = () => {
   // Change page title when component mounts and get upcoming cohorts
   useEffect(() => {
     document.title = "Virtual Assistant Masterclass | RemoteTrybe";
-    // Filter cohorts whose registration hasn't ended yet
+    // Filter cohorts whose training hasn't ended yet
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const relevant = cohorts.filter(cohort => new Date(cohort.registrationEnd) >= today)
-                              .sort((a, b) => new Date(a.registrationStart).getTime() - new Date(b.registrationStart).getTime());
+    const relevant = cohorts.filter(cohort => new Date(cohort.trainingEnd) >= today)
+                              .sort((a, b) => new Date(a.trainingStart).getTime() - new Date(b.trainingStart).getTime());
     console.log("relevant cohorts", relevant)
     setUpcomingCohorts(relevant);
     // Set initial selected cohort to the first one if available
@@ -53,13 +53,11 @@ const VAMasterclass = () => {
     }
   };
 
-  const isRegistrationOpenForSelectedCohort = selectedCohortDetails && new Date() >= new Date(selectedCohortDetails.registrationStart) && new Date() <= new Date(selectedCohortDetails.registrationEnd);
-  const isRegistrationUpcomingForSelectedCohort = selectedCohortDetails && new Date() < new Date(selectedCohortDetails.registrationStart);
-  const hasRegistrationEndedForSelectedCohort = selectedCohortDetails && new Date() > new Date(selectedCohortDetails.registrationEnd);
+  const isRegistrationOpenForSelectedCohort = selectedCohortDetails && new Date() <= new Date(selectedCohortDetails.registrationEnd);
 
   // Find the first upcoming cohort to display in Hero/CTA if needed
   const firstUpcomingCohort = upcomingCohorts.length > 0 ? upcomingCohorts[0] : undefined;
-  const isRegistrationOpenForFirstCohort = firstUpcomingCohort && new Date() >= new Date(firstUpcomingCohort.registrationStart) && new Date() <= new Date(firstUpcomingCohort.registrationEnd);
+  const isRegistrationOpenForFirstCohort = firstUpcomingCohort && new Date() <= new Date(firstUpcomingCohort.registrationEnd);
 
   // Modules data for the curriculum section
   const modules = [
@@ -298,7 +296,7 @@ const VAMasterclass = () => {
                       >
                         {upcomingCohorts.map(cohort => (
                           <option key={cohort.id} value={cohort.id}>
-                            {cohort.name} ({formatDate(cohort.registrationStart)} - {formatDate(cohort.trainingEnd)})
+                            {cohort.name} (Training: {formatDate(cohort.trainingStart)} - {formatDate(cohort.trainingEnd)})
                           </option>
                         ))}
                       </select>
@@ -307,13 +305,9 @@ const VAMasterclass = () => {
                     {selectedCohortDetails && (
                        <div className="space-y-4 mb-8">
                            <div className="bg-gray-50 p-6 rounded-lg">
-                             {isRegistrationOpenForSelectedCohort && (
+                             {new Date() <= new Date(selectedCohortDetails.registrationEnd) ? (
                                <h4 className="font-bold mb-2">Registration closes: {formatDate(selectedCohortDetails.registrationEnd)}</h4>
-                             )}
-                              {isRegistrationUpcomingForSelectedCohort && (
-                               <h4 className="font-bold mb-2">Registration opens: {formatDate(selectedCohortDetails.registrationStart)}</h4>
-                             )}
-                              {hasRegistrationEndedForSelectedCohort && (
+                             ) : (
                                <h4 className="font-bold mb-2 text-red-600">Registration closed. Training starts: {formatDate(selectedCohortDetails.trainingStart)}</h4>
                              )}
                              
@@ -385,8 +379,8 @@ const VAMasterclass = () => {
             {firstUpcomingCohort && (
               <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
                 {isRegistrationOpenForFirstCohort ? 
-                 `Join our ${firstUpcomingCohort.name} cohort, with registration ending on ${formatDate(firstUpcomingCohort.registrationEnd)}.` :
-                 `Registration for our next cohort (${firstUpcomingCohort.name}) opens on ${formatDate(firstUpcomingCohort.registrationStart)}. Stay tuned!`
+                 `Join our ${firstUpcomingCohort.name} cohort, with registration closing on ${formatDate(firstUpcomingCohort.registrationEnd)}.` :
+                 `Registration for our next cohort (${firstUpcomingCohort.name}) is now closed. Training starts on ${formatDate(firstUpcomingCohort.trainingStart)}.`
                 }
               </p>
             )}
