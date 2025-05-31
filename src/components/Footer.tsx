@@ -1,10 +1,27 @@
-
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Instagram, Youtube, Facebook, Linkedin } from "lucide-react";
 
 const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Function to handle navigation to sections with proper scroll behavior
+  const handleSectionNavigation = (sectionId: string) => {
+    // If we're already on the homepage, just scroll
+    if (location.pathname === "/") {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } 
+    // If navigating from another page, navigate to the homepage with the hash
+    else {
+      navigate(`/#${sectionId}`);
+    }
+  };
+
   return (
-    <footer className="bg-dark text-white pt-16 pb-8">
+    <footer className="bg-dark text-white pt-16 pb-8" id="footer">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
@@ -59,13 +76,31 @@ const Footer = () => {
                 <Link to="/" className="text-gray-300 hover:text-white transition-colors">Home</Link>
               </li>
               <li>
-                <Link to="/#about" className="text-gray-300 hover:text-white transition-colors">About</Link>
+                <a 
+                  href="/#about" 
+                  onClick={(e) => { e.preventDefault(); handleSectionNavigation('about'); }}
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  About
+                </a>
               </li>
               <li>
-                <Link to="/#programs" className="text-gray-300 hover:text-white transition-colors">Programs</Link>
+                <a 
+                  href="/#programs" 
+                  onClick={(e) => { e.preventDefault(); handleSectionNavigation('programs'); }}
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Programs
+                </a>
               </li>
               <li>
-                <Link to="/#testimonials" className="text-gray-300 hover:text-white transition-colors">Testimonials</Link>
+                <a 
+                  href="/#testimonials" 
+                  onClick={(e) => { e.preventDefault(); handleSectionNavigation('testimonials'); }}
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Testimonials
+                </a>
               </li>
             </ul>
           </div>

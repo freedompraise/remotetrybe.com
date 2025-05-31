@@ -4,7 +4,7 @@ import VideoPlayer from "./VideoPlayer";
 
 const Hero = () => {
   return (
-    <section className="pt-28 pb-16 md:pt-32 md:pb-20">
+    <section id="hero" className="pt-28 pb-16 md:pt-32 md:pb-20">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="animate-fade-in">

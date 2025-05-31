@@ -76,7 +76,7 @@ const Navbar = () => {
           <Link 
             to="/" 
             className="text-gray-800 hover:text-primary font-medium"
-            onClick={() => handleNavigation("/")}
+            onClick={() => handleNavigation("/#hero")}
           >
             Home
           </Link>
@@ -111,7 +111,7 @@ const Navbar = () => {
           <Link 
             to="/#contact" 
             className="text-gray-800 hover:text-primary font-medium"
-            onClick={() => handleNavigation("/#contact")}
+            onClick={() => handleNavigation("/#footer")}
           >
             Contact
           </Link>
