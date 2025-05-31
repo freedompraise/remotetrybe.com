@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, Copy, Check } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase'; 
 import { AffiliateInsert } from '../types/supabase';
 import { useToast } from './ui/use-toast';
 
@@ -8,11 +8,6 @@ interface AffiliateModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
   const [step, setStep] = useState<'form' | 'success'>('form');
@@ -54,6 +49,10 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
       if (existingAffiliate) {
         setRefCode(existingAffiliate.ref_code);
         setStep('success');
+        toast({
+          title: "Info",
+          description: "You are already an affiliate! Here is your link.",
+        });
         return;
       }
 
