@@ -191,7 +191,7 @@ export const testimonialVideos = [
   {
     id: 2,
     title: "How I Landed My First International Client",
-    src: "https://drive.google.com/file/d/1du8J0evGHRLw5gAO_rdWwjIAF5QN6bqr"
+    src: "https://drive.google.com/file/d/1DJXGWOD5cx_l0AAwXiIfW_tPOvNdRMEP/view?usp=drivesdk"
   },
   {
     id: 3,
