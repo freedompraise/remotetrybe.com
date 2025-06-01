@@ -211,6 +211,26 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
                 </button>
               </div>
             </div>
+            
+            <div className="mb-6">
+              <p className="text-sm text-gray-600 mb-3">
+                Join our Affiliate WhatsApp Community to:
+                <ul className="text-left list-disc pl-5 mt-2">
+                  <li>Get marketing tips and strategies</li>
+                  <li>Connect with other successful affiliates</li>
+                  <li>Stay updated on promotions and campaigns</li>
+                </ul>
+              </p>
+              <a
+                href={import.meta.env.VITE_AFFILIATE_WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-[#25D366] text-white px-6 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
+              >
+                Join WhatsApp Community
+              </a>
+            </div>
+            
             <button
               onClick={onClose}
               className="text-primary font-medium hover:underline"
