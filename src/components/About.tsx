@@ -51,7 +51,7 @@ const About = () => {
           </div>
           
           <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-3xl font-bold text-primary mb-2">400+</h3>
+            <h3 className="text-3xl font-bold text-primary mb-2">Multiple</h3>
             <p className="text-gray-600">Job Offers</p>
           </div>
           
