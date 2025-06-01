@@ -8,11 +8,10 @@ import AffiliateModal from "../components/AffiliateModal";
 import VATestimonials from "../components/VAMasterclass/VATestimonials";
 import VAHero from "../components/VAMasterclass/VAHero";
 import VAFAQ from "../components/VAMasterclass/VAFAQ";
-import VACurriculum from "../components/VAMasterclass/VACurriculum";
 import { Cohort, cohorts, getCohortById } from "../utils/cohorts";
 import { formatDate, formatDateRange } from "../utils/dateUtils";
 import { useReferralCode } from "../hooks/useReferralCode";
-import { modules, faqs, testimonialVideos } from "../constants/vaMasterclass";
+import { modules, faqs, testimonialVideos, skills, softwareTools, handsOnSkills, bonusResources } from "../constants/vaMasterclass";
 
 const VAMasterclass = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -71,6 +70,30 @@ const VAMasterclass = () => {
           registrationStartDate={firstUpcomingCohort?.registrationStart}
         />
 
+        {/* Skills Section */}
+        <section className="py-16 bg-white" id="skills">
+          <div className="container mx-auto">
+            <div className="text-center max-w-3xl mx-auto reveal">
+              <h2 className="section-title">Discover the Skills You'll Acquire</h2>
+              <p className="section-subtitle">
+                Master essential skills that will set you apart in the virtual assistant industry
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+              {skills.map((skill, index) => (
+                <div key={index} className="card reveal">
+                  <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                    <skill.icon className="text-primary" size={28} />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{skill.title}</h3>
+                  <p className="text-gray-600">{skill.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Course Overview & Benefits */}
         <section className="py-16" id="overview">
           <div className="container mx-auto">
@@ -125,7 +148,6 @@ const VAMasterclass = () => {
             </div>
           </div>
         </section>
-          <VACurriculum modules={modules} />
         
         {/* Instructor Bio */}
         <section className="py-16" id="instructor">
@@ -173,6 +195,49 @@ const VAMasterclass = () => {
             </div>
           </div>
         </section>
+
+          {/* Software and Skills Section */}
+          <section className="py-16 bg-cream" id="tools">
+            <div className="container mx-auto">
+              <div className="text-center max-w-3xl mx-auto reveal">
+                <h2 className="section-title">Software You'll Master</h2>
+                <p className="section-subtitle">
+                  Gain proficiency in essential tools used by successful virtual assistants
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-12">
+                {softwareTools.map((tool, index) => (
+                  <div key={index} className="bg-white p-6 rounded-xl shadow-sm reveal">
+                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <tool.icon className="text-primary" size={24} />
+                    </div>
+                    <h3 className="font-semibold text-center">{tool.name}</h3>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-16">
+                <div className="text-center max-w-3xl mx-auto reveal">
+                  <h2 className="section-title">Hands-on Skills You'll Gain</h2>
+                  <p className="section-subtitle">
+                    Practical skills that will make you a valuable asset to any business
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                  {handsOnSkills.map((skill, index) => (
+                    <div key={index} className="bg-white p-6 rounded-xl shadow-sm reveal">
+                      <div className="flex items-center gap-3">
+                        <Check className="text-primary" size={20} />
+                        <span className="font-medium">{skill}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
         
         {/* Dynamic Pricing & Enrollment Section */}
         <section id="pricing" className="py-16 bg-cream">
@@ -277,6 +342,30 @@ const VAMasterclass = () => {
         
            <VATestimonials testimonialVideos={testimonialVideos} />
         <VAFAQ faqs={faqs} />
+
+          {/* Bonus Resources Section */}
+          <section className="py-16 bg-white" id="bonus">
+            <div className="container mx-auto">
+              <div className="text-center max-w-3xl mx-auto reveal">
+                <h2 className="section-title">Bonus Resources Included</h2>
+                <p className="section-subtitle">
+                  Additional resources to accelerate your success as a virtual assistant
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+                {bonusResources.map((bonus, index) => (
+                  <div key={index} className="card reveal">
+                    <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                      <bonus.icon className="text-primary" size={28} />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3">{bonus.title}</h3>
+                    <p className="text-gray-600">{bonus.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
           {/* Affiliate CTA Section */}
           <section className="py-16 bg-cream" id="affiliate">
