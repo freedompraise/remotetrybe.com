@@ -279,7 +279,7 @@ const VAMasterclass = () => {
         <VAFAQ faqs={faqs} />
 
           {/* Affiliate CTA Section */}
-          <section className="py-16 bg-cream">
+          <section className="py-16 bg-cream" id="affiliate">
           <div className="container mx-auto">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Earn While Making a Difference</h2>
