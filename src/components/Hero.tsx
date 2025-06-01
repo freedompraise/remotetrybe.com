@@ -18,9 +18,9 @@ const Hero = () => {
               <Link to="/va-masterclass" className="btn-primary">
                 Register for our next Cohort <ArrowRight className="ml-2" size={18} />
               </Link>
-              <Link to="/#programs" className="btn-secondary">
+              <a href="#programs" className="btn-secondary">
                 Explore Programs
-              </Link>
+              </a>
             </div>
           </div>
           
