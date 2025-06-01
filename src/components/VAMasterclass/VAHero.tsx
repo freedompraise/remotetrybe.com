@@ -29,7 +29,7 @@ const VAHero = ({ onEnrollClick, registrationStartDate }: VAHeroProps) => {
               </div>
               <div className="flex items-center">
                 <Clock className="text-primary mr-2" size={20} />
-                <span className="text-gray-700">Fri-Sun, 4-6:30 PM WAT</span>
+                <span className="text-gray-700">Fri-Sun, 4-7 PM WAT</span>
               </div>
               <div className="flex items-center">
                 <Users className="text-primary mr-2" size={20} />

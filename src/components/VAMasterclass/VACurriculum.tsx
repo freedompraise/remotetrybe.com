@@ -48,7 +48,7 @@ const VACurriculum = ({ modules }: VACurriculumProps) => {
               <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={18} />
               <div>
                 <span className="font-medium">Live Classes:</span>
-                <span className="text-gray-700"> Fridays to Sundays, 4-6:30 PM (7.5 hours weekly)</span>
+                <span className="text-gray-700"> Fridays to Sundays, 4-7 PM (9 hours weekly)</span>
               </div>
             </li>
             <li className="flex items-start">
