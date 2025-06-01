@@ -88,7 +88,7 @@ export const testimonialVideos = [
   },
   {
     id: 6,
-    title: "Toyosi's Review",
+    title: "Gift's Review",
     src: "https://drive.google.com/file/d/18NQwVZ3U1p-qYwLEuJNziYiH1jslmLZ4/view?usp=drivesdk"
   }
 ]; 
