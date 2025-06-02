@@ -25,7 +25,7 @@ const Hero = () => {
           </div>
           
           <VideoPlayer 
-            src="https://drive.google.com/file/d/1JOUbOmyEDD9hfwrOPeOxwY-moxORbjml" 
+            src="https://drive.google.com/file/d/18NQwVZ3U1p-qYwLEuJNziYiH1jslmLZ4/view" 
             title="Gift's Success Story" 
             className="animate-fade-in"
             lazy={true}
