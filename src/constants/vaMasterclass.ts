@@ -185,7 +185,7 @@ export const faqs = [
 export const testimonialVideos = [
   {
     id: 1,
-    title: "Success Story: From Beginner to Earning $25/hr",
+    title: "My Remote Trybe Experience",
     src: "https://youtu.be/iCBzkVCedr4"
   },
   {
@@ -205,12 +205,12 @@ export const testimonialVideos = [
   },
   {
     id: 5,
-    title: "Blessing's Review",
+    title: "From Newbie to Guru with Remote Trybe",
     src: "https://youtu.be/0UosFFrkRPk?si=E47dGUpqDOVNEEnt"
   },
   {
     id: 6,
-    title: "Grace's Review",
+    title: "How I became a highly skilled Virtual Assistant",
     src: "https://drive.google.com/file/d/10cG6i8NEB8WpGx-zIoev_h8hybWQEkTO/view?usp=drivesdk"
   }
 ]; 
