@@ -64,8 +64,9 @@ const VAMasterclass = () => {
 
   return (
     <>
-      <Navbar />      <main>
-        <VAHero 
+      <Navbar />
+      <main>
+        <VAHero
           onEnrollClick={() => handleEnrollClick()}
           registrationStartDate={firstUpcomingCohort?.registrationStart}
         />

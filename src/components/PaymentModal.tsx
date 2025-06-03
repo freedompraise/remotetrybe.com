@@ -122,14 +122,6 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
     });
   };
 
-  const showSuccessModal = () => {
-    // Close payment modal
-    onClose()
-    toast({
-      title: "Welcome to RemoteTrybe!",
-      description: "You'll receive an email with details to join our WhatsApp group shortly.",
-    });
-  };
 
   if (!isOpen) return null;
 
