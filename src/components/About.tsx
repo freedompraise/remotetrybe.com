@@ -19,7 +19,7 @@ const About = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Our Mission</h3>
             <p className="text-gray-600">
-              Remote Trybe is a leading online platform empowering individuals—especially women and youth—to build thriving remote careers.
+              Remote Trybe is a leading online platform empowering individuals to build thriving remote careers.
             </p>
           </div>
           
