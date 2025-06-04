@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "host": "remotetrybe.com" }],
+      "destination": "https://www.remotetrybe.com/:1",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
@@ -10,15 +18,6 @@
       "source": "/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
-      ]
-    },
-    {
-      "redirects" : [
-        {
-          "source": "/",
-          "destination": "https://www.remotetrybe.coom",
-          "permanent": true
-        }
       ]
     }
   ]
