@@ -192,6 +192,23 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 You'll be added to our WhatsApp group with this number
               </p>
             </div>
+
+            {referralCode && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Referral Code
+                </label>
+                <input
+                  type="text"
+                  value={referralCode}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"
+                  readOnly
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  You were referred by one of our affiliates
+                </p>
+              </div>
+            )}
             
             <div className="mt-6">
               <button
