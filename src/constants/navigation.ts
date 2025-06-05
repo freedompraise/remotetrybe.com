@@ -33,10 +33,8 @@ export const navLinks: NavLink[] = [
     onClick: "/#testimonials"
   },
   {
-    to: "/va-masterclass#affiliate",
-    label: "Affiliate",
-    onClick: "/va-masterclass#affiliate",
-    isExternalSection: true
+    to: "/affiliate",
+    label: "Affiliate"
   },
   {
     to: "/#contact",

@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import VAMasterclass from "./pages/VAMasterclass";
 import NotFound from "./pages/NotFound";
 import ThankYou from "./pages/ThankYou";
+import Affiliate from "./pages/Affiliate";
 
 const queryClient = new QueryClient();
 
@@ -17,9 +18,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/va-masterclass" element={<VAMasterclass />} />
+          <Route path="/" element={<Index />} />          <Route path="/va-masterclass" element={<VAMasterclass />} />
           <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/affiliate" element={<Affiliate />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
