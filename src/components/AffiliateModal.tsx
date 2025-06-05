@@ -85,7 +85,7 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
   };
 
   const copyToClipboard = () => {
-    const url = `https://remotetrybe.com/va-masterclass?ref=${refCode}`;
+    const url = `https://www.remotetrybe.com/va-masterclass?ref=${refCode}`;
     navigator.clipboard.writeText(url);
     toast({
       title: "Copied!",
