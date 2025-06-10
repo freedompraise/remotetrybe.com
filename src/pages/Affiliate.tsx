@@ -42,7 +42,7 @@ const Affiliate = () => {
             <div className="text-center max-w-3xl mx-auto mb-12">
               <h2 className="text-3xl font-bold mb-4">Why Become an Affiliate?</h2>
               <p className="text-gray-600">
-                Partner with us and create a sustainable income stream while helping others achieve their dreams.
+                Partner with us and create a sustainable income stream while helping others achieve their dreams of becoming high-value virtual assistants and freelancers.
               </p>
             </div>
 
