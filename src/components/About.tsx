@@ -25,7 +25,7 @@ const About = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Our Mission</h3>
             <p className="text-gray-600">
-              To transform 10,000 Africans into dollar-earning virtual assistants through Odosa Egharevba's proven VA training system.
+           To empower individuals with the skills and support they need to succeed in the remote work landscape.
             </p>
           </div>
           
@@ -45,7 +45,7 @@ const About = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Our Programs</h3>
             <p className="text-gray-600">
-              Practical training in Virtual Assistance, Upwork Optimization, Social Media Management, and more - taught by Odosa Egharevba.
+              Practical training in Virtual Assistance, Upwork Optimization, Social Media Management, and more - led by Odosa Egharevba.
             </p>
           </div>
         </div>
