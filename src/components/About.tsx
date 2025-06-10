@@ -8,7 +8,8 @@ const About = () => {
         <div className="text-center max-w-3xl mx-auto reveal">
           <h2 className="section-title">About Remote Trybe</h2>
           <p className="section-subtitle">
-            Empowering individuals with the skills and support they need to build thriving remote careers.
+               Founded by <a href="https://ng.linkedin.com/in/odosa-egharevba-68634a248/" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold">Odosa Egharevba</a>,
+            the focus has been on empowering individuals with the skills and support they need to build thriving remote careers.
           </p>
         </div>
         
@@ -19,6 +20,7 @@ const About = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Our Mission</h3>
             <p className="text-gray-600">
+            Our mission is to empower individuals with the skills and support they need to succeed in the remote work landscape.
               Remote Trybe is a leading online platform empowering individuals to build thriving remote careers.
             </p>
           </div>
