@@ -201,7 +201,7 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
               <p className="text-sm text-gray-500 mb-2">Your Referral Link:</p>
               <div className="flex items-center gap-2">
                 <code className="flex-1 text-sm break-all">
-                  https://remotetrybe.com/va-masterclass?ref={refCode}
+                  https://www.remotetrybe.com/va-masterclass?ref={refCode}
                 </code>
                 <button
                   onClick={copyToClipboard}
