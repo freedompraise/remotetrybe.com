@@ -1,3 +1,5 @@
+// PaymentModal.tsx
+
 import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
 import { X } from "lucide-react";
@@ -7,7 +9,7 @@ import { supabase } from '../lib/supabase';
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  amount: number; // in kobo (smallest currency unit)
+  amount: number;
   cohortId?: string;
   referralCode?: string | null;
 }
@@ -26,8 +28,8 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
+  const [isForeign, setIsForeign] = useState(false);
 
-  // Get the Paystack public key from environment
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
 
   const config = {
@@ -70,8 +72,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Basic validation
+
     if (!formData.email || !formData.name || !formData.phone) {
       toast({
         title: "Missing information",
@@ -80,8 +81,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
       });
       return;
     }
-    
-    // Validate email format
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email) || !formData.email.includes("gmail.com")) {
       toast({
@@ -92,20 +92,26 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
       return;
     }
 
-    setIsProcessing(true);
-    
-    // Initialize Paystack payment
-    initializePayment({
-      onSuccess: async (response: any) => { // Made async to await RPC call
-        setIsProcessing(false);
+    if (isForeign) {
+      const queryParams = new URLSearchParams({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        ...(referralCode && { referral: referralCode }),
+        ...(cohortId && { cohortId }),
+      });
 
-        // Call the Supabase RPC to tally affiliate referral
+      window.open(`https://selar.com/1il510?${queryParams.toString()}`, "_blank");
+      return;
+    }
+
+    setIsProcessing(true);
+
+    initializePayment({
+      onSuccess: async (response: any) => {
+        setIsProcessing(false);
         if (referralCode) {
-          const { error } = await supabase.rpc('tally_affiliate_referral', { p_referral_code: referralCode });
-          if (error) {
-            console.error('Error tallying affiliate referral:', error);
-            // Decide how to handle this error - maybe log it server-side or show a non-critical toast
-          }
+          await supabase.rpc('tally_affiliate_referral', { p_referral_code: referralCode });
         }
 
         const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}`;
@@ -122,7 +128,6 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
     });
   };
 
-
   if (!isOpen) return null;
 
   return (
@@ -134,13 +139,13 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
         >
           <X size={20} />
         </button>
-        
+
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-4">Enroll in VA Masterclass</h2>
           <p className="text-gray-600 mb-6">
             Please provide your details to complete your enrollment
           </p>
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -156,7 +161,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Gmail Address
@@ -174,7 +179,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 We only accept Gmail addresses for course materials
               </p>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Phone Number
@@ -209,17 +214,43 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 </p>
               </div>
             )}
-            
+
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Are you paying from outside Nigeria?
+              </label>
+              <div className="flex items-center space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setIsForeign(false)}
+                  className={`px-3 py-2 rounded-lg border ${
+                    !isForeign ? "bg-primary text-white" : "bg-white text-gray-800"
+                  }`}
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsForeign(true)}
+                  className={`px-3 py-2 rounded-lg border ${
+                    isForeign ? "bg-primary text-white" : "bg-white text-gray-800"
+                  }`}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+
             <div className="mt-6">
               <button
                 type="submit"
                 className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
                 disabled={isProcessing}
               >
-                {isProcessing ? "Processing..." : "Pay ₦32,000"}
+                {isForeign ? "Proceed to International Payment" : isProcessing ? "Processing..." : "Pay ₦32,000"}
               </button>
               <p className="text-xs text-center text-gray-500 mt-2">
-                Payment secured by Paystack
+                {isForeign ? "Secure international checkout via Selar" : "Payment secured by Paystack"}
               </p>
             </div>
           </form>
