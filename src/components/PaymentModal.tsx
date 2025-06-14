@@ -101,7 +101,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
         ...(cohortId && { cohortId }),
       });
 
-      window.open(`https://selar.com/1il510?${queryParams.toString()}`, "_blank");
+      window.open(`https://selar.com/remotetrybe?${queryParams.toString()}`, "_blank");
       return;
     }
 
