@@ -111,7 +111,10 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
       onSuccess: async (response: any) => {
         setIsProcessing(false);
         if (referralCode) {
-          await supabase.rpc('tally_affiliate_referral', { p_referral_code: referralCode });
+          await supabase.rpc('tally_affiliate_referral', {
+            p_referral_code: referralCode,
+            p_new_user_name: formData.name,
+});
         }
 
         const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}`;
