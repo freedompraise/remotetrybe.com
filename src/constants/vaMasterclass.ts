@@ -1,4 +1,4 @@
-import { LucideIcon, Users, Check, Clock, Calendar, Share2, FileText, Briefcase, Target, BookOpen, Zap, Laptop, MessageSquare, Mail, Calendar as CalendarIcon, Headphones, File, Search, Plane, Database, Layout, BarChart } from 'lucide-react';
+import { LucideIcon, Users, Check, Clock, Calendar, Share2, FileText, Briefcase, Target, BookOpen, Zap, Laptop, MessageSquare, Mail, Calendar as CalendarIcon, Headphones, File, Search, Plane, Database, Layout, BarChart, Workflow } from 'lucide-react';
 
 export interface Skill {
   title: string;
@@ -78,7 +78,8 @@ export const softwareTools: Software[] = [
   { name: "Scheduling Tools", icon: CalendarIcon },
   { name: "Document Conversion Tools", icon: FileText },
   { name: "Video/Audio Tools", icon: Headphones },
-  { name: "Graphic Design Tools", icon: Layout }
+  { name: "Graphic Design Tools", icon: Layout },
+   { name: "Automation Using PM Tools", icon: Workflow }
 ];
 
 export const handsOnSkills = [

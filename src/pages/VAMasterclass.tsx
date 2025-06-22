@@ -165,7 +165,7 @@ const VAMasterclass = () => {
                 <h4 className="section-title">Meet Your Instructor</h4>
                 <h1 className="text-2xl font-bold mb-4">Odosa Egharevba</h1>
                 <p className="text-gray-700 mb-6">
-                  Odosa Egharevba is a top-rated Upwork freelancer with earnings of over $30K on Upwork
+                  Odosa Egharevba is a top-rated plus Upwork freelancer with earnings of over $30K on Upwork
                   She has 32,000+ LinkedIn followers and has hosted live sessions for more than 5,000 viewers.
                 </p>
                 <p className="text-gray-700 mb-8">
