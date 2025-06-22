@@ -76,7 +76,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', l
           <iframe
             src={embedUrl}
             title={title}
-            allowFullScreen
+
+            sandbox='allow-scripts allow-same-origin'
             className="w-full h-full absolute inset-0 border-0"
             loading="lazy"
             onLoad={() => setIframeLoaded(true)}
