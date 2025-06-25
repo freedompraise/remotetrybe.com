@@ -100,7 +100,7 @@ const VAMasterclass = () => {
             <div className="text-center max-w-3xl mx-auto reveal">
               <h2 className="section-title">Course Overview & Benefits</h2>
               <p className="section-subtitle">
-                A comprehensive program designed to equip you with in-demand virtual assistant skills that command premium rates in the global marketplace.
+                A comprehensive program designed to equip you with in-demand skills that command premium rates in the global marketplace.
               </p>
             </div>
             
