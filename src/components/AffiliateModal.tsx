@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { X, Copy, Check } from 'lucide-react';
-import { supabase } from '../lib/supabase'; 
-import { AffiliateInsert } from '../types/supabase';
 import { useToast } from './ui/use-toast';
+import { findOrCreateAffiliate } from '../lib/supabaseAdmin';
+import { AffiliateInsert } from '../types/supabase';
 
 interface AffiliateModalProps {
   isOpen: boolean;
@@ -28,56 +28,25 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const generateRefCode = (name: string) => {
-    const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const random = Math.random().toString(36).substring(2, 6);
-    return `${slug}${random}`;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      // Check if affiliate already exists
-      const { data: existingAffiliate } = await supabase
-        .from('affiliates')
-        .select('ref_code')
-        .eq('email', formData.email)
-        .single();
-
-      if (existingAffiliate) {
-        setRefCode(existingAffiliate.ref_code);
-        setStep('success');
-        toast({
-          title: "Info",
-          description: "You are already an affiliate! Here is your link.",
-        });
-        return;
-      }
-
-      // Generate ref code
-      const ref_code = generateRefCode(formData.full_name);
-
-      // Insert new affiliate
-      const { error } = await supabase
-        .from('affiliates')
-        .insert([{ ...formData, ref_code }]);
-
-      if (error) throw error;
-
-      setRefCode(ref_code);
+      const result = await findOrCreateAffiliate(formData);
+      setRefCode(result.ref_code);
       setStep('success');
       toast({
-        title: "Success!",
-        description: "Successfully registered as an affiliate!",
+        title: result.alreadyExists ? 'Info' : 'Success!',
+        description: result.alreadyExists
+          ? 'You are already an affiliate! Here is your link.'
+          : 'Successfully registered as an affiliate!',
       });
     } catch (error) {
       console.error('Error:', error);
       toast({
-        title: "Error",
-        description: "Failed to register. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to register. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -88,8 +57,8 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
     const url = `https://www.remotetrybe.com/va-masterclass?ref=${refCode}`;
     navigator.clipboard.writeText(url);
     toast({
-      title: "Copied!",
-      description: "Referral link copied to clipboard!",
+      title: 'Copied!',
+      description: 'Referral link copied to clipboard!',
     });
   };
 

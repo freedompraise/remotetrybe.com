@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
 import { X } from "lucide-react";
 import { usePaystackPayment } from "react-paystack";
-import { supabase } from '../lib/supabase';
+import { tallyAffiliateReferral } from '../lib/supabaseAdmin';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -111,12 +111,8 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
       onSuccess: async (response: any) => {
         setIsProcessing(false);
         if (referralCode) {
-          await supabase.rpc('tally_affiliate_referral', {
-            p_referral_code: referralCode,
-            p_new_user_name: formData.name,
-});
+          await tallyAffiliateReferral({ referralCode, newUserName: formData.name });
         }
-
         const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}`;
         window.location.href = redirectUrl;
       },

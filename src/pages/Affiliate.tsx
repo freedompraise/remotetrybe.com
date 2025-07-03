@@ -6,13 +6,27 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import AffiliateModal from "../components/AffiliateModal";
 import ScrollReveal from "../components/ScrollReveal";
+import { getAffiliates } from '../lib/supabaseAdmin';
 
 const Affiliate = () => {
   const [showAffiliateModal, setShowAffiliateModal] = useState(false);
+  const [affiliates, setAffiliates] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.title = "Affiliate Program | RemoteTrybe";
+    // Fetch all affiliates once
+    getAffiliates({ page: 1, pageSize: 10000 }).then(({ data }) => {
+      setAffiliates(data);
+      setLoading(false);
+    });
+    console.log("affiliates", affiliates);
   }, []);
+
+  // Compute metrics locally
+  const totalAffiliates = affiliates.length;
+  const totalReferrals = affiliates.reduce((sum, a) => sum + (a.referral_count || 0), 0);
+  const totalEligible = affiliates.filter(a => a.referral_count >= 5).length;
 
   return (
     <>
@@ -32,6 +46,21 @@ const Affiliate = () => {
               <p className="text-lg md:text-xl mb-8">
                 Help others discover opportunities at RemoteTrybe and earn while doing it.
               </p>
+              {/* Example metrics display */}
+              <div className="flex flex-wrap justify-center gap-6 mt-8">
+                <div className="bg-white/20 rounded-lg px-6 py-3 text-center">
+                  <div className="text-2xl font-bold">{loading ? '...' : totalAffiliates}</div>
+                  <div className="text-xs">Total Affiliates</div>
+                </div>
+                <div className="bg-white/20 rounded-lg px-6 py-3 text-center">
+                  <div className="text-2xl font-bold">{loading ? '...' : totalReferrals}</div>
+                  <div className="text-xs">Total Referrals</div>
+                </div>
+                <div className="bg-white/20 rounded-lg px-6 py-3 text-center">
+                  <div className="text-2xl font-bold">{loading ? '...' : totalEligible}</div>
+                  <div className="text-xs">Eligible for Payout</div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
