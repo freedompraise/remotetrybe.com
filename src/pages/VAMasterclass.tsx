@@ -142,7 +142,7 @@ const VAMasterclass = () => {
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Community Support</h3>
                 <p className="text-gray-600">
-                  Join our 400+ community of VAs for networking, job opportunities, and ongoing mentorship.
+                  Join our 600+ community of VAs for networking, job opportunities, and ongoing mentorship.
                 </p>
               </div>
             </div>
