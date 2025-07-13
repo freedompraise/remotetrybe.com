@@ -141,12 +141,12 @@ const CourseInfo: FC<CourseInfoProps> = ({ skills, softwareTools, handsOnSkills,
                   LinkedIn Profile
                 </a>
                 <a 
-                  href="https://upwork.com/freelancers/~015fbfcd69b6c4a7b8" 
+                  href="https://youtube.com/@odosaegharevba"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#6FDA44] text-white px-4 py-2 rounded-lg inline-flex items-center hover:bg-opacity-90 transition-colors"
                 >
-                  Upwork Profile
+                  YouTube Channel
                 </a>
               </div>
             </div>
