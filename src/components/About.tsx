@@ -58,7 +58,7 @@ const About = () => {
             <div className="flex justify-center mb-4">
               <Users className="text-primary" size={32} />
             </div>
-            <h3 className="text-3xl font-bold text-primary mb-2">400+</h3>
+            <h3 className="text-3xl font-bold text-primary mb-2">600+</h3>
             <p className="text-gray-600">Trained Professionals</p>
           </div>
 
