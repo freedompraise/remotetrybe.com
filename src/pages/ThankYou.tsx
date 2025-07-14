@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { CheckCircle, Link, XCircle } from "lucide-react";
+import { CheckCircle, Link, XCircle, Copy } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { getCohortById, Cohort } from "../utils/cohorts";
+import { useToast } from "../components/ui/use-toast";
 
 const ThankYou = () => {
   const location = useLocation();
@@ -12,6 +13,17 @@ const ThankYou = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const supportWhatsappLink = "https://wa.me/2349060038374";
+  const { toast } = useToast();
+
+  const handleCopyWhatsappLink = () => {
+    if (cohort?.whatsappLink) {
+      navigator.clipboard.writeText(cohort.whatsappLink);
+      toast({
+        title: 'Copied!',
+        description: 'WhatsApp group link copied to clipboard!',
+      });
+    }
+  };
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -84,8 +96,26 @@ const ThankYou = () => {
                   className="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
                 >
                   Join {cohort.name} WhatsApp Group
+
                   <Link className="ml-2" size={20} />
                 </a>
+
+                {/* Troubleshooting note for WhatsApp link */}
+                <div className="mt-4 text-left">
+                  <p className="text-sm">
+                    <strong>Having trouble joining?</strong> If the button above doesn't work, copy and paste this link into your browser or WhatsApp app:
+                  </p>
+                  <div className="mt-1 p-2 bg-green-100 rounded break-all flex items-center text-green-800 text-sm">
+                    <span className="flex-1 select-all">{cohort.whatsappLink}</span>
+                    <button
+                      onClick={handleCopyWhatsappLink}
+                      className="ml-2 p-1 hover:bg-green-200 rounded transition-colors"
+                      title="Copy link to clipboard"
+                    >
+                      <Copy size={16} />
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <p className="text-md text-gray-500 mt-4">
