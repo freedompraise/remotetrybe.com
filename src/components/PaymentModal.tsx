@@ -112,11 +112,21 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
     initializePayment({
       onSuccess: async (response: any) => {
         setIsProcessing(false);
+        let tallyFailed = false;
         if (referralCode) {
-          await tallyAffiliateReferral({ referralCode, newUserName: formData.name });
+          try {
+            await tallyAffiliateReferral({ referralCode, newUserName: formData.name });
+          } catch (err) {
+            tallyFailed = true;
+            toast({
+              title: "Affiliate Notification Failed",
+              description: "We could not notify your affiliate. Please contact support if this was unexpected.",
+              variant: "destructive",
+            });
+          }
         }
         onClose(); // Close the modal before navigating
-        const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}`;
+        const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}${tallyFailed ? '&tally=fail' : ''}`;
         navigate(redirectUrl);
       },
       onClose: () => {

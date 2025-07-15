@@ -43,6 +43,9 @@ const ThankYou = () => {
     setIsLoading(false);
   }, [location.search]);
 
+  const queryParams = new URLSearchParams(location.search);
+  const tallyFailed = queryParams.get('tally') === 'fail';
+
   // Helper to format dates
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
@@ -68,6 +71,11 @@ const ThankYou = () => {
       <Navbar />
       <main className="flex-grow container mx-auto px-4 py-16">
         <div className="max-w-2xl mx-auto text-center">
+          {tallyFailed && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+              <strong>Affiliate Notification Failed:</strong> We could not notify your affiliate of your registration. If you were referred, please contact support so your affiliate can be credited.
+            </div>
+          )}
           {transactionReference && cohort ? (
             <div className="flex flex-col items-center">
               <CheckCircle className="text-green-500 w-16 h-16 mb-6" />
