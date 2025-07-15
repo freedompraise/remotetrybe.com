@@ -5,6 +5,7 @@ import { useToast } from "../components/ui/use-toast";
 import { X } from "lucide-react";
 import { usePaystackPayment } from "react-paystack";
 import { tallyAffiliateReferral } from '../lib/supabaseAdmin';
+import { useNavigate } from "react-router-dom";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
   const [isForeign, setIsForeign] = useState(false);
+  const navigate = useNavigate();
 
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
 
@@ -113,8 +115,9 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
         if (referralCode) {
           await tallyAffiliateReferral({ referralCode, newUserName: formData.name });
         }
+        onClose(); // Close the modal before navigating
         const redirectUrl = `/thank-you?ref=${response.reference}${cohortId ? `&cohortId=${cohortId}` : ''}`;
-        window.location.href = redirectUrl;
+        navigate(redirectUrl);
       },
       onClose: () => {
         setIsProcessing(false);
