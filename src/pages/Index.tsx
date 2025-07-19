@@ -16,7 +16,6 @@ const Index = () => {
 
   // Change page title and get active cohort when component mounts
   useEffect(() => {
-    document.title = "RemoteTrybe - Expert Training for Executive Support";
     setActiveCohort(getActiveCohort());
   }, []);
 
