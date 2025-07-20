@@ -1,6 +1,6 @@
 // PaymentModal.tsx
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getOpenCohorts } from "../utils/cohorts";
 import { useToast } from "../components/ui/use-toast";
 import { X } from "lucide-react";
@@ -31,14 +31,28 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
   const [isForeign, setIsForeign] = useState(false);
+  const [coupon, setCoupon] = useState("");
+  const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
+
+  // Coupon logic
+  const now = new Date();
+  const couponStart = new Date(now.getFullYear(), now.getMonth(), 21, 0, 1, 0, 0); // 21st, 00:01
+  const couponEnd = new Date(now.getFullYear(), now.getMonth() + 1, 4, 23, 59, 59, 999); // 4th of next month, 23:59
+  const isCouponValid = coupon.trim().toUpperCase() === "EARLYREG" && now >= couponStart && now <= couponEnd;
+  const baseAmount = amount;
+  const discountedAmount = isCouponValid ? Math.round(baseAmount * 0.85) : baseAmount;
+
+  useEffect(() => {
+    setDiscount(isCouponValid ? Math.round(baseAmount * 0.15) : 0);
+  }, [coupon, amount, isCouponValid, baseAmount]);
 
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
 
   const config = {
     reference: new Date().getTime().toString(),
     email: formData.email,
-    amount,
+    amount: discountedAmount,
     publicKey,
     metadata: {
       custom_fields: [
@@ -61,6 +75,11 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
           display_name: "Referral Code",
           variable_name: "referral_code",
           value: referralCode,
+        }] : []),
+        ...(isCouponValid ? [{
+          display_name: "Coupon Code",
+          variable_name: "coupon_code",
+          value: coupon.trim().toUpperCase(),
         }] : []),
       ],
     },
@@ -175,6 +194,25 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
+                Coupon Code (optional)
+              </label>
+              <input
+                type="text"
+                name="coupon"
+                value={coupon}
+                onChange={e => setCoupon(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="Enter coupon code"
+                autoComplete="off"
+              />
+              {coupon && (
+                <p className={`text-xs mt-1 ${isCouponValid ? 'text-green-600' : 'text-red-600'}`}>
+                  {isCouponValid ? `Coupon applied! You get 15% off.` : 'Invalid or expired coupon.'}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Name
               </label>
               <input
@@ -273,7 +311,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
                 disabled={isProcessing}
               >
-                {isForeign ? "Proceed to International Payment" : isProcessing ? "Processing..." : "Pay ₦32,000"}
+                {isForeign ? "Proceed to International Payment" : isProcessing ? "Processing..." : `Pay ₦${(discountedAmount / 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
               </button>
               <p className="text-xs text-center text-gray-500 mt-2">
                 {isForeign ? "Secure international checkout via Selar" : "Payment secured by Paystack"}
