@@ -192,25 +192,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             </div>
           )}
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Coupon Code (optional)
-              </label>
-              <input
-                type="text"
-                name="coupon"
-                value={coupon}
-                onChange={e => setCoupon(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                placeholder="Enter coupon code"
-                autoComplete="off"
-              />
-              {coupon && (
-                <p className={`text-xs mt-1 ${isCouponValid ? 'text-green-600' : 'text-red-600'}`}>
-                  {isCouponValid ? `Coupon applied! You get 15% off.` : 'Invalid or expired coupon.'}
-                </p>
-              )}
-            </div>
+           
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Name
@@ -279,6 +261,29 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
               </div>
             )}
 
+              <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Coupon Code (optional)
+              </label>
+              <input
+                type="text"
+                name="coupon"
+                value={coupon}
+                onChange={e => setCoupon(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="Enter coupon code"
+                autoComplete="off"
+              />
+              {coupon && (
+                <p
+                  className={`text-xs mt-1 break-words overflow-x-auto max-w-full ${isCouponValid ? 'text-green-600' : 'text-red-600'}`}
+                  style={{ wordBreak: 'break-word' }}
+                >
+                  {isCouponValid ? `Coupon applied! You get 15% off.` : 'Invalid or expired coupon.'}
+                </p>
+              )}
+            </div>
+
             <div className="mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Are you paying from outside Nigeria?
@@ -308,12 +313,13 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors overflow-x-auto break-words"
+                style={{ wordBreak: 'break-word' }}
                 disabled={isProcessing}
               >
                 {isForeign ? "Proceed to International Payment" : isProcessing ? "Processing..." : `Pay ₦${(discountedAmount / 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
               </button>
-              <p className="text-xs text-center text-gray-500 mt-2">
+              <p className="text-xs text-center text-gray-500 mt-2 break-words overflow-x-auto max-w-full" style={{ wordBreak: 'break-word' }}>
                 {isForeign ? "Secure international checkout via Selar" : "Payment secured by Paystack"}
               </p>
             </div>
