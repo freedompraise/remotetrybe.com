@@ -1,3 +1,12 @@
+// Returns all cohorts whose registrationEnd is in the future (registration is open)
+export const getOpenCohorts = (): Cohort[] => {
+  const now = new Date();
+  return cohorts.filter(cohort => {
+    const regEnd = new Date(cohort.registrationEnd);
+    regEnd.setHours(23, 59, 59, 999); // registration open through the end of the day
+    return regEnd >= now;
+  }).sort((a, b) => new Date(a.registrationStart).getTime() - new Date(b.registrationStart).getTime());
+};
 export interface Cohort {
   id: string;
   name: string;

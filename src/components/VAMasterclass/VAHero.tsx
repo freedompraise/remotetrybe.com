@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
 import { Calendar, Clock, Users, ArrowRight } from "lucide-react";
 import VideoPlayer from "../VideoPlayer";
 import { formatDate } from "../../utils/dateUtils";
+import { getOpenCohorts } from "../../utils/cohorts";
 
 interface VAHeroProps {
   onEnrollClick: () => void;
   registrationStartDate?: string;
+  registrationEndDate?: string;
 }
 
-const VAHero = ({ onEnrollClick, registrationStartDate }: VAHeroProps) => {
+const VAHero = ({ onEnrollClick, registrationStartDate, registrationEndDate }: VAHeroProps) => {
+    const openCohorts = getOpenCohorts();
+    const soonestCohort = openCohorts[0];
+    const registrationInfo = soonestCohort ? `${soonestCohort.name} registration closes: ${formatDate(soonestCohort.registrationEnd)}` : "Registration dates coming soon";
   return (
     <section className="pt-28 pb-16 md:pt-32 md:pb-20 bg-cream" id="hero">
       <div className="container mx-auto">
@@ -23,9 +27,7 @@ const VAHero = ({ onEnrollClick, registrationStartDate }: VAHeroProps) => {
             <div className="flex flex-wrap gap-4 mb-8">
               <div className="flex items-center">
                 <Calendar className="text-primary mr-2" size={20} />
-                <span className="text-gray-700">
-                  {registrationStartDate ? `Registration Starts ${formatDate(registrationStartDate)}` : "Dates coming soon"}
-                </span>
+                <span className="text-gray-700">{registrationInfo}</span>
               </div>
               <div className="flex items-center">
                 <Clock className="text-primary mr-2" size={20} />
@@ -40,7 +42,6 @@ const VAHero = ({ onEnrollClick, registrationStartDate }: VAHeroProps) => {
               Enroll Now <ArrowRight className="ml-2" size={18} />
             </a>
           </div>
-          
           <VideoPlayer
             src="https://youtu.be/smGt67w3PyM"
             title="Course Overview"

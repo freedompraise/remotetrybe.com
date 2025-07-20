@@ -1,6 +1,7 @@
 // PaymentModal.tsx
 
 import { useState } from "react";
+import { getOpenCohorts } from "../utils/cohorts";
 import { useToast } from "../components/ui/use-toast";
 import { X } from "lucide-react";
 import { usePaystackPayment } from "react-paystack";
@@ -142,6 +143,9 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
 
   if (!isOpen) return null;
 
+  // Show open cohorts and their registration end dates
+  const openCohorts = getOpenCohorts();
+
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-md w-full shadow-xl relative">
@@ -154,10 +158,20 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
 
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-4">Enroll in VA Masterclass</h2>
-          <p className="text-gray-600 mb-6">
-            Please provide your details to complete your enrollment
-          </p>
-
+          {openCohorts.length === 0 ? (
+            <p className="text-red-600 mb-6 font-semibold">Registration closed. Please check back for future cohorts.</p>
+          ) : (
+            <div className="mb-6">
+              <p className="text-gray-700 font-medium mb-2">Registration is open for:</p>
+              <ul className="mb-2">
+                {openCohorts.map(cohort => (
+                  <li key={cohort.id} className="text-gray-800 text-sm">
+                    <span className="font-semibold">{cohort.name}</span> (closes {cohort.registrationEnd})
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">

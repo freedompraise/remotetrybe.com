@@ -8,24 +8,22 @@ import Career from "../components/Career";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
-import { getActiveCohort, Cohort } from "../utils/cohorts";
+import { getOpenCohorts, Cohort } from "../utils/cohorts";
 import { formatDate } from "../utils/dateUtils";
 
 const Index = () => {
-  const [activeCohort, setActiveCohort] = useState<Cohort | undefined>(undefined);
 
-  // get active cohort when component mounts
+  const [openCohorts, setOpenCohorts] = useState<Cohort[]>([]);
+
   useEffect(() => {
-    setActiveCohort(getActiveCohort());
+    setOpenCohorts(getOpenCohorts());
   }, []);
 
-  const isRegistrationOpen = activeCohort && new Date() >= new Date(activeCohort.registrationStart) && new Date() <= new Date(activeCohort.registrationEnd);
+  // Show the soonest closing open cohort for homepage highlight
+  const soonestCohort = openCohorts[0];
 
-  // Pass dynamic data to CTA component
-  const ctaText = activeCohort 
-    ? isRegistrationOpen 
-      ? `Ready to transform your career? Join our ${activeCohort.name} cohort, with registration ending on ${formatDate(activeCohort.registrationEnd)}.`
-      : `Interested in our next cohort? Registration for ${activeCohort.name} opens on ${formatDate(activeCohort.registrationStart)}. Get ready!`
+  const ctaText = soonestCohort
+    ? `Registration is open for ${soonestCohort.name}. It closes on ${formatDate(soonestCohort.registrationEnd)}.`
     : "Ready to transform your career? Contact us to learn about upcoming opportunities.";
 
   return (
@@ -37,7 +35,7 @@ const Index = () => {
         <Programs />
         <Testimonials />
         <Career />
-        <CTA text={ctaText} link={activeCohort && isRegistrationOpen ? "/va-masterclass#pricing" : "/va-masterclass"} />
+        <CTA text={ctaText} link={soonestCohort && new Date(soonestCohort.registrationEnd) > new Date() ? "/va-masterclass#pricing" : "/va-masterclass"} />
       </main>
       <Footer />
       <ScrollReveal />

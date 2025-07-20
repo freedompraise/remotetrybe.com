@@ -57,11 +57,15 @@ const PricingAndEnrollment: FC<PricingAndEnrollmentProps> = ({
                                 {selectedCohortDetails && (
                                     <div className="space-y-4 mb-8">
                                         <div className="bg-gray-50 p-6 rounded-lg">
-                                            {new Date() <= new Date(selectedCohortDetails.registrationEnd) ? (
-                                                <h4 className="font-bold mb-2">Registration closes: {formatDate(selectedCohortDetails.registrationEnd)}</h4>
-                                            ) : (
-                                                <h4 className="font-bold mb-2 text-red-600">Registration closed. Training starts: {formatDate(selectedCohortDetails.trainingStart)}</h4>
-                                            )}
+                                            {(() => {
+                                                const regEnd = new Date(selectedCohortDetails.registrationEnd);
+                                                regEnd.setHours(23, 59, 59, 999);
+                                                if (new Date() <= regEnd) {
+                                                    return <h4 className="font-bold mb-2">Registration closes: {formatDate(selectedCohortDetails.registrationEnd)}</h4>;
+                                                } else {
+                                                    return <h4 className="font-bold mb-2 text-red-600">Registration is now closed for this cohort. Training starts: {formatDate(selectedCohortDetails.trainingStart)}</h4>;
+                                                }
+                                            })()}
 
                                             <p className="text-gray-600">
                                                 Training dates: {formatDateRange(selectedCohortDetails.trainingStart, selectedCohortDetails.trainingEnd)}
