@@ -167,15 +167,15 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full shadow-xl relative">
+      <div className="bg-white rounded-2xl max-w-md w-full shadow-xl relative max-h-[90vh] flex flex-col">
         <button
-          className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+          className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 z-10"
           onClick={onClose}
         >
           <X size={20} />
         </button>
 
-        <div className="p-6">
+        <div className="p-6 overflow-y-auto flex-1">
           <h2 className="text-2xl font-bold mb-4">Enroll in VA Masterclass</h2>
           {openCohorts.length === 0 ? (
             <p className="text-red-600 mb-6 font-semibold">Registration closed. Please check back for future cohorts.</p>
