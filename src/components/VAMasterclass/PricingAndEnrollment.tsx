@@ -91,7 +91,7 @@ const PricingAndEnrollment: FC<PricingAndEnrollmentProps> = ({
                                 <div className="flex justify-center mb-4">
                                     <div className="text-center">
                                         <div className="text-4xl font-bold text-primary">₦32,000</div>
-                                        <div className="text-gray-500">or $23 USD</div>
+                                        <div className="text-gray-500">or $35 USD</div>
                                     </div>
                                 </div>
 

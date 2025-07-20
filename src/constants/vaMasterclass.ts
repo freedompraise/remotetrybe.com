@@ -163,7 +163,7 @@ export const modules = [
 export const faqs = [
   {
     question: "How much does the program cost?",
-    answer: "The Virtual Assistant Masterclass costs ₦32,000 or $23. We offer flexible payment options and early-bird discounts for select cohorts."
+    answer: "The Virtual Assistant Masterclass costs ₦32,000 or $35. We offer flexible payment options and early-bird discounts for select cohorts."
   },
   {
     question: "Do I need prior experience to enroll?",

@@ -14,7 +14,7 @@ import { formatDate } from "../utils/dateUtils";
 const Index = () => {
   const [activeCohort, setActiveCohort] = useState<Cohort | undefined>(undefined);
 
-  // Change page title and get active cohort when component mounts
+  // get active cohort when component mounts
   useEffect(() => {
     setActiveCohort(getActiveCohort());
   }, []);
