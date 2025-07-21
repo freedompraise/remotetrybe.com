@@ -19,15 +19,6 @@ export interface Cohort {
 
 export const cohorts: Cohort[] = [
   {
-    id: "cohort4",
-    name: "Cohort 4",
-    registrationStart: "2025-06-02",
-    registrationEnd: "2025-07-20",
-    trainingStart: "2025-07-25",
-    trainingEnd: "2025-08-31",
-    whatsappLink: import.meta.env.VITE_COHORT4_WA_LINK as string
-  },
-  {
     id: "cohort5",
     name: "Cohort 5",
     registrationStart: "2025-07-28",

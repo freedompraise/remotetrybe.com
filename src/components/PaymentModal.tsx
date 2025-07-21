@@ -162,8 +162,13 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
 
   if (!isOpen) return null;
 
-  // Show open cohorts and their registration end dates
-  const openCohorts = getOpenCohorts();
+  // Show open cohorts and their registration end dates (filter again for safety)
+  const openCohorts = getOpenCohorts().filter(cohort => {
+    const regEnd = new Date(cohort.registrationEnd);
+    regEnd.setHours(23, 59, 59, 999);
+    const now = new Date();
+    return regEnd >= now;
+  });
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
