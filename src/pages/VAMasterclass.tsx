@@ -319,7 +319,7 @@ const VAMasterclass = () => {
             </div>
 
             <p className="text-center text-sm text-yellow-700 bg-yellow-100 px-3 py-2 rounded mb-6">
-              Non-Naira payments are only valid for the next available cohort (July).
+              Non-Naira payments are only valid for the next available cohort (Sept).
             </p>
             
             <button 
