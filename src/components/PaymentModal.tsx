@@ -31,6 +31,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
   const [isForeign, setIsForeign] = useState(false);
+  const [selarRedirected, setSelarRedirected] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
@@ -115,15 +116,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
     }
 
     if (isForeign) {
-      const queryParams = new URLSearchParams({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        ...(referralCode && { referral: referralCode }),
-        ...(cohortId && { cohortId }),
-      });
-
-      window.open(`https://selar.com/remotetrybe?${queryParams.toString()}`, "_blank");
+      // Already handled by effect below
       return;
     }
 
@@ -159,6 +152,24 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
       },
     });
   };
+
+  // Effect: If isForeign is selected, open Selar and disable form
+  useEffect(() => {
+    if (isForeign && !selarRedirected) {
+      const queryParams = new URLSearchParams({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        ...(referralCode && typeof referralCode === 'string' && referralCode.trim() ? { referral: referralCode } : {}),
+        ...(cohortId ? { cohortId } : {}),
+      });
+      setSelarRedirected(true);
+      window.open(`https://selar.com/remotetrybe?${queryParams.toString()}`, "_blank");
+    }
+    if (!isForeign) {
+      setSelarRedirected(false);
+    }
+  }, [isForeign, formData, referralCode, cohortId, selarRedirected]);
 
   if (!isOpen) return null;
 
@@ -249,7 +260,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
               </p>
             </div>
 
-            {referralCode && (
+            {referralCode && typeof referralCode === 'string' && referralCode.trim() && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Referral Code
@@ -266,7 +277,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
               </div>
             )}
 
-              <div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Coupon Code (optional)
               </label>
@@ -278,6 +289,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 className="w-full border border-gray-300 rounded-lg px-3 py-2"
                 placeholder="Enter coupon code"
                 autoComplete="off"
+                disabled={isForeign}
               />
               {coupon && (
                 <p
@@ -300,6 +312,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                   className={`px-3 py-2 rounded-lg border ${
                     !isForeign ? "bg-primary text-white" : "bg-white text-gray-800"
                   }`}
+                  disabled={isProcessing}
                 >
                   No
                 </button>
@@ -309,10 +322,14 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                   className={`px-3 py-2 rounded-lg border ${
                     isForeign ? "bg-primary text-white" : "bg-white text-gray-800"
                   }`}
+                  disabled={isProcessing}
                 >
                   Yes
                 </button>
               </div>
+              {isForeign && (
+                <p className="text-xs text-yellow-700 mt-2">International payment will open in a new tab. Please complete your payment on Selar.</p>
+              )}
             </div>
 
             <div className="mt-6">
@@ -320,9 +337,9 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 type="submit"
                 className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors overflow-x-auto break-words"
                 style={{ wordBreak: 'break-word' }}
-                disabled={isProcessing}
+                disabled={isProcessing || isForeign}
               >
-                {isForeign ? "Proceed to International Payment" : isProcessing ? "Processing..." : `Pay ₦${(discountedAmount / 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+                {isForeign ? "Redirecting to International Payment..." : isProcessing ? "Processing..." : `Pay ₦${(discountedAmount / 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
               </button>
               <p className="text-xs text-center text-gray-500 mt-2 break-words overflow-x-auto max-w-full" style={{ wordBreak: 'break-word' }}>
                 {isForeign ? "Secure international checkout via Selar" : "Payment secured by Paystack"}
