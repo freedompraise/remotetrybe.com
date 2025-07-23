@@ -3,17 +3,44 @@ import { useLocation } from "react-router-dom";
 import { CheckCircle, Link, XCircle, Copy } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+
 import { getCohortById, Cohort } from "../utils/cohorts";
 import { useToast } from "../components/ui/use-toast";
+import { tallyAffiliateReferral } from '../lib/supabaseAdmin';
 
 const ThankYou = () => {
   const location = useLocation();
-  const [transactionReference, setTransactionReference] = useState<string | null>(null);
   const [cohort, setCohort] = useState<Cohort | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
   const supportWhatsappLink = "https://wa.me/2349060038374";
   const { toast } = useToast();
+
+  // Referral completion logic (must be inside component)
+  useEffect(() => {
+    const referralPending = localStorage.getItem("referralPending");
+    const referralCode = localStorage.getItem("pendingReferralCode");
+    if (referralPending === "true" && referralCode) {
+      tallyAffiliateReferral({ referralCode })
+        .then(() => {
+          toast({
+            title: "Affiliate Credited!",
+            description: "Your affiliate has been credited.",
+          });
+        })
+        .catch(() => {
+          toast({
+            title: "Affiliate Notification Failed",
+            description: "Could not process affiliate credit. Please contact support.",
+            variant: "destructive",
+          });
+        })
+        .finally(() => {
+          localStorage.removeItem("referralPending");
+          localStorage.removeItem("pendingReferralCode");
+        });
+    }
+  }, [toast]);
 
   const handleCopyWhatsappLink = () => {
     if (cohort?.whatsappLink) {
@@ -27,18 +54,12 @@ const ThankYou = () => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const ref = queryParams.get('ref');
-    const cohortId = queryParams.get('cohortId');
+    // Handle both cohortId and cohortid in URL
+    const cohortId = queryParams.get('cohortId') || queryParams.get('cohortid');
 
-    if (ref) {
-      setTransactionReference(ref);
-      if (cohortId) {
-        const foundCohort = getCohortById(cohortId);
-        setCohort(foundCohort);
-      }
-    } else {
-      setTransactionReference(null); // Explicitly set to null if no ref
-      setCohort(undefined); // Also reset cohort if no ref
+    if (cohortId) {
+      const foundCohort = getCohortById(cohortId);
+      setCohort(foundCohort);
     }
     setIsLoading(false);
   }, [location.search]);
@@ -76,19 +97,14 @@ const ThankYou = () => {
               <strong>Affiliate Notification Failed:</strong> We could not notify your affiliate of your registration. If you were referred, please contact support so your affiliate can be credited.
             </div>
           )}
-          {transactionReference && cohort ? (
+          {cohort ? (
             <div className="flex flex-col items-center">
               <CheckCircle className="text-green-500 w-16 h-16 mb-6" />
               <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                Payment Successful!
+                Welcome to VA Masterclass!
               </h1>
-              <p className="text-lg text-gray-600 mb-8">
-                Thank you for enrolling in the Virtual Assistant Masterclass.
-                Your transaction reference is: <strong>{transactionReference}</strong>.
-              </p>
               <p className="text-lg text-gray-700 mb-6">
-                Your enrollment in <strong>{cohort.name}</strong> is confirmed.
-                Your training starts on <strong>{formatDate(cohort.trainingStart)}</strong>.
+                Your <strong>{cohort.name}</strong> training starts on <strong>{formatDate(cohort.trainingStart)}</strong>
               </p>
 
               <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8 w-full">
@@ -109,21 +125,7 @@ const ThankYou = () => {
                 </a>
 
                 {/* Troubleshooting note for WhatsApp link */}
-                <div className="mt-4 text-left">
-                  <p className="text-sm">
-                    <strong>Having trouble joining?</strong> If the button above doesn't work, copy and paste this link into your browser or WhatsApp app:
-                  </p>
-                  <div className="mt-1 p-2 bg-green-100 rounded break-all flex items-center text-green-800 text-sm">
-                    <span className="flex-1 select-all">{cohort.whatsappLink}</span>
-                    <button
-                      onClick={handleCopyWhatsappLink}
-                      className="ml-2 p-1 hover:bg-green-200 rounded transition-colors"
-                      title="Copy link to clipboard"
-                    >
-                      <Copy size={16} />
-                    </button>
-                  </div>
-                </div>
+              
               </div>
 
               <p className="text-md text-gray-500 mt-4">

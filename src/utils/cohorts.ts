@@ -7,6 +7,10 @@ export const getOpenCohorts = (): Cohort[] => {
     return regEnd >= now;
   }).sort((a, b) => new Date(a.registrationStart).getTime() - new Date(b.registrationStart).getTime());
 };
+// Returns a cohort by its ID, or undefined if not found
+export const getCohortById = (id: string): Cohort | undefined => {
+  return cohorts.find(cohort => cohort.id === id);
+};
 export interface Cohort {
   id: string;
   name: string;
@@ -15,9 +19,11 @@ export interface Cohort {
   trainingStart: string; // YYYY-MM-DD
   trainingEnd: string; // YYYY-MM-DD
   whatsappLink: string; // This will now be an env var key
+  paystackProductUrl?: string;
 }
 
 export const cohorts: Cohort[] = [
+
   {
     id: "cohort5",
     name: "Cohort 5",
@@ -25,7 +31,8 @@ export const cohorts: Cohort[] = [
     registrationEnd: "2025-09-07",
     trainingStart: "2025-09-12",
     trainingEnd: "2025-10-19",
-    whatsappLink: import.meta.env.VITE_COHORT5_WA_LINK as string
+    whatsappLink: import.meta.env.VITE_COHORT5_WA_LINK as string,
+    paystackProductUrl: 'https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe---cohort-wyzsps'
   },
   {
     id: "cohort6",
@@ -34,21 +41,7 @@ export const cohorts: Cohort[] = [
     registrationEnd: "2025-11-02",
     trainingStart: "2025-11-07",
     trainingEnd: "2025-12-14",
-    whatsappLink: import.meta.env.VITE_COHORT6_WA_LINK as string
+    whatsappLink: import.meta.env.VITE_COHORT6_WA_LINK as string,
+    paystackProductUrl: 'https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe---cohort-infwgj'
   }
 ];
-
-export const getActiveCohort = (): Cohort | undefined => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize today to start of the day
-
-  // Find the first cohort whose training has not yet ended
-  const relevantCohorts = cohorts.filter(cohort => new Date(cohort.trainingEnd) >= today)
-                                  .sort((a, b) => new Date(a.registrationStart).getTime() - new Date(b.registrationStart).getTime());
-
-  return relevantCohorts[0];
-};
-
-export const getCohortById = (id: string): Cohort | undefined => {
-    return cohorts.find(cohort => cohort.id === id);
-};
