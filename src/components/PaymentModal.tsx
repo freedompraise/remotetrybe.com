@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useToast } from "../components/ui/use-toast";
 import { getOpenCohorts } from "../utils/cohorts";
+import { Link } from "react-router-dom";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -14,60 +15,35 @@ interface PaymentModalProps {
 }
 
 const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: PaymentModalProps) => {
-  const [isProcessing, setIsProcessing] = useState(false);
   const [isForeign, setIsForeign] = useState(false);
-  const [selarRedirected, setSelarRedirected] = useState(false);
   const { toast } = useToast();
-
-  const baseAmount = amount;
-
-  const handleSubmit = () => {
-    setIsProcessing(true);
-
-    if (isForeign) {
-      const queryParams = new URLSearchParams({
-        ...(referralCode ? { referral: referralCode } : {}),
-        ...(cohortId ? { cohortId } : {}),
-      });
-      window.open(`https://selar.com/remotetrybe?${queryParams}`, "_blank");
-      return;
-    }
-
-    const openCohorts = getOpenCohorts();
-    const cohort = openCohorts.find(c => c.id === cohortId);
-    if (!cohort || !cohort.paystackProductUrl) {
-      setIsProcessing(false);
-      toast({
-        title: "Payment error",
-        description: "Could not find payment link for this cohort. Please contact support.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const url = new URL(cohort.paystackProductUrl);
-    if (referralCode) url.searchParams.set("ref", referralCode);
-    if (cohortId) url.searchParams.set("cohortId", cohortId);
-
-    window.location.href = url.toString();
-  };
-
-  useEffect(() => {
-    if (isForeign && !selarRedirected) {
-      setSelarRedirected(true);
-    }
-    if (!isForeign) {
-      setSelarRedirected(false);
-    }
-  }, [isForeign, selarRedirected]);
-
-  if (!isOpen) return null;
 
   const openCohorts = getOpenCohorts().filter(c => {
     const regEnd = new Date(c.registrationEnd);
     regEnd.setHours(23, 59, 59, 999);
     return regEnd >= new Date();
   });
+
+  if (!isOpen) return null;
+
+  const baseAmount = amount;
+  const selectedCohort = openCohorts.find(c => c.id === cohortId);
+
+  let paymentLink: string | null = null;
+
+  if (isForeign) {
+    const params = new URLSearchParams();
+    if (referralCode) params.set("referral", referralCode);
+    if (cohortId) params.set("cohortId", cohortId);
+    paymentLink = `https://selar.com/remotetrybe?${params.toString()}`;
+  } else if (selectedCohort?.paystackProductUrl) {
+    const url = new URL(selectedCohort.paystackProductUrl);
+    if (referralCode) url.searchParams.set("ref", referralCode);
+    if (cohortId) url.searchParams.set("cohortId", cohortId);
+    paymentLink = url.toString();
+  }
+
+  const isPaymentReady = !!paymentLink;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
@@ -76,7 +52,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
           className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 z-10"
           onClick={onClose}
         >
-          <X size={20} />
+          <X size={40} />
         </button>
 
         <div className="p-6 overflow-y-auto flex-1">
@@ -88,27 +64,30 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             </p>
           ) : (
             <div className="mb-6">
-              <p className="text-gray-700 font-medium mb-2">Registration open for:</p>
-              <ul className="mb-2">
-                {openCohorts.map(c => (
-                  <li key={c.id} className="text-gray-800 text-sm">
-                    <span className="font-semibold">{c.name}</span> (ends {c.registrationEnd})
-                  </li>
-                ))}
+              <p className="text-gray-700 font-medium mb-2">Available Cohorts:</p>
+              <ul className="mb-2 space-y-1">
+                {openCohorts.map(c => {
+                  const date = new Date(c.registrationEnd);
+                  const formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                  });
+                  return (
+                    <li key={c.id} className="text-gray-800 text-sm">
+                      - {c.name} registration deadline: {formattedDate}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
             <h3 className="font-semibold text-yellow-800 mb-2">Important Notes:</h3>
-            <ul className="text-yellow-700 text-sm space-y-2 list-disc list-inside">
-              <li>
-                You will get your WhatsApp group link and course materials via email after payment.
-              </li>
-              <li className="font-semibold text-red-700">
-                Use your Gmail address only. You’ll be added to a Google Workspace account with it.
-              </li>
-            </ul>
+            <p className="text-sm text-yellow-700">
+              After payment, you'll receive a form to fill out. Once completed, you'll get access to the classroom link via email. Please use a Gmail account as your email.
+            </p>
           </div>
 
           <div className="mt-4">
@@ -122,7 +101,6 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 className={`px-3 py-2 rounded-lg border ${
                   !isForeign ? "bg-primary text-white" : "bg-white text-gray-800"
                 }`}
-                disabled={isProcessing}
               >
                 No
               </button>
@@ -132,7 +110,6 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 className={`px-3 py-2 rounded-lg border ${
                   isForeign ? "bg-primary text-white" : "bg-white text-gray-800"
                 }`}
-                disabled={isProcessing}
               >
                 Yes
               </button>
@@ -145,18 +122,25 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
           </div>
 
           <div className="mt-6">
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
-              disabled={isProcessing}
-            >
-              {isForeign
-                ? "Redirecting to International Payment..."
-                : isProcessing
-                ? "Processing..."
-                : `Pay ₦${(baseAmount / 100).toLocaleString()}`}
-            </button>
+            {isPaymentReady ? (
+              <Link
+                to={paymentLink}
+                target={isForeign ? "_blank" : "_self"}
+                className="w-full block bg-primary text-white text-center py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+              >
+                {isForeign
+                  ? "Pay on Selar"
+                  : `Pay ₦${(baseAmount / 100).toLocaleString()}`}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                className="w-full bg-gray-400 text-white py-3 rounded-lg font-medium cursor-not-allowed"
+                disabled
+              >
+                Payment link unavailable
+              </button>
+            )}
             <p className="text-xs text-center text-gray-500 mt-2">
               {isForeign ? "Powered by Selar" : "Secured by Paystack"}
             </p>
