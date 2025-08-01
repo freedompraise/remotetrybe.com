@@ -293,6 +293,7 @@ const VAMasterclass = () => {
                   <p className="text-gray-600">
                     Training dates: {formatDateRange(selectedCohortDetails.trainingStart, selectedCohortDetails.trainingEnd)}
                   </p>
+<p> 15% off discount running till August 7th, use coupon code: EARLYREG for a price slash before checkout </p>
                 </div>
 
                 <ul className="space-y-4">
