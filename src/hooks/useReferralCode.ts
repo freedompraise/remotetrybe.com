@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-export const useReferralCode = () => {
+export interface ReferralCodeHook {
+  referralCode: string | null;
+  markReferralPending: () => void;
+  clearReferralPending: () => void;
+}
+
+export const useReferralCode = (): ReferralCodeHook => {
   const [referralCode, setReferralCode] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
 
@@ -10,16 +16,32 @@ export const useReferralCode = () => {
     const refFromUrl = searchParams.get('ref');
     if (refFromUrl) {
       setReferralCode(refFromUrl);
-      localStorage.setItem('referralCode', refFromUrl);
+      localStorage.setItem('pendingReferralCode', refFromUrl);
       return;
     }
 
     // If no URL param, check localStorage
-    const refFromStorage = localStorage.getItem('referralCode');
+    const refFromStorage = localStorage.getItem('pendingReferralCode');
     if (refFromStorage) {
       setReferralCode(refFromStorage);
     }
   }, [searchParams]);
 
-  return referralCode;
-}; 
+  const markReferralPending = () => {
+    if (referralCode) {
+      localStorage.setItem('referralPending', 'true');
+    }
+  };
+
+  const clearReferralPending = () => {
+    localStorage.removeItem('referralPending');
+    localStorage.removeItem('pendingReferralCode');
+    setReferralCode(null);
+  };
+
+  return {
+    referralCode,
+    markReferralPending,
+    clearReferralPending
+  };
+};

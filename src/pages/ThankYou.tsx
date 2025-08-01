@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import { getCohortById, Cohort } from "../utils/cohorts";
 import { useToast } from "../components/ui/use-toast";
 import { tallyAffiliateReferral } from '../lib/supabaseAdmin';
+import { useReferralCode } from '../hooks/useReferralCode';
 
 const ThankYou = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const ThankYou = () => {
   const supportWhatsappLink = "https://wa.me/2349060038374";
   const formLink = "https://forms.gle/11n4zkcNmuLJj95f9";
   const { toast } = useToast();
+  const { clearReferralPending } = useReferralCode();
 
   // Referral completion logic
   useEffect(() => {
@@ -37,11 +39,10 @@ const ThankYou = () => {
           });
         })
         .finally(() => {
-          localStorage.removeItem("referralPending");
-          localStorage.removeItem("pendingReferralCode");
+          clearReferralPending(); // Use the hook's cleanup method
         });
     }
-  }, [toast]);
+  }, [toast, clearReferralPending]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);

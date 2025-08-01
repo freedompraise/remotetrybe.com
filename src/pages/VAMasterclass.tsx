@@ -18,7 +18,7 @@ const VAMasterclass = () => {
   const [selectedCohortId, setSelectedCohortId] = useState<string | undefined>(undefined);
   const [upcomingCohorts, setUpcomingCohorts] = useState<Cohort[]>([]);
   const [selectedCohortDetails, setSelectedCohortDetails] = useState<Cohort | undefined>(undefined);
-  const referralCode = useReferralCode();
+  const { referralCode, markReferralPending } = useReferralCode();
 
   // Change page title when component mounts and get upcoming cohorts
   useEffect(() => {
@@ -48,6 +48,10 @@ const VAMasterclass = () => {
   // Handle enrollment button clicks
   const handleEnrollClick = () => {
     if (selectedCohortId) {
+      // Mark referral as pending before payment
+      if (referralCode) {
+        markReferralPending();
+      }
       setShowPaymentModal(true);
     } else {
       // Should not happen if button is disabled when no cohort is selected
