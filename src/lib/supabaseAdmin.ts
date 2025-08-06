@@ -102,3 +102,14 @@ export async function tallyAffiliateReferral({ referralCode }) {
   clearAffiliatesCache();
   return true;
 }
+
+export async function getAffiliateByEmail(email: string) {
+  const { data, error } = await supabase
+    .from('affiliates')
+    .select('*')
+    .ilike('email', email)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
