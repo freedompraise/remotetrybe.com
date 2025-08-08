@@ -113,7 +113,7 @@ const VAMasterclass = () => {
                 <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                   <Users className="text-primary" size={28} />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Live Interactive Sessions</h3>
+                <h3 className="text-xl font-semibold mb-3">Live Class Sessions</h3>
                 <p className="text-gray-600">
                   Learn directly from expert instructors with real-time Q&A and personalized feedback on your progress.
                 </p>
