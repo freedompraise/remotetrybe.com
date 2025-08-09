@@ -61,8 +61,8 @@ const ReferralProgress = () => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-2xl w-full px-4">
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-8">
+        <div className="max-w-2xl w-full">
           {!affiliate && !error && (
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold mb-4">
@@ -75,19 +75,19 @@ const ReferralProgress = () => {
           )}
 
           <form onSubmit={handleSubmit} className="mb-8">
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your affiliate email"
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full sm:flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+                className="w-full sm:w-auto bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {loading ? <span className="animate-spin">⌛</span> : <Search size={20} />}
                 Check Progress
@@ -115,7 +115,7 @@ const ReferralProgress = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-sm text-gray-600">Your Referral Code</div>
-                  <div className="text-lg font-semibold">{affiliate.ref_code}</div>
+                  <div className="text-lg font-semibold break-words">{affiliate.ref_code}</div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-sm text-gray-600">Total Referrals</div>
