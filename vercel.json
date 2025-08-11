@@ -1,5 +1,14 @@
 {
-  
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://www.remotetrybe.com/$1",
+      "permanent": true,
+      "has": [
+        { "type": "host", "value": "remotetrybe.com" }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
