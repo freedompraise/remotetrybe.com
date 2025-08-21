@@ -8,14 +8,12 @@ const About = () => {
         <div className="text-center max-w-3xl mx-auto reveal">
           <h2 className="section-title">About Remote Trybe</h2>
           <h3 className="section-subtitle">
-            Founded by{" "}
+            Led by our{" "}
             <a
-              href="https://ng.linkedin.com/in/odosa-egharevba-68634a248/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary font-semibold"
+              href="/founder"
+              className="text-primary font-semibold hover:underline"
             >
-              Odosa Egharevba
+              founder
             </a>
             , we help everyday people turn their potential into profitable freelance brands through proven, skill-focused training.
           </h3>

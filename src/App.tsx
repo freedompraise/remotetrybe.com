@@ -8,6 +8,7 @@ import VAMasterclass from "./pages/VAMasterclass";
 import NotFound from "./pages/NotFound";
 import ThankYou from "./pages/ThankYou";
 import ReferralProgress from "./pages/ReferralProgress";
+import OdosaEgharevba from "./pages/OdosaEgharevba";
 import Affiliate from "./pages/Affiliate";
 import { AuthProvider } from "./context/AuthContext";
 import AdminRoute from "./pages/admin/AdminRoute";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/va-masterclass" element={<VAMasterclass />} />
             <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/referral-progress" element={<ReferralProgress />} />
+            <Route path="/founder" element={<OdosaEgharevba />} />
             <Route path="/affiliate" element={<Affiliate />} />
             
             <Route path="/login" element={<LoginPage />} />

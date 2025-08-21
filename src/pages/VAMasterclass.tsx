@@ -152,54 +152,7 @@ const VAMasterclass = () => {
             </div>
           </div>
         </section>
-        
-        {/* Instructor Bio */}
-        <section className="py-16" id="instructor">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center reveal">
-              <div className="md:col-span-1">
-                <img 
-                  src="/lovable-uploads/26d6d984-5c88-4d41-a698-0bcba915bf39.png" 
-                  alt="Odosa Egharevba" 
-                  className="rounded-2xl shadow-lg w-full max-w-sm mx-auto" 
-                />
-              </div>
-              
-              <div className="md:col-span-2">
-                <h4 className="section-title">Meet Your Instructor</h4>
-                <h1 className="text-2xl font-bold mb-4">Odosa Egharevba</h1>
-                <p className="text-gray-700 mb-6">
-                  Odosa Egharevba is a top-rated plus Upwork freelancer with earnings of over $30K on Upwork
-                  She has 32,000+ LinkedIn followers and has hosted live sessions for more than 5,000 viewers.
-                </p>
-                <p className="text-gray-700 mb-8">
-                  With years of experience in training virtual assistants, Odosa has helped hundreds of professionals 
-                  transform their careers and secure high-paying remote opportunities. Her practical, results-driven 
-                  approach ensures students build real-world skills that clients value.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <a 
-                    href="https://linkedin.com/in/odosa-egharevba-68634a248" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#0077B5] text-white px-4 py-2 rounded-lg inline-flex items-center hover:bg-opacity-90 transition-colors"
-                  >
-                    LinkedIn Profile
-                  </a>
-                  <a 
-                    href="https://youtube.com/@odosaegharevba" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#6FDA44] text-white px-4 py-2 rounded-lg inline-flex items-center hover:bg-opacity-90 transition-colors"
-                  >
-                    YouTube Channel
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
+  
           {/* Software and Skills Section */}
           <section className="py-16 bg-cream" id="tools">
             <div className="container mx-auto">
