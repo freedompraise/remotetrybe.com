@@ -71,7 +71,7 @@ const OdosaEgharevba = () => {
                   <div className="text-gray-600">Successful Graduates</div>
                 </div>
                 <div className="text-center p-6 rounded-lg bg-gray-50">
-                  <div className="text-3xl font-bold text-primary mb-2">32K+</div>
+                  <div className="text-3xl font-bold text-primary mb-2">40K+</div>
                   <div className="text-gray-600">LinkedIn Followers</div>
                 </div>
               </div>
