@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useToast } from "../components/ui/use-toast";
 import { getOpenCohorts } from "../utils/cohorts";
 import { Link } from "react-router-dom";
+import { useReferralCode } from "../hooks/useReferralCode";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -16,7 +17,9 @@ interface PaymentModalProps {
 
 const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: PaymentModalProps) => {
   const [isForeign, setIsForeign] = useState(false);
+  const [userName, setUserName] = useState("");
   const { toast } = useToast();
+  const { markReferralPending } = useReferralCode();
 
   const openCohorts = getOpenCohorts().filter(c => {
     const regEnd = new Date(c.registrationEnd);
@@ -42,6 +45,21 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
     if (cohortId) url.searchParams.set("cohortId", cohortId);
     paymentLink = url.toString();
   }
+
+  const handlePaymentClick = () => {
+    if (!userName.trim()) {
+      toast({
+        title: "Name is required",
+        description: "Please enter your full name to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
+    markReferralPending();
+    if (paymentLink) {
+      window.location.href = paymentLink;
+    }
+  };
 
   const isPaymentReady = !!paymentLink;
 
@@ -83,6 +101,20 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             </div>
           )}
 
+          <div className="mb-4">
+            <label htmlFor="userName" className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              placeholder="Enter your full name"
+            />
+          </div>
+
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
             <h3 className="font-semibold text-yellow-800 mb-2">Important Notes:</h3>
             <p className="text-sm text-yellow-700">
@@ -123,15 +155,14 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
 
           <div className="mt-6">
             {isPaymentReady ? (
-              <Link
-                to={paymentLink}
-                target={isForeign ? "_blank" : "_self"}
+              <button
+                onClick={handlePaymentClick}
                 className="w-full block bg-primary text-white text-center py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
               >
                 {isForeign
                   ? "Pay on Selar"
                   : `Pay ₦${(baseAmount / 100).toLocaleString()}`}
-              </Link>
+              </button>
             ) : (
               <button
                 type="button"
