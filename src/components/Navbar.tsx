@@ -1,88 +1,121 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { navLinks, enrollNowLink } from "../constants/navigation";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { navLinks, enrollNowLink, NavLink } from "../constants/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Function to handle navigation to sections with proper scroll behavior
-  const handleNavigation = (sectionId: string, isExternalSection = false) => {
+  const handleNavigation = (path: string) => {
     setIsMenuOpen(false);
-    
-    if (isExternalSection) {
-      // For external sections (like affiliate section in VA Masterclass)
-      const [path, hash] = sectionId.split('#');
-      
-      // If we're already on the target page, just scroll
-      if (location.pathname === path) {
-        const element = document.getElementById(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-        return;
-      }
+    setOpenDropdown(null);
 
-      // Otherwise navigate and then scroll
-      navigate(path);
-      // Wait for the page to load before scrolling
-      setTimeout(() => {
-        const element = document.getElementById(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 500); // Increased timeout to ensure page is loaded
-    } else {
-      // For same-page navigation
-      if (location.pathname === "/" && sectionId.startsWith("/#")) {
-        const elementId = sectionId.replace("/#", "");
-        const element = document.getElementById(elementId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      } else if (sectionId.startsWith("/#")) {
-        navigate(sectionId);
+    if (path.includes("#")) {
+      const [pathname, hash] = path.split('#');
+      if (location.pathname === pathname || pathname === '') {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate(path);
+        setTimeout(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+        }, 300);
       }
+    } else {
+      navigate(path);
     }
   };
 
-  const renderNavLink = (link: typeof navLinks[0], isMobile = false) => {
-    const isExternalLink = link.to.includes('#') && !link.to.startsWith('/#');
-    
+  const handleMobileDropdown = (label: string) => {
+    setOpenDropdown(openDropdown === label ? null : label);
+  };
+
+  const renderNavLink = (link: NavLink, isMobile = false) => {
+    const hasChildren = link.children && link.children.length > 0;
+
+    if (isMobile) {
+      return (
+        <div key={link.label}>
+          <div className="flex justify-between items-center">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                if (!hasChildren) handleNavigation(link.onClick || link.to);
+              }}
+              className="text-gray-800 hover:text-primary font-medium py-2 flex-1 text-left"
+            >
+              {link.label}
+            </button>
+            {hasChildren && (
+              <button onClick={() => handleMobileDropdown(link.label)} className="p-2">
+                <ChevronDown
+                  size={20}
+                  className={`transition-transform ${openDropdown === link.label ? 'rotate-180' : ''}`}
+                />
+              </button>
+            )}
+          </div>
+          {hasChildren && openDropdown === link.label && (
+            <div className="pl-4 border-l-2 border-gray-200">
+              {link.children?.map(child => (
+                <Link
+                  key={child.label}
+                  to={child.to}
+                  onClick={() => handleNavigation(child.to)}
+                  className="block py-2 text-gray-700 hover:text-primary"
+                >
+                  {child.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Desktop
     return (
-      <Link 
-        key={link.label}
-        to={link.to}
-        className={`text-gray-800 hover:text-primary font-medium ${isMobile ? 'py-2' : ''} ${link.className || ''}`}
-        onClick={(e) => {
-          e.preventDefault(); // Always prevent default to handle navigation manually
-          if (isExternalLink) {
-            handleNavigation(link.onClick || link.to, true);
-          } else if (link.onClick) {
-            handleNavigation(link.onClick, false);
-          } else {
-            navigate(link.to);
-          }
-        }}
-      >
-        {link.label}
-      </Link>
+      <div key={link.label} className="relative group">
+        <Link
+          to={link.to}
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavigation(link.onClick || link.to);
+          }}
+          className={`text-gray-800 hover:text-primary font-medium flex items-center ${link.className || ''}`}
+        >
+          {link.label}
+          {hasChildren && <ChevronDown size={16} className="ml-1" />}
+        </Link>
+        {hasChildren && (
+          <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 hidden group-hover:block">
+            {link.children?.map(child => (
+              <Link
+                key={child.label}
+                to={child.to}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigation(child.to);
+                }}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                {child.label}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     );
   };
 
@@ -93,7 +126,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center" onClick={() => handleNavigation('/')}>
           <img 
             src="/lovable-uploads/f2974bc5-09ee-4340-b746-efc13ec12533.png" 
             alt="RemoteTrybe Logo" 
@@ -101,7 +134,6 @@ const Navbar = () => {
           />
         </Link>
         
-        {/* Mobile menu button */}
         <button
           className="lg:hidden text-gray-700 focus:outline-none"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -109,17 +141,15 @@ const Navbar = () => {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
         
-        {/* Desktop menu */}
         <nav className="hidden lg:flex items-center space-x-8">
           {navLinks.map(link => renderNavLink(link))}
           {renderNavLink(enrollNowLink)}
         </nav>
       </div>
       
-      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="lg:hidden bg-white shadow-lg py-4">
-          <div className="container flex flex-col space-y-4">
+          <div className="container flex flex-col space-y-2">
             {navLinks.map(link => renderNavLink(link, true))}
             {renderNavLink(enrollNowLink, true)}
           </div>

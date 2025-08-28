@@ -31,7 +31,7 @@ const App = () => (
             <Route path="/va-masterclass" element={<VAMasterclass />} />
             <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/referral-progress" element={<ReferralProgress />} />
-            <Route path="/founder" element={<OdosaEgharevba />} />
+            <Route path="/odosa-egharevba" element={<OdosaEgharevba />} />
             <Route path="/affiliate" element={<Affiliate />} />
             
             <Route path="/login" element={<LoginPage />} />

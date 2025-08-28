@@ -12,3 +12,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /404
+Disallow: /thank-you
+
+Sitemap: https://www.remotetrybe.com/sitemap.xml

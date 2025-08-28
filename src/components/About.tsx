@@ -10,7 +10,7 @@ const About = () => {
           <h3 className="section-subtitle">
             Led by our{" "}
             <a
-              href="/founder"
+              href="/odosa-egharevba"
               className="text-primary font-semibold hover:underline"
             >
               founder
