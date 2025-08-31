@@ -93,7 +93,7 @@ const OdosaEgharevba = () => {
                   beyond the classroom.
                 </p>
                 <p>
-                  Through RemoteTrybe's VA Masterclass, I've helped over 600 individuals 
+                  Through RemoteTrybe's VA Masterclass, I've helped over 800 individuals 
                   transform their lives by mastering virtual assistant skills and building 
                   successful freelance careers. Our comprehensive curriculum covers everything 
                   from technical skills to client communication and business development.
