@@ -4,6 +4,7 @@ export interface NavLink {
   onClick?: string;
   className?: string;
   isExternalSection?: boolean;
+  children?: NavLink[];
 }
 
 export const navLinks: NavLink[] = [
@@ -15,7 +16,13 @@ export const navLinks: NavLink[] = [
   {
     to: "/#about",
     label: "About",
-    onClick: "/#about"
+    onClick: "/#about",
+    children: [
+      {
+        to: "/odosa-egharevba",
+        label: "Our Founder"
+      }
+    ]
   },
   {
     to: "/#programs",

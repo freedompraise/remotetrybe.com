@@ -63,11 +63,11 @@ const OdosaEgharevba = () => {
               <h2 className="text-3xl font-bold text-center mb-12">Professional Journey</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="text-center p-6 rounded-lg bg-gray-50">
-                  <div className="text-3xl font-bold text-primary mb-2">$30K+</div>
-                  <div className="text-gray-600">Earnings on Upwork</div>
+                  <div className="text-3xl font-bold text-primary mb-2">Top Rated Plus</div>
+                  <div className="text-gray-600">Ranking on Upwork</div>
                 </div>
                 <div className="text-center p-6 rounded-lg bg-gray-50">
-                  <div className="text-3xl font-bold text-primary mb-2">600+</div>
+                  <div className="text-3xl font-bold text-primary mb-2">800+</div>
                   <div className="text-gray-600">Successful Graduates</div>
                 </div>
                 <div className="text-center p-6 rounded-lg bg-gray-50">

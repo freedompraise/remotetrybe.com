@@ -23,8 +23,10 @@ const ThankYou = () => {
   useEffect(() => {
     const referralPending = localStorage.getItem("referralPending");
     const referralCode = localStorage.getItem("pendingReferralCode");
+    const userName = localStorage.getItem("pendingUserName");
+
     if (referralPending === "true" && referralCode) {
-      tallyAffiliateReferral({ referralCode })
+      tallyAffiliateReferral({ referralCode, userName })
         .then(() => {
           toast({
             title: "Affiliate Credited!",

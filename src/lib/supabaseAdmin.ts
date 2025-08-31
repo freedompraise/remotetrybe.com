@@ -93,10 +93,10 @@ export async function findOrCreateAffiliate(formData) {
   return { ref_code, alreadyExists: false };
 }
 
-export async function tallyAffiliateReferral({ referralCode }) {
+export async function tallyAffiliateReferral({ referralCode, userName }) {
   const { error } = await supabase.rpc('tally_affiliate_referral', {
     p_referral_code: referralCode,
-    p_new_user_name: 'Paystack Product Payment User', // Generic username
+    p_new_user_name: userName || 'Paystack Product Payment User',
   });
   if (error) throw error;
   clearAffiliatesCache();

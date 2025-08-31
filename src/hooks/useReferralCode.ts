@@ -27,15 +27,26 @@ export const useReferralCode = (): ReferralCodeHook => {
     }
   }, [searchParams]);
 
-  const markReferralPending = () => {
-    if (referralCode) {
+  const markReferralPending = (userName?: string) => {
+    const refFromUrl = searchParams.get('ref');
+    const refFromStorage = localStorage.getItem('pendingReferralCode');
+    const code = refFromUrl || refFromStorage;
+
+    if (code) {
       localStorage.setItem('referralPending', 'true');
+      if (refFromUrl) {
+        localStorage.setItem('pendingReferralCode', refFromUrl);
+      }
+    }
+    if (userName) {
+      localStorage.setItem('pendingUserName', userName);
     }
   };
 
   const clearReferralPending = () => {
     localStorage.removeItem('referralPending');
     localStorage.removeItem('pendingReferralCode');
+    localStorage.removeItem('pendingUserName');
     setReferralCode(null);
   };
 

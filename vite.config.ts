@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => ({
       ],
       dynamicRoutes: [
         '/va-masterclass',
-        '/founder',
+        '/odosa-egharevba',
         '/affiliate'
       ],
       lastmod: new Date(),
