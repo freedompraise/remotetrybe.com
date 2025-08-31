@@ -99,20 +99,22 @@ const Navbar = () => {
           {hasChildren && <ChevronDown size={16} className="ml-1" />}
         </Link>
         {hasChildren && (
-          <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 hidden group-hover:block">
-            {link.children?.map(child => (
-              <Link
-                key={child.label}
-                to={child.to}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation(child.to);
-                }}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                {child.label}
-              </Link>
-            ))}
+          <div className="absolute left-0 top-full pt-4 w-48 bg-transparent hidden group-hover:block">
+            <div className="bg-white rounded-md shadow-lg z-10">
+              {link.children?.map(child => (
+                <Link
+                  key={child.label}
+                  to={child.to}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation(child.to);
+                  }}
+                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 first:rounded-t-md last:rounded-b-md"
+                >
+                  {child.label}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
       </div>
