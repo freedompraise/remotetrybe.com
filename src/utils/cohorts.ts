@@ -1,9 +1,11 @@
 // Returns all cohorts whose registrationEnd is in the future (registration is open)
 export const getOpenCohorts = (): Cohort[] => {
   const now = new Date();
+  // Set time to 00:00:00 to compare dates only, not time
+  now.setHours(0, 0, 0, 0); 
   return cohorts.filter(cohort => {
     const regEnd = new Date(cohort.registrationEnd);
-    regEnd.setHours(23, 59, 59, 999); // registration open through the end of the day
+    // The end date is inclusive, so we compare against the start of the next day
     return regEnd >= now;
   }).sort((a, b) => new Date(a.registrationStart).getTime() - new Date(b.registrationStart).getTime());
 };

@@ -21,11 +21,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
   const { toast } = useToast();
   const { markReferralPending } = useReferralCode();
 
-  const openCohorts = getOpenCohorts().filter(c => {
-    const regEnd = new Date(c.registrationEnd);
-    regEnd.setHours(23, 59, 59, 999);
-    return regEnd >= new Date();
-  });
+  const openCohorts = getOpenCohorts();
 
   if (!isOpen) return null;
 

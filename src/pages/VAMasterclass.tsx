@@ -7,7 +7,7 @@ import PaymentModal from "../components/PaymentModal";
 import VATestimonials from "../components/VAMasterclass/VATestimonials";
 import VAHero from "../components/VAMasterclass/VAHero";
 import VAFAQ from "../components/VAMasterclass/VAFAQ";
-import { Cohort, cohorts, getCohortById } from "../utils/cohorts";
+import { Cohort, cohorts, getCohortById, getOpenCohorts } from "../utils/cohorts";
 import { formatDate, formatDateRange } from "../utils/dateUtils";
 import { useReferralCode } from "../hooks/useReferralCode";
 import { modules, faqs, testimonialVideos, skills, softwareTools, handsOnSkills, bonusResources } from "../constants/vaMasterclass";
@@ -23,15 +23,11 @@ const VAMasterclass = () => {
   // Change page title when component mounts and get upcoming cohorts
   useEffect(() => {
     document.title = "Virtual Assistant Masterclass | RemoteTrybe";
-    // Filter cohorts whose training hasn't ended yet
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const relevant = cohorts.filter(cohort => new Date(cohort.trainingEnd) >= today)
-                              .sort((a, b) => new Date(a.trainingStart).getTime() - new Date(b.trainingStart).getTime());
-    setUpcomingCohorts(relevant);
+    const openCohorts = getOpenCohorts();
+    setUpcomingCohorts(openCohorts);
     // Set initial selected cohort to the first one if available
-    if (relevant.length > 0) {
-        setSelectedCohortId(relevant[0].id);
+    if (openCohorts.length > 0) {
+        setSelectedCohortId(openCohorts[0].id);
     }
   }, []);
 
@@ -59,11 +55,11 @@ const VAMasterclass = () => {
     }
   };
 
-  const isRegistrationOpenForSelectedCohort = selectedCohortDetails && new Date() <= new Date(selectedCohortDetails.registrationEnd);
+  const isRegistrationOpenForSelectedCohort = selectedCohortDetails ? getOpenCohorts().some(c => c.id === selectedCohortDetails.id) : false;
 
   // Find the first upcoming cohort to display in Hero/CTA if needed
   const firstUpcomingCohort = upcomingCohorts.length > 0 ? upcomingCohorts[0] : undefined;
-  const isRegistrationOpenForFirstCohort = firstUpcomingCohort && new Date() <= new Date(firstUpcomingCohort.registrationEnd);
+  const isRegistrationOpenForFirstCohort = firstUpcomingCohort ? getOpenCohorts().some(c => c.id === firstUpcomingCohort.id) : false;
 
   return (
     <>
@@ -234,9 +230,8 @@ const VAMasterclass = () => {
               <div className="space-y-4 mb-8">
                 <div className="bg-gray-50 p-6 rounded-lg">
                   {(() => {
-                    const regEnd = new Date(selectedCohortDetails.registrationEnd);
-                    regEnd.setHours(23, 59, 59, 999);
-                    if (new Date() <= regEnd) {
+                    const isOpen = getOpenCohorts().some(c => c.id === selectedCohortDetails.id);
+                    if (isOpen) {
                       return <h4 className="font-bold mb-2">Registration closes: {formatDate(selectedCohortDetails.registrationEnd)}</h4>;
                     } else {
                       return <h4 className="font-bold mb-2 text-red-600">Registration is now closed for this cohort. Training starts: {formatDate(selectedCohortDetails.trainingStart)}</h4>;
