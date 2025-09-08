@@ -100,7 +100,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ skills, softwareTools, handsOnSkills,
               </div>
               <h3 className="text-xl font-semibold mb-3">Community Support</h3>
               <p className="text-gray-600">
-                Join our 600+ community of VAs for networking, job opportunities, and ongoing mentorship.
+                Join our 800+ community of VAs for networking, job opportunities, and ongoing mentorship.
               </p>
             </div>
           </div>
