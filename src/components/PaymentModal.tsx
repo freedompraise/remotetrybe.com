@@ -116,6 +116,9 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             <p className="text-sm text-yellow-700">
               After payment, you'll receive a form to fill out. Once completed, you'll get access to the classroom link via email. Please use a Gmail account as your email.
             </p>
+            <p className="text-sm">
+              Registering on or Before 21st of September for the next cohort? Use Coupon code of EARLYACCESS 
+              </p>
           </div>
 
           <div className="mt-4">
