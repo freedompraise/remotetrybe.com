@@ -54,6 +54,6 @@ export const enrollNowLink: NavLink = {
   to: "/va-masterclass#pricing",
   label: "Enroll Now",
   onClick: "/va-masterclass#pricing",
-  className: "btn-primary",
+  className: "btn-primary hover:bg-white",
   isExternalSection: true
 }; 

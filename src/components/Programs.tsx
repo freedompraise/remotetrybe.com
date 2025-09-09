@@ -62,7 +62,9 @@ const Programs = () => {
               <li className="flex items-start">
                 <Check className="text-primary mr-2 mt-1 flex-shrink-0" size={16} />
                 <span className="text-gray-600">Join the Telegram wait group:</span>
-                <a
+              </li>
+            </ul>
+            <a
                   href="https://t.me/+48G2uFqTBC5hZDY0"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -75,8 +77,6 @@ const Programs = () => {
                   </svg>
                   Telegram Group
                 </a>
-              </li>
-            </ul>
           </div>
           
           <div className="card reveal">
