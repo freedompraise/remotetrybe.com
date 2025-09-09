@@ -22,7 +22,7 @@ const VAHero = ({ onEnrollClick, registrationStartDate, registrationEndDate }: V
               Virtual Assistant Masterclass
             </h1>
             <p className="text-lg md:text-xl text-gray-700 mb-8">
-              Launch your VA career and earn in dollars in 6 weeks. Join over 600 successful graduates.
+              Launch your VA career and earn in dollars in 6 weeks. Join over 800 successful graduates.
             </p>
             <div className="flex flex-wrap gap-4 mb-8">
               <div className="flex items-center">
