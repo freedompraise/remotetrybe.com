@@ -179,7 +179,7 @@ export const faqs = [
   },
   {
     question: "Is there ongoing support after the program ends?",
-    answer: "Absolutely! You'll have lifetime access to our 600+ VA community with ongoing mentorship and resources."
+    answer: "Absolutely! You'll have lifetime access to our 800+ VA community with ongoing mentorship and resources."
   }
 ];
 

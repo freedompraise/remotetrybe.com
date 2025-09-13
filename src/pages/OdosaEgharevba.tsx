@@ -154,7 +154,7 @@ const OdosaEgharevba = () => {
             "@type": "Person",
             "name": "Odosa Egharevba",
             "jobTitle": ["Virtual Assistant Coach", "RemoteTrybe Founder"],
-            "description": "Founder of RemoteTrybe, top-rated Upwork freelancer, and virtual assistant coach with 600+ successful graduates.",
+            "description": "Founder of RemoteTrybe, top-rated Upwork freelancer, and virtual assistant coach with 800+ successful graduates.",
             "url": "https://remotetrybe.com/founder",
             "sameAs": [
               "https://www.linkedin.com/in/odosa-egharevba",
