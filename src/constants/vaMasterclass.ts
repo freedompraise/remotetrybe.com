@@ -180,7 +180,11 @@ export const faqs = [
   {
     question: "Is there ongoing support after the program ends?",
     answer: "Absolutely! You'll have lifetime access to our 800+ VA community with ongoing mentorship and resources."
-  }
+  },
+  {
+    question: "Will there be class recordings available?",
+    answer: "Yes, all live sessions are recorded and made available after the classes."
+  },
 ];
 
 export const testimonialVideos = [
