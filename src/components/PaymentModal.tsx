@@ -114,7 +114,9 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
             <h3 className="font-semibold text-yellow-800 mb-2">Important Notes:</h3>
             <p className="text-sm text-yellow-700">
-              After payment, you'll receive a form to fill out. Once completed, you'll get access to the classroom link via email. Please use a Gmail account as your email.
+              After payment, please follow the redirection or read through the Paystack or Selar receipt sent to your email to access that class form. Once completed, you'll get access to the classroom link via email. 
+
+              Please use a Gmail account as your email.
             </p>
             <p className="text-sm">
               Registering on or Before 21st of September for the next cohort? Use Coupon code of EARLYACCESS 
