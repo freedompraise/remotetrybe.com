@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Linkedin, Youtube, MessageCircle } from "lucide-react";
+import { Linkedin, Youtube, MessageCircle, X } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
@@ -50,6 +50,13 @@ const OdosaEgharevba = () => {
                   >
                     <Youtube size={24} />
                   </a>
+                  <a href="https://x.com/odosaabi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-black text-white p-3 rounded-full hover:opacity-90 transition-opacity"
+                  >
+                    <X size={24} />
+                  </a>
                 </div>
               </div>
             </div>
@@ -67,7 +74,7 @@ const OdosaEgharevba = () => {
                   <div className="text-gray-600">Ranking on Upwork</div>
                 </div>
                 <div className="text-center p-6 rounded-lg bg-gray-50">
-                  <div className="text-3xl font-bold text-primary mb-2">800+</div>
+                  <div className="text-3xl font-bold text-primary mb-2">1k+</div>
                   <div className="text-gray-600">Successful Graduates</div>
                 </div>
                 <div className="text-center p-6 rounded-lg bg-gray-50">
@@ -93,7 +100,7 @@ const OdosaEgharevba = () => {
                   beyond the classroom.
                 </p>
                 <p>
-                  Through RemoteTrybe's VA Masterclass, I've helped over 800 individuals 
+                  Through RemoteTrybe's VA Masterclass, I've helped over 1000 individuals 
                   transform their lives by mastering virtual assistant skills and building 
                   successful freelance careers. Our comprehensive curriculum covers everything 
                   from technical skills to client communication and business development.
@@ -114,7 +121,7 @@ const OdosaEgharevba = () => {
                     <img
                       src={`/images/testimonial-${num}.jpeg`}
                       alt={`Client Testimonial ${num}`}
-                      className="w-full h-64 object-cover"
+                      className="w-full h-84 object-contain"
                     />
                   </div>
                 ))}
@@ -132,7 +139,7 @@ const OdosaEgharevba = () => {
                 For speaking engagements, media inquiries, or collaboration opportunities
               </p>
               <a
-                href="mailto:odosa.assistant@gmail.com"
+                href="mailto:odosa@remotetrybe.com"
                 className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-lg hover:bg-primary/90 transition-colors"
               >
                 <MessageCircle size={20} />
