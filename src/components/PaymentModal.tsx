@@ -118,9 +118,9 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
 
               Please use a Gmail account as your email.
             </p>
-            <p className="text-sm">
+            {/* <p className="text-sm">
               Registering on or Before 21st of September for the next cohort? Use Coupon code of EARLYACCESS 
-              </p>
+              </p> */}
           </div>
 
           <div className="mt-4">
