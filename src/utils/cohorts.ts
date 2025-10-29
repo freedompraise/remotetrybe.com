@@ -25,16 +25,35 @@ export interface Cohort {
 }
 
 export const cohorts: Cohort[] = [
-
   {
-    id: "cohort5",
-    name: "Cohort 5",
-    registrationStart: "2025-07-28",
-    registrationEnd: "2025-09-07",
-    trainingStart: "2025-09-12",
-    trainingEnd: "2025-10-19",
-    whatsappLink: import.meta.env.VITE_COHORT5_WA_LINK as string,
-    paystackProductUrl: 'https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe---cohort-wyzsps'
+    id: "cohort9",
+    name: "Cohort 9",
+    registrationStart: "2026-03-16",
+    registrationEnd: "2026-05-17",
+    trainingStart: "2026-05-22",
+    trainingEnd: "2026-06-21",
+    whatsappLink: import.meta.env.VITE_COHORT9_WA_LINK as string,
+    paystackProductUrl: "https://paystack.com/buy/copy-2-of-virtual-assistant-masterclass-by-remotetryb-qmnnqw"
+  },
+  {
+    id: "cohort8",
+    name: "Cohort 8",
+    registrationStart: "2026-01-19",
+    registrationEnd: "2026-03-15",
+    trainingStart: "2026-03-20",
+    trainingEnd: "2026-04-26",
+    whatsappLink: import.meta.env.VITE_COHORT8_WA_LINK as string,
+    paystackProductUrl: "https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe---cohort-efpiah"
+  },
+  {
+    id: "cohort7",
+    name: "Cohort 7",
+    registrationStart: "2025-11-03",
+    registrationEnd: "2026-01-18",
+    trainingStart: "2026-01-23",
+    trainingEnd: "2026-03-08",
+    whatsappLink: import.meta.env.VITE_COHORT7_WA_LINK as string,
+    paystackProductUrl: "https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe---cohort-rwlkos"
   },
   {
     id: "cohort6",
