@@ -29,7 +29,7 @@ export const cohorts: Cohort[] = [
     id: "cohort9",
     name: "Cohort 9",
     registrationStart: "2026-03-16",
-    registrationEnd: "2026-05-17",
+    registrationEnd: "2026-05-10",
     trainingStart: "2026-05-22",
     trainingEnd: "2026-06-21",
     whatsappLink: import.meta.env.VITE_COHORT9_WA_LINK as string,
