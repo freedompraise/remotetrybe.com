@@ -31,11 +31,11 @@ const OdosaEgharevba = () => {
                   Virtual Assistant Coach & RemoteTrybe Founder
                 </p>
                 <p className="text-lg text-gray-700 mb-8">
-                  Empowering African youth with virtual assistant skills, transforming lives through digital opportunities.
+                  Empowering people with virtual assistant skills, transforming lives through digital opportunities.
                 </p>
                 <div className="flex justify-center md:justify-start gap-4">
                   <a
-                    href="https://www.linkedin.com/in/odosa-egharevba"
+                    href="https://www.linkedin.com/in/odosa-egharevba-68634a248"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-[#0077B5] text-white p-3 rounded-full hover:opacity-90 transition-opacity"
@@ -74,7 +74,7 @@ const OdosaEgharevba = () => {
                   <div className="text-gray-600">Ranking on Upwork</div>
                 </div>
                 <div className="text-center p-6 rounded-lg bg-gray-50">
-                  <div className="text-3xl font-bold text-primary mb-2">1k+</div>
+                  <div className="text-3xl font-bold text-primary mb-2">1000+</div>
                   <div className="text-gray-600">Successful Graduates</div>
                 </div>
                 <div className="text-center p-6 rounded-lg bg-gray-50">
@@ -94,7 +94,7 @@ const OdosaEgharevba = () => {
               <div className="prose prose-lg mx-auto">
                 <p>
                   As a Top-Rated Plus freelancer on Upwork and founder of RemoteTrybe, 
-                  I've dedicated myself to empowering African youth with the skills needed 
+                  I've dedicated myself to empowering people with the skills needed 
                   to thrive in the digital economy. My teaching methodology focuses on 
                   practical, hands-on experience combined with mentorship that extends 
                   beyond the classroom.
