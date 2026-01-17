@@ -8,8 +8,17 @@ export type Affiliate = {
   ref_code: string;
   referral_count: number;
   earnings: number;
-  payout_status: 'not_eligible' | 'eligible' | 'paid';
   created_at: string;
 };
 
-export type AffiliateInsert = Omit<Affiliate, 'id' | 'ref_code' | 'referral_count' | 'earnings' | 'payout_status' | 'created_at'>; 
+export type AffiliatePayout = {
+  id: string;
+  affiliate_id: string;
+  amount: number;
+  reason?: string;
+  status: 'pending' | 'paid';
+  paid_at?: string;
+  created_at: string;
+};
+
+export type AffiliateInsert = Omit<Affiliate, 'id' | 'ref_code' | 'referral_count' | 'earnings' | 'created_at'>; 

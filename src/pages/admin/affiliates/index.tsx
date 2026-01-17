@@ -13,27 +13,29 @@ export default function AdminAffiliatesPage() {
   const [page, setPage] = useState(1);
   const [pageSize] = useState(20);
   const [search, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState<'joined' | 'referrals'>('joined');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [loading, setLoading] = useState(true);
-  const [showEligibleUnpaid, setShowEligibleUnpaid] = useState(false);
+  const [showUnpaid, setShowUnpaid] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     getAffiliateMetrics().then(setMetrics);
-    if (showEligibleUnpaid) {
+    if (showUnpaid) {
       getEligibleUnpaidAffiliates().then((data) => {
         setAffiliates(data);
         setCount(data.length);
         setLoading(false);
       });
     } else {
-      getAffiliates({ page, pageSize, search }).then(({ data, count }) => {
+      getAffiliates({ page, pageSize, search, sortBy, sortOrder }).then(({ data, count }) => {
         setAffiliates(data);
         setCount(count);
         setLoading(false);
       });
     }
     // eslint-disable-next-line
-  }, [page, pageSize, search, showEligibleUnpaid]);
+  }, [page, pageSize, search, sortBy, sortOrder, showUnpaid]);
 
   return (
     <div>
@@ -52,14 +54,35 @@ export default function AdminAffiliatesPage() {
           className="border px-3 py-2 rounded-lg w-full md:w-64"
           value={search}
           onChange={e => { setSearch(e.target.value); setPage(1); }}
-          disabled={showEligibleUnpaid}
+          disabled={showUnpaid}
         />
-        <button
-          className={`px-4 py-2 rounded-lg font-medium border ${showEligibleUnpaid ? 'bg-primary text-white' : 'bg-white text-gray-800'}`}
-          onClick={() => setShowEligibleUnpaid(v => !v)}
-        >
-          {showEligibleUnpaid ? 'Show All' : 'Show Eligible (Unpaid)'}
-        </button>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex gap-2">
+            <select
+              value={sortBy}
+              onChange={e => { setSortBy(e.target.value as 'joined' | 'referrals'); setPage(1); }}
+              className="border px-3 py-2 rounded-lg bg-white disabled:opacity-50"
+              disabled={showUnpaid}
+            >
+              <option value="joined">Sort by: Joined</option>
+              <option value="referrals">Sort by: Referrals</option>
+            </select>
+            <button
+              onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+              className="px-3 py-2 rounded-lg border bg-white hover:bg-gray-50"
+              disabled={showUnpaid}
+              title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
+            >
+              {sortOrder === 'asc' ? '↑' : '↓'}
+            </button>
+          </div>
+          <button
+            className={`px-4 py-2 rounded-lg font-medium border ${showUnpaid ? 'bg-primary text-white' : 'bg-white text-gray-800'}`}
+            onClick={() => { setShowUnpaid(v => !v); setPage(1); }}
+          >
+            {showUnpaid ? 'Show All' : 'Show Unpaid'}
+          </button>
+        </div>
       </div>
       <div className="overflow-x-auto bg-white rounded-lg shadow">
         <table className="min-w-full text-sm">
@@ -69,22 +92,30 @@ export default function AdminAffiliatesPage() {
               <th className="p-3 text-left">Email</th>
               <th className="p-3 text-left">Phone</th>
               <th className="p-3 text-left">Referrals</th>
-              <th className="p-3 text-left">Joined</th>
+              <th className="p-3 text-left">Status</th>
+              <th className="p-3 text-left">Last Paid</th>
               <th className="p-3 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={6} className="p-4 text-center">Loading...</td></tr>
+              <tr><td colSpan={7} className="p-4 text-center">Loading...</td></tr>
             ) : affiliates.length === 0 ? (
-              <tr><td colSpan={6} className="p-4 text-center">No affiliates found.</td></tr>
+              <tr><td colSpan={7} className="p-4 text-center">No affiliates found.</td></tr>
             ) : affiliates.map((a) => (
               <tr key={a.id} className="border-b hover:bg-gray-50">
                 <td className="p-3 font-medium">{a.full_name}</td>
                 <td className="p-3">{a.email}</td>
                 <td className="p-3">{a.phone}</td>
                 <td className="p-3">{a.referral_count}</td>
-                <td className="p-3">{new Date(a.created_at).toLocaleDateString()}</td>
+                <td className="p-3">
+                  <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    a.has_paid_payout ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                  }`}>
+                    {a.has_paid_payout ? 'Paid' : 'Unpaid'}
+                  </span>
+                </td>
+                <td className="p-3">{a.last_paid_at ? new Date(a.last_paid_at).toLocaleDateString() : '—'}</td>
                 <td className="p-3">
                   <Link
                     to={`/admin/affiliates/${a.id}`}
@@ -98,7 +129,7 @@ export default function AdminAffiliatesPage() {
           </tbody>
         </table>
       </div>
-      {!showEligibleUnpaid && (
+      {!showUnpaid && (
         <div className="flex justify-end items-center gap-2 mt-4">
           <button
             className="px-3 py-1 rounded border disabled:opacity-50"

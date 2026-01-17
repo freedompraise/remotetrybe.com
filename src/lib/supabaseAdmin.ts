@@ -7,7 +7,25 @@ async function loadAllAffiliates() {
   if (affiliateCacheLoaded) return affiliateCache;
   const { data, error } = await supabase.from('affiliates').select('*');
   if (error) throw error;
-  affiliateCache = data || [];
+  
+  // Prefetch payment dates from affiliate_payouts
+  const { data: payouts } = await supabase
+    .from('affiliate_payouts')
+    .select('affiliate_id, status, paid_at')
+    .eq('status', 'paid');
+  
+  const paidDates = {};
+  (payouts || []).forEach(p => {
+    if (p.paid_at && !paidDates[p.affiliate_id]) {
+      paidDates[p.affiliate_id] = p.paid_at;
+    }
+  });
+  
+  affiliateCache = (data || []).map(a => ({
+    ...a,
+    last_paid_at: paidDates[a.id] || null,
+    has_paid_payout: !!paidDates[a.id],
+  }));
   affiliateCacheLoaded = true;
   return affiliateCache;
 }
@@ -17,13 +35,33 @@ export function clearAffiliatesCache() {
   affiliateCacheLoaded = false;
 }
 
-export async function getAffiliates({ page = 1, pageSize = 20, search = '' } = {}) {
+export async function getAffiliates({ page = 1, pageSize = 20, search = '', sortBy = 'joined', sortOrder = 'desc' } = {}) {
   await loadAllAffiliates();
   let filtered = affiliateCache;
   if (search) {
     const s = search.toLowerCase();
     filtered = filtered.filter(a => a.full_name.toLowerCase().includes(s));
   }
+  
+  // Sort
+  filtered.sort((a, b) => {
+    let aVal, bVal;
+    
+    if (sortBy === 'joined') {
+      aVal = new Date(a.created_at).getTime();
+      bVal = new Date(b.created_at).getTime();
+    } else if (sortBy === 'referrals') {
+      aVal = a.referral_count || 0;
+      bVal = b.referral_count || 0;
+    }
+    
+    if (sortOrder === 'asc') {
+      return aVal > bVal ? 1 : -1;
+    } else {
+      return aVal < bVal ? 1 : -1;
+    }
+  });
+  
   const count = filtered.length;
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
@@ -46,7 +84,8 @@ export async function getAffiliateMetrics() {
 
 export async function getEligibleUnpaidAffiliates() {
   await loadAllAffiliates();
-  return affiliateCache.filter(a => a.referral_count >= 5);
+  // Return affiliates who haven't been paid yet
+  return affiliateCache.filter(a => !a.has_paid_payout);
 }
 
 export async function getAffiliatePayouts(affiliateId) {
