@@ -148,6 +148,10 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
                 />
               </div>
 
+              <p className="text-xs text-gray-600 bg-blue-50 p-3 rounded-lg">
+                💡 After registering, you'll receive your unique referral link. Make sure to copy it to start earning!
+              </p>
+
               <button
                 type="submit"
                 disabled={loading}
@@ -166,6 +170,9 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
             <p className="text-gray-600 mb-6">
               Share your unique referral link and start earning 5% commission for each successful enrollment.
             </p>
+            <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-lg mb-6">
+              <p className="text-sm font-semibold text-blue-900">✨ Important: Copy your referral link below and start sharing!</p>
+            </div>
             <div className="bg-gray-50 p-4 rounded-lg mb-6">
               <p className="text-sm text-gray-500 mb-2">Your Referral Link:</p>
               <div className="flex items-center gap-2">
