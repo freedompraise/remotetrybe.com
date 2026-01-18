@@ -20,11 +20,31 @@ export interface Cohort {
   registrationEnd: string; // YYYY-MM-DD
   trainingStart: string; // YYYY-MM-DD
   trainingEnd: string; // YYYY-MM-DD
-  whatsappLink: string; // This will now be an env var key
+  whatsappLink?: string; // This will now be an env var key
   paystackProductUrl?: string;
 }
 
 export const cohorts: Cohort[] = [
+  {
+    id: "cohort11",
+    name: "Cohort 11",
+    registrationStart: "2026-07-06",      
+    registrationEnd: "2026-09-06",
+    trainingStart: "2026-09-11",
+    trainingEnd: "2026-10-18",
+    whatsappLink: import.meta.env.VITE_COHORT11_WA_LINK as string,
+    paystackProductUrl: "https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe-cohort-1-ugtvgx"
+  },
+  {
+    id: "cohort10",
+    name: "Cohort 10",
+    registrationStart: "2026-05-18",
+    registrationEnd: "2026-07-05",
+    trainingStart: "2026-07-10",
+    trainingEnd: "2026-08-23",
+    whatsappLink: import.meta.env.VITE_COHORT10_WA_LINK as string,
+    paystackProductUrl: "https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe---cohort-zsadol"
+  },  
   {
     id: "cohort9",
     name: "Cohort 9",
