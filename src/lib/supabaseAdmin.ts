@@ -143,12 +143,32 @@ export async function tallyAffiliateReferral({ referralCode, userName }) {
 }
 
 export async function getAffiliateByEmail(email: string) {
-  const { data, error } = await supabase
+  const { data: affiliate, error: affiliateError } = await supabase
     .from('affiliates')
     .select('*')
     .ilike('email', email)
     .single();
 
-  if (error) throw error;
-  return data;
+  if (affiliateError) throw affiliateError;
+  if (!affiliate) return null;
+
+  // Get payout information for this affiliate
+  const { data: payouts } = await supabase
+    .from('affiliate_payouts')
+    .select('status, paid_at')
+    .eq('affiliate_id', affiliate.id)
+    .eq('status', 'paid')
+    .order('paid_at', { ascending: false });
+
+  const has_paid_payout = (payouts && payouts.length > 0);
+  // Use the first paid_at that exists, or null if none
+  const last_paid_at = has_paid_payout 
+    ? (payouts.find(p => p.paid_at)?.paid_at || null)
+    : null;
+
+  return {
+    ...affiliate,
+    has_paid_payout,
+    last_paid_at,
+  };
 }

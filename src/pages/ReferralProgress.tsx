@@ -10,6 +10,8 @@ interface AffiliateData {
   email: string
   ref_code: string
   referral_count: number
+  has_paid_payout?: boolean
+  last_paid_at?: string | null
 }
 
 const ReferralProgress = () => {
@@ -120,6 +122,23 @@ const ReferralProgress = () => {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-sm text-gray-600">Total Referrals</div>
                   <div className="text-lg font-semibold">{affiliate.referral_count}</div>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="text-sm text-gray-600">Payment Status</div>
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-block w-2 h-2 rounded-full ${
+                      affiliate.has_paid_payout ? 'bg-green-500' : 'bg-yellow-500'
+                    }`} />
+                    <span className="text-lg font-semibold">
+                      {affiliate.has_paid_payout ? 'Paid' : 'Unpaid'}
+                    </span>
+                  </div>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="text-sm text-gray-600">Last Payment Date</div>
+                  <div className="text-lg font-semibold">
+                    {affiliate.last_paid_at ? new Date(affiliate.last_paid_at).toLocaleDateString() : '—'}
+                  </div>
                 </div>
               </div>
 
