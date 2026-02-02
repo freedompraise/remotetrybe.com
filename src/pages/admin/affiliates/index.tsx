@@ -17,11 +17,19 @@ export default function AdminAffiliatesPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [loading, setLoading] = useState(true);
   const [showUnpaid, setShowUnpaid] = useState(false);
+  const [showRequested, setShowRequested] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     getAffiliateMetrics().then(setMetrics);
-    if (showUnpaid) {
+    if (showRequested) {
+      // Show affiliates who have requested payouts
+      getRequestedAffiliates().then((data) => {
+        setAffiliates(data);
+        setCount(data.length);
+        setLoading(false);
+      });
+    } else if (showUnpaid) {
       getEligibleUnpaidAffiliates().then((data) => {
         setAffiliates(data);
         setCount(data.length);
@@ -62,7 +70,7 @@ export default function AdminAffiliatesPage() {
               value={sortBy}
               onChange={e => { setSortBy(e.target.value as 'joined' | 'referrals'); setPage(1); }}
               className="border px-3 py-2 rounded-lg bg-white disabled:opacity-50"
-              disabled={showUnpaid}
+              disabled={showUnpaid || showRequested}
             >
               <option value="joined">Sort by: Joined</option>
               <option value="referrals">Sort by: Referrals</option>
@@ -70,18 +78,26 @@ export default function AdminAffiliatesPage() {
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               className="px-3 py-2 rounded-lg border bg-white hover:bg-gray-50"
-              disabled={showUnpaid}
+              disabled={showUnpaid || showRequested}
               title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
             >
               {sortOrder === 'asc' ? '↑' : '↓'}
             </button>
           </div>
-          <button
-            className={`px-4 py-2 rounded-lg font-medium border ${showUnpaid ? 'bg-primary text-white' : 'bg-white text-gray-800'}`}
-            onClick={() => { setShowUnpaid(v => !v); setPage(1); }}
-          >
-            {showUnpaid ? 'Show All' : 'Show Unpaid'}
-          </button>
+          <div className="flex gap-2">
+            <button
+              className={`px-4 py-2 rounded-lg font-medium border ${showUnpaid ? 'bg-primary text-white' : 'bg-white text-gray-800'}`}
+              onClick={() => { setShowUnpaid(v => { setShowRequested(false); return !v }); setPage(1); }}
+            >
+              {showUnpaid ? 'Show All' : 'Show Unpaid'}
+            </button>
+            <button
+              className={`px-4 py-2 rounded-lg font-medium border ${showRequested ? 'bg-primary text-white' : 'bg-white text-gray-800'}`}
+              onClick={() => { setShowRequested(v => { setShowUnpaid(false); return !v }); setPage(1); }}
+            >
+              {showRequested ? 'Show All' : 'Show Requested'}
+            </button>
+          </div>
         </div>
       </div>
       <div className="overflow-x-auto bg-white rounded-lg shadow">
@@ -110,12 +126,12 @@ export default function AdminAffiliatesPage() {
                 <td className="p-3">{a.referral_count}</td>
                 <td className="p-3">
                   <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                    a.has_paid_payout ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    a.has_paid_payout ? 'bg-green-100 text-green-800' : a.has_requested_payout ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'
                   }`}>
-                    {a.has_paid_payout ? 'Paid' : 'Unpaid'}
+                    {a.has_paid_payout ? 'Paid' : a.has_requested_payout ? 'Requested' : 'Unpaid'}
                   </span>
                 </td>
-                <td className="p-3">{a.last_paid_at ? new Date(a.last_paid_at).toLocaleDateString() : '—'}</td>
+                <td className="p-3">{a.last_paid_at ? new Date(a.last_paid_at).toLocaleDateString() : (a.last_requested_at ? new Date(a.last_requested_at).toLocaleDateString() : '—')}</td>
                 <td className="p-3">
                   <Link
                     to={`/admin/affiliates/${a.id}`}

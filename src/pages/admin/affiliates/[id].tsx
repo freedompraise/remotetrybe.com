@@ -166,13 +166,17 @@ export default function AffiliateProfilePage() {
               <tr key={p.id} className="border-b hover:bg-gray-50">
                 <td className="p-3">₦{p.amount?.toLocaleString()}</td>
                 <td className="p-3">
-                  <span className={`px-2 py-1 rounded text-xs font-bold ${p.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>{p.status}</span>
+                  <span className={`px-2 py-1 rounded text-xs font-bold ${
+                    p.status === 'paid' ? 'bg-green-100 text-green-700' :
+                    p.status === 'requested' ? 'bg-blue-100 text-blue-700' :
+                    'bg-yellow-100 text-yellow-700'
+                  }`}>{p.status}</span>
                 </td>
                 <td className="p-3">{p.reason}</td>
                 <td className="p-3">{new Date(p.created_at).toLocaleDateString()}</td>
                 <td className="p-3">{p.paid_at ? new Date(p.paid_at).toLocaleDateString() : '-'}</td>
                 <td className="p-3">
-                  {p.status === 'pending' && (
+                  {(p.status === 'pending' || p.status === 'requested') && (
                     <button
                       className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-xs"
                       onClick={() => handleMarkPaid(p.id)}

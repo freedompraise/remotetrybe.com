@@ -3,22 +3,29 @@ import { useState } from "react"
 import { Search, CheckCircle, AlertCircle } from "lucide-react"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
-import { getAffiliateByEmail } from "../lib/supabaseAdmin"
+import { getAffiliateByEmail, requestPayout } from "../lib/supabaseAdmin"
 
 interface AffiliateData {
+  id?: string
   full_name: string
   email: string
   ref_code: string
   referral_count: number
   has_paid_payout?: boolean
   last_paid_at?: string | null
-}
+  has_requested_payout?: boolean
+  last_requested_at?: string | null
+} 
+
+
 
 const ReferralProgress = () => {
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [affiliate, setAffiliate] = useState<AffiliateData | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [requestLoading, setRequestLoading] = useState(false)
+  const [requestMsg, setRequestMsg] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -37,6 +44,24 @@ const ReferralProgress = () => {
       setAffiliate(null)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleRequestPayout = async () => {
+    if (!affiliate) return
+    setRequestLoading(true)
+    setRequestMsg(null)
+    try {
+      // Tiered payout: 5+ => 20,000 ; 10+ => 40,000
+      const amount = affiliate.referral_count >= 10 ? 40000 : 20000
+      const reason = `Requested by affiliate after ${affiliate.referral_count} referral${affiliate.referral_count === 1 ? '' : 's'}`
+      const inserted = await requestPayout({ affiliateId: affiliate.id!, amount, reason })
+      setAffiliate(prev => prev ? { ...prev, has_requested_payout: true, last_requested_at: inserted?.created_at || new Date().toISOString() } : prev)
+      setRequestMsg('Payout requested.')
+    } catch (e) {
+      setRequestMsg('Failed to request payout.')
+    } finally {
+      setRequestLoading(false)
     }
   }
 
@@ -127,20 +152,33 @@ const ReferralProgress = () => {
                   <div className="text-sm text-gray-600">Payment Status</div>
                   <div className="flex items-center gap-2">
                     <span className={`inline-block w-2 h-2 rounded-full ${
-                      affiliate.has_paid_payout ? 'bg-green-500' : 'bg-yellow-500'
+                      affiliate.has_paid_payout ? 'bg-green-500' : affiliate.has_requested_payout ? 'bg-blue-500' : 'bg-yellow-500'
                     }`} />
                     <span className="text-lg font-semibold">
-                      {affiliate.has_paid_payout ? 'Paid' : 'Unpaid'}
+                      {affiliate.has_paid_payout ? 'Paid' : affiliate.has_requested_payout ? 'Requested' : 'Unpaid'}
                     </span>
                   </div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-sm text-gray-600">Last Payment Date</div>
                   <div className="text-lg font-semibold">
-                    {affiliate.last_paid_at ? new Date(affiliate.last_paid_at).toLocaleDateString() : '—'}
+                    {affiliate.last_paid_at ? new Date(affiliate.last_paid_at).toLocaleDateString() : (affiliate.last_requested_at ? new Date(affiliate.last_requested_at).toLocaleDateString() : '—')}
                   </div>
                 </div>
               </div>
+
+              {affiliate.referral_count >= 5 && !affiliate.has_paid_payout && !affiliate.has_requested_payout && (
+                <div className="text-center">
+                  <button
+                    onClick={handleRequestPayout}
+                    disabled={requestLoading}
+                    className="mt-4 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90"
+                  >
+                    {requestLoading ? 'Requesting...' : 'Request Payout'}
+                  </button>
+                  {requestMsg && <div className="text-sm text-green-600 mt-2">{requestMsg}</div>}
+                </div>
+              )}
 
               <div className="bg-primary/5 border border-primary/10 rounded-lg p-6 text-center">
                 <h3 className="text-xl font-semibold mb-2">

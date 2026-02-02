@@ -8,16 +8,23 @@ async function loadAllAffiliates() {
   const { data, error } = await supabase.from('affiliates').select('*');
   if (error) throw error;
   
-  // Prefetch payment dates from affiliate_payouts
+  // Prefetch payout statuses for affiliates (paid + requested)
   const { data: payouts } = await supabase
     .from('affiliate_payouts')
-    .select('affiliate_id, status, paid_at')
-    .eq('status', 'paid');
-  
+    .select('affiliate_id, status, paid_at, created_at')
+    .in('status', ['paid', 'requested']);
+
   const paidDates = {};
+  const requestedDates = {};
+  const hasRequested = {};
+
   (payouts || []).forEach(p => {
-    if (p.paid_at && !paidDates[p.affiliate_id]) {
+    if (p.status === 'paid' && p.paid_at && !paidDates[p.affiliate_id]) {
       paidDates[p.affiliate_id] = p.paid_at;
+    }
+    if (p.status === 'requested' && p.created_at && !requestedDates[p.affiliate_id]) {
+      requestedDates[p.affiliate_id] = p.created_at;
+      hasRequested[p.affiliate_id] = true;
     }
   });
   
@@ -25,6 +32,8 @@ async function loadAllAffiliates() {
     ...a,
     last_paid_at: paidDates[a.id] || null,
     has_paid_payout: !!paidDates[a.id],
+    has_requested_payout: !!hasRequested[a.id],
+    last_requested_at: requestedDates[a.id] || null,
   }));
   affiliateCacheLoaded = true;
   return affiliateCache;
@@ -84,8 +93,14 @@ export async function getAffiliateMetrics() {
 
 export async function getEligibleUnpaidAffiliates() {
   await loadAllAffiliates();
-  // Return affiliates who haven't been paid yet
+  // Return affiliates who haven't been paid yet (may include requested)
   return affiliateCache.filter(a => !a.has_paid_payout);
+}
+
+export async function getRequestedAffiliates() {
+  await loadAllAffiliates();
+  // Return affiliates who have requested payouts and are not paid yet
+  return affiliateCache.filter(a => !!a.has_requested_payout && !a.has_paid_payout);
 }
 
 export async function getAffiliatePayouts(affiliateId) {
@@ -113,6 +128,18 @@ export async function logNewPayout({ affiliateId, amount, reason }) {
     .insert([{ affiliate_id: affiliateId, amount, reason, status: 'pending' }]);
   if (error) throw error;
   return true;
+}
+
+export async function requestPayout({ affiliateId, amount, reason }) {
+  const { data: inserted, error } = await supabase
+    .from('affiliate_payouts')
+    .insert([{ affiliate_id: affiliateId, amount, reason, status: 'requested' }])
+    .select()
+    .single();
+  if (error) throw error;
+  // Clear cache so subsequent reads reflect the new request
+  clearAffiliatesCache();
+  return inserted;
 }
 
 export async function findOrCreateAffiliate(formData) {
@@ -152,23 +179,29 @@ export async function getAffiliateByEmail(email: string) {
   if (affiliateError) throw affiliateError;
   if (!affiliate) return null;
 
-  // Get payout information for this affiliate
+  // Get payout information for this affiliate (paid + requested)
   const { data: payouts } = await supabase
     .from('affiliate_payouts')
-    .select('status, paid_at')
+    .select('status, paid_at, created_at')
     .eq('affiliate_id', affiliate.id)
-    .eq('status', 'paid')
+    .in('status', ['paid', 'requested'])
     .order('paid_at', { ascending: false });
 
-  const has_paid_payout = (payouts && payouts.length > 0);
-  // Use the first paid_at that exists, or null if none
+  const has_paid_payout = (payouts && payouts.some(p => p.status === 'paid'));
   const last_paid_at = has_paid_payout 
-    ? (payouts.find(p => p.paid_at)?.paid_at || null)
+    ? (payouts.find(p => p.status === 'paid' && p.paid_at)?.paid_at || null)
+    : null;
+
+  const has_requested_payout = (payouts && payouts.some(p => p.status === 'requested'));
+  const last_requested_at = has_requested_payout
+    ? (payouts.find(p => p.status === 'requested' && p.created_at)?.created_at || null)
     : null;
 
   return {
     ...affiliate,
     has_paid_payout,
     last_paid_at,
+    has_requested_payout,
+    last_requested_at,
   };
 }
