@@ -7,6 +7,7 @@ const members = [
       { name: "Amara Ikwuakam", role: "Social Media Manager", img: "/images/amara-ikwuakam.jpeg" },
   { name: "Cole Obaro Omo-Emevor", role: "Graphics Designer", img: "/images/Cole Obaro Omo-Emevor.jpg" },
     { name: "Praise Freedom Dike", role: "Software Developer", img: "/images/praise-freedom-dike.jpg" },
+    {name: "Chidimma Esther Ebuka-Azodo", role: "Executive Assistant", img: "/images/chidinma-esther-ebuka-azodo.jpeg"},
 
 
 ];
@@ -21,7 +22,7 @@ export default function Team() {
             <p className="mt-4 text-lg text-gray-500 text-center mb-10">
               Meet the dedicated professionals behind the scenes of our success.
             </p>
-        <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {members.map((m) => (
             <li key={m.name} className="flex flex-col items-center text-center">
               <div className="h-32 w-32 overflow-hidden rounded-full bg-gray-100">
