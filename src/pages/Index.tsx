@@ -7,6 +7,7 @@ import Testimonials from "../components/Testimonials";
 import Career from "../components/Career";
 import Team from "../components/Team";
 import CTA from "../components/CTA";
+import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import { getOpenCohorts, Cohort } from "../utils/cohorts";
@@ -37,6 +38,7 @@ const Index = () => {
         <Testimonials />
         <Team />
         <Career />
+        <Newsletter />
         <CTA text={ctaText} link={soonestCohort && new Date(soonestCohort.registrationEnd) > new Date() ? "/va-masterclass#pricing" : "/va-masterclass"} />
       </main>
       <Footer />
