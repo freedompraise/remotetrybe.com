@@ -10,13 +10,21 @@ const Newsletter = ({ className = "" }: NewsletterProps) => {
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className={`flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white hover:bg-primary/80 transition ${className}`}
-    >
-      <Mail className="h-4 w-4" />
-      <span>Subscribe to our Newsletter</span>
-    </button>
+    <div className={`mx-auto max-w-md text-center space-y-4 ${className}`}>
+      <h3 className="text-xl font-bold text-gray-900">
+        Subscribe to RemoteTrybe
+      </h3>
+      <p className="text-sm text-gray-600">
+        Practical tips & insights, straight to your inbox.
+      </p>
+      <button
+        onClick={handleClick}
+        className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 transition"
+      >
+        <Mail className="h-5 w-5" />
+        <span>Join the RemoteTrybe Newsletter</span>
+      </button>
+    </div>
   );
 };
 
