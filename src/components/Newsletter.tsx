@@ -12,7 +12,7 @@ const Newsletter = ({ className = "" }: NewsletterProps) => {
   return (
     <div className={`mx-auto max-w-md text-center space-y-4 ${className}`}>
       <h3 className="text-xl font-bold text-gray-900">
-        Subscribe to RemoteTrybe
+        Subscribe to our Newsletter
       </h3>
       <p className="text-sm text-gray-600">
         Practical tips & insights, straight to your inbox.
