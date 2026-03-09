@@ -8,7 +8,7 @@ const members = [
   { name: "Cole Obaro Omo-Emevor", role: "Graphics Designer", img: "/images/Cole Obaro Omo-Emevor.jpg" },
     { name: "Praise Freedom Dike", role: "Software Developer", img: "/images/praise-freedom-dike.jpg" },
     {name: "Chidimma Esther Ebuka-Azodo", role: "Executive Assistant", img: "/images/chidinma-esther-ebuka-azodo.jpeg"},
-  {name: "Joy Chukwudebelu". role: "CEO's Personal Assistant", img: "/images/joy.jpeg"},
+  {name: "Joy Chukwudebelu", role: "CEO's Personal Assistant", img: "/images/joy.jpeg"},
 
 
 ];
