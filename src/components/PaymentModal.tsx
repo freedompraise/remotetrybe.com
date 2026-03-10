@@ -121,9 +121,9 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             <p className="text-sm text-yellow-700 mt-2">
               Class begins the Friday after the cohort registration deadline.
             </p>
-            {selectedCohort?.id === 'cohort7' && new Date() <= new Date('2025-11-17T23:59:59') && (
+            {selectedCohort?.id === 'cohort9' && new Date() <= new Date('2026-03-30T23:59:59') && (
               <p className="text-sm text-green-700 mt-2 font-semibold">
-                 Early Bird Special: Get 15% off from the 3rd until November 17th, 2025 (11:59 PM)! Use code JAN2026 at checkout.
+                 Early Bird Special: Get 15% off from the 15th until the 30th of March, 2026 (11:59 PM)! Use code RT26 at checkout.
               </p>
             )}
           </div>
