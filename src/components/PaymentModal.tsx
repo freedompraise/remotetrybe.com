@@ -123,7 +123,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             </p>
             {selectedCohort?.id === 'cohort9' && new Date() <= new Date('2026-03-30T23:59:59') && (
               <p className="text-sm text-green-700 mt-2 font-semibold">
-                 Early Bird Special: Get 15% off from the 15th until the 30th of March, 2026 (11:59 PM)! Use code RT26 at checkout.
+                 Early Bird Special: Get 15% off from the 16th until the 30th of March, 2026 (11:59 PM)! Use code RT26 at checkout.
               </p>
             )}
           </div>
