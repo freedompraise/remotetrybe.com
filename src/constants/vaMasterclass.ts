@@ -216,6 +216,6 @@ export const testimonialVideos = [
   {
     id: 6,
     title: "How I became a highly skilled Virtual Assistant",
-    src: "https://drive.google.com/file/d/10cG6i8NEB8WpGx-zIoev_h8hybWQEkTO/view?usp=drivesdk"
+    src: "https://drive.google.com/file/d/185b7k0A_usaelwD7Q9xvI3MF2nmH8AEI/view?usp=drivesdk"
   }
 ]; 
