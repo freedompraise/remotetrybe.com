@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import PageLoader from "@/components/PageLoader";
 
+/* Lazy importers: keep aligned with src/ssr/preloadRoutes.ts for SSG. */
 const Index = lazy(() => import("@/pages/Index"));
 const VAMasterclass = lazy(() => import("@/pages/VAMasterclass"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
