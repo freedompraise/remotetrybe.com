@@ -18,7 +18,7 @@ const OdosaEgharevba = () => {
             <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8">
               <div className="w-full md:w-1/2">
                 <img
-                  src="/images/founder.JPG"
+                  src="/images/founder.webp"
                   alt="Odosa Egharevba"
                   className="rounded-2xl shadow-lg w-full"
                 />
