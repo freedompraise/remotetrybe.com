@@ -17,7 +17,7 @@ export default function Team() {
   return (
     <section aria-labelledby="team-heading" className="py-12 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 id="team-heading" className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
+        <h2 id="team-heading" className="text-3xl font-bold text-gray-900 mb-8 text-center">
           Our Team
         </h2>
             <p className="mt-4 text-lg text-gray-500 text-center mb-10">
@@ -30,6 +30,10 @@ export default function Team() {
                 <img
                   src={m.img}
                   alt={m.name}
+                  width={128}
+                  height={128}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
               </div>

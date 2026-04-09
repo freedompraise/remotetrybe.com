@@ -7,9 +7,18 @@ interface VideoPlayerProps {
   className?: string;
   lazy?: boolean;
   thumbnail?: string;
+  /** Hint for LCP when this player is above the fold */
+  thumbnailFetchPriority?: "high" | "low" | "auto";
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', lazy = true, thumbnail }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({
+  src,
+  title,
+  className = "",
+  lazy = true,
+  thumbnail,
+  thumbnailFetchPriority = "auto",
+}) => {
   const [shouldLoadIframe, setShouldLoadIframe] = useState(!lazy);
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
@@ -39,7 +48,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', l
   }, [lazy, title]);
 
   const getEmbedUrl = (url: string): string => {
-    const youtubeRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const youtubeRegex = /(?:youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const youtubeMatch = url.match(youtubeRegex);
     
     if (youtubeMatch && youtubeMatch[1]) {
@@ -66,8 +75,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, className = '', l
           <img
             src={thumbnail}
             alt={`Thumbnail for ${title}`}
+            width={1280}
+            height={720}
+            decoding="async"
+            {...(thumbnailFetchPriority !== "auto"
+              ? ({ fetchpriority: thumbnailFetchPriority } as Record<string, string>)
+              : {})}
             className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-500 ${
-              iframeLoaded ? 'opacity-0' : 'opacity-100'
+              iframeLoaded ? "opacity-0" : "opacity-100"
             }`}
           />
         )}

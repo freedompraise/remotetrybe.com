@@ -25,10 +25,14 @@ const Footer = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
-            <img 
-              src="/lovable-uploads/8d614716-901e-415b-bfb7-75d217b25b1e.png" 
-              alt="RemoteTrybe Logo" 
-              className="h-12 mb-4" 
+            <img
+              src="/lovable-uploads/8d614716-901e-415b-bfb7-75d217b25b1e.png"
+              alt="RemoteTrybe Logo"
+              width={180}
+              height={48}
+              loading="lazy"
+              decoding="async"
+              className="h-12 w-auto mb-4"
             />
             <p className="text-gray-300 mb-4">
               Expert Training for Executive Support

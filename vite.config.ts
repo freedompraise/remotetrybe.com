@@ -10,27 +10,39 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  build: {
+    outDir: "dist/client",
+    emptyOutDir: true,
+  },
+  ssr: {
+    noExternal: [
+      "@tanstack/react-query",
+      "react-router",
+      "react-router-dom",
+      /^@radix-ui\//,
+    ],
+  },
   plugins: [
     react(),
-    mode === 'development' && componentTagger(),
+    mode === "development" && componentTagger(),
     VitePluginSitemap({
-      hostname: 'https://www.remotetrybe.com',
-      exclude: ['/404', '/thank-you'],
+      hostname: "https://www.remotetrybe.com",
+      exclude: ["/404", "/thank-you"],
       generateRobotsTxt: true,
       robots: [
         {
-          userAgent: '*',
-          allow: '/',
-          disallow: ['/404', '/thank-you'],
+          userAgent: "*",
+          allow: "/",
+          disallow: ["/404", "/thank-you"],
         },
       ],
       dynamicRoutes: [
-        '/va-masterclass',
-        '/odosa-egharevba',
-        '/affiliate'
+        "/va-masterclass",
+        "/odosa-egharevba",
+        "/affiliate",
       ],
       lastmod: new Date(),
-      changefreq: 'weekly',
+      changefreq: "weekly",
       priority: 0.8,
     }),
   ].filter(Boolean),
