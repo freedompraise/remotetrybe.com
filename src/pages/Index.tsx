@@ -27,13 +27,6 @@ const Index = () => {
         <Hero />
         <About />
         <Programs />
-        <Suspense
-          fallback={
-            <div className="min-h-[28rem] bg-cream/30" aria-hidden />
-          }
-        >
-          <HomeBelowFold />
-        </Suspense>
         <CTA
           text={ctaText}
           link={
@@ -42,6 +35,13 @@ const Index = () => {
               : "/va-masterclass"
           }
         />
+        <Suspense
+          fallback={
+            <div className="min-h-[28rem] bg-cream/30" aria-hidden />
+          }
+        >
+          <HomeBelowFold />
+        </Suspense>
       </main>
       <Footer />
       <ScrollReveal />
