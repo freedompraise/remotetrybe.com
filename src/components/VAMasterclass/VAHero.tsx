@@ -46,7 +46,8 @@ const VAHero = ({ onEnrollClick, registrationStartDate, registrationEndDate }: V
             src="https://youtu.be/smGt67w3PyM"
             title="Course Overview"
             className="animate-fade-in"
-            lazy={true}
+            priority
+            lazy={false}
             thumbnail="https://i.ytimg.com/vi/smGt67w3PyM/hqdefault.jpg"
             thumbnailFetchPriority="high"
           />
