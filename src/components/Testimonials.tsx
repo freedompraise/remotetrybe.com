@@ -1,6 +1,5 @@
 
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const testimonialData = [
@@ -62,21 +61,35 @@ const testimonialData = [
   },
 ];
 
-const Testimonials = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  
-  const nextSlide = () => {
-    setCurrentSlide((prev) => 
-      prev === Math.ceil(testimonialData.length / 4) - 1 ? 0 : prev + 1
-    );
-  };
-  
-  const prevSlide = () => {
-    setCurrentSlide((prev) => 
-      prev === 0 ? Math.ceil(testimonialData.length / 4) - 1 : prev - 1
-    );
-  };
+const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonialData[0] }) => (
+  <Card className="bg-card border border-border rounded-xl shadow-sm overflow-hidden h-full hover:shadow-md transition-shadow duration-300">
+    <CardContent className="p-5">
+      <div className="flex items-start space-x-3">
+        <img
+          src={testimonial.image}
+          alt={testimonial.name}
+          width={48}
+          height={48}
+          loading="lazy"
+          decoding="async"
+          className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+        />
+        <div>
+          <h3 className="font-bold text-sm text-foreground">{testimonial.name}</h3>
+          <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+          <div className="flex mt-1">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={12} className="text-yellow-500 fill-yellow-500" />
+            ))}
+          </div>
+        </div>
+      </div>
+      <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{testimonial.quote}</p>
+    </CardContent>
+  </Card>
+);
 
+const Testimonials = () => {
   return (
     <section id="testimonials" className="py-16 bg-cream">
       <div className="container mx-auto">
@@ -87,116 +100,13 @@ const Testimonials = () => {
           </p>
         </div>
         
-        <div className="relative mt-12 reveal">
-          <div className="hidden md:flex justify-between absolute top-1/2 -translate-y-1/2 w-full px-4 z-10">
-            <button 
-              onClick={prevSlide}
-              className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
-              aria-label="Previous testimonials"
-            >
-              <ChevronLeft size={24} className="text-primary" />
-            </button>
-            <button 
-              onClick={nextSlide}
-              className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
-              aria-label="Next testimonials"
-            >
-              <ChevronRight size={24} className="text-primary" />
-            </button>
+        <div className="mt-12 reveal">
+          {/* Grid showing all testimonials */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {testimonialData.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
           </div>
-          
-          {/* Desktop View: Grid Layout */}
-          <div className="hidden md:block overflow-hidden">
-            <div 
-              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-              style={{ 
-                transform: `translateX(-${currentSlide * 100}%)`, 
-                transition: 'transform 0.5s ease',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-              }}
-            >
-              {testimonialData.map((testimonial) => (
-                <Card key={testimonial.id} className="bg-white rounded-xl shadow-md overflow-hidden h-full">
-                  <CardContent className="p-4">
-                    <div className="flex items-start space-x-3">
-                      <img
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        width={48}
-                        height={48}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                      <div>
-                        <h3 className="font-bold text-sm">{testimonial.name}</h3>
-                        <p className="text-xs text-gray-600">{testimonial.role}</p>
-                        <div className="flex mt-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} size={12} className="text-yellow-500 fill-yellow-500" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-700 mt-3">{testimonial.quote}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-          
-          {/* Mobile View: Single Card Slider */}
-          <div className="md:hidden">
-            <div className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 pb-6">
-              {testimonialData.map((testimonial) => (
-                <Card key={testimonial.id} className="min-w-[85%] snap-center bg-white rounded-xl shadow-md overflow-hidden">
-                  <CardContent className="p-4">
-                    <div className="flex items-start space-x-3">
-                      <img
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        width={48}
-                        height={48}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                      <div>
-                        <h3 className="font-bold text-sm">{testimonial.name}</h3>
-                        <p className="text-xs text-gray-600">{testimonial.role}</p>
-                        <div className="flex mt-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} size={12} className="text-yellow-500 fill-yellow-500" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-700 mt-3">{testimonial.quote}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-          
-          {/* Mobile Navigation Controls */}
-          <div className="flex justify-center mt-8 md:hidden">
-            <button 
-              onClick={prevSlide}
-              className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors mx-2"
-              aria-label="Previous testimonials"
-            >
-              <ChevronLeft size={24} className="text-primary" />
-            </button>
-            <button 
-              onClick={nextSlide}
-              className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors mx-2"
-              aria-label="Next testimonials"
-            >
-              <ChevronRight size={24} className="text-primary" />
-            </button>
-          </div>
-
         </div>
       </div>
     </section>
