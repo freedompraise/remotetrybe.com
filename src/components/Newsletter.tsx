@@ -14,62 +14,86 @@ interface NewsletterProps {
 
 const Newsletter = ({ className = "" }: NewsletterProps) => {
   return (
-    <div
-      className={`mx-auto max-w-2xl rounded-2xl border border-gray-200 bg-white p-8 shadow-sm ${className}`}
+    <section
+      id="newsletter"
+      aria-labelledby="newsletter-heading"
+      className={`py-16 bg-cream ${className}`}
     >
-      <div className="space-y-5 text-center">
-        <div className="inline-flex items-center justify-center rounded-full bg-primary/10 p-3">
-          <Mail className="h-6 w-6 text-primary" />
+      <div className="container mx-auto max-w-3xl">
+        <div className="text-center reveal">
+          <div className="mx-auto mb-5 inline-flex items-center justify-center rounded-full bg-primary/10 p-2.5">
+            <Mail className="h-5 w-5 text-primary" aria-hidden />
+          </div>
+
+          <h2 id="newsletter-heading" className="section-title">
+            Join 1,000+ Aspiring VAs Getting Real Remote Opportunities
+          </h2>
+
+          <p className="section-subtitle mx-auto mb-0">
+            Real systems, job strategies, and insights helping people
+            break into global remote work and start earning.
+          </p>
         </div>
 
-        <h3 className="text-2xl font-bold text-gray-900">
-          Join 1,000+ Aspiring VAs Getting Real Remote Opportunities
-        </h3>
+        <div className="mt-10 space-y-3 text-sm text-muted-foreground sm:mx-auto sm:max-w-xl">
+          <div className="flex items-start gap-3">
+            <Briefcase
+              className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+              aria-hidden
+            />
+            <p className="text-left text-foreground/90">
+              Curated remote opportunities and client leads
+            </p>
+          </div>
 
-        <p className="text-gray-600 max-w-md mx-auto">
-          Not fluff. Real systems, job strategies, and insights helping people
-          break into global remote work and start earning.
-        </p>
+          <div className="flex items-start gap-3">
+            <Target
+              className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+              aria-hidden
+            />
+            <p className="text-left text-foreground/90">
+              Step-by-step strategies to land your first client
+            </p>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <CheckCircle
+              className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+              aria-hidden
+            />
+            <p className="text-left text-foreground/90">
+              Systems, templates, and workflows used by real VAs
+            </p>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <Users
+              className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+              aria-hidden
+            />
+            <p className="text-left text-foreground/90">
+              Insights from a growing community of 1,000+ members
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-10 text-center">
+          <a
+            href="https://substack.com/@remotetrybe"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary inline-flex w-full max-w-md items-center justify-center gap-2 py-3.5 sm:mx-auto"
+          >
+            <Mail className="h-5 w-5 shrink-0" aria-hidden />
+            <span>Get Access to the Newsletter</span>
+          </a>
+
+          <p className="mt-4 text-xs text-muted-foreground">
+            Join 1,000+ others. No spam. Unsubscribe anytime.
+          </p>
+        </div>
       </div>
-
-      <div className="mt-6 grid gap-3 text-sm text-gray-700">
-        <div className="flex items-start gap-3">
-          <Briefcase className="h-5 w-5 text-primary mt-0.5" />
-          <p>Curated remote opportunities and client leads</p>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <Target className="h-5 w-5 text-primary mt-0.5" />
-          <p>Step-by-step strategies to land your first client</p>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-          <p>Systems, templates, and workflows used by real VAs</p>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <Users className="h-5 w-5 text-primary mt-0.5" />
-          <p>Insights from a growing community of 1,000+ members</p>
-        </div>
-      </div>
-
-      <div className="mt-8 text-center">
-        <a
-          href="https://substack.com/@remotetrybe"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-semibold text-white shadow-md hover:bg-primary/90 transition"
-        >
-          <Mail className="h-5 w-5" />
-          <span>Get Access to the Newsletter</span>
-        </a>
-
-        <p className="mt-3 text-xs text-gray-500">
-          Join 1,000+ others. No spam. Unsubscribe anytime.
-        </p>
-      </div>
-    </div>
+    </section>
   );
 };
 
