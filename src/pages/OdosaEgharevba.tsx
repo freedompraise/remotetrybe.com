@@ -20,7 +20,11 @@ const OdosaEgharevba = () => {
                 <img
                   src="/images/founder.webp"
                   alt="Odosa Egharevba"
-                  className="rounded-2xl shadow-lg w-full"
+                  width={800}
+                  height={1000}
+                  decoding="async"
+                  {...({ fetchpriority: "high" } as Record<string, string>)}
+                  className="rounded-2xl shadow-lg w-full h-auto aspect-[4/5] object-cover"
                 />
               </div>
               <div className="w-full md:w-1/2 text-center md:text-left">
@@ -121,7 +125,11 @@ const OdosaEgharevba = () => {
                     <img
                       src={`/images/testimonial-${num}.jpeg`}
                       alt={`Client Testimonial ${num}`}
-                      className="w-full h-84 object-contain"
+                      width={800}
+                      height={600}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto object-contain"
                     />
                   </div>
                 ))}

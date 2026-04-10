@@ -1,0 +1,18 @@
+{
+  "comment": "Per-route SSG. Set prerender false for purely client-only pages (e.g. admin).",
+  "routes": [
+    { "path": "/", "prerender": true },
+    { "path": "/va-masterclass", "prerender": true },
+    { "path": "/thank-you", "prerender": true },
+    { "path": "/referral-progress", "prerender": true },
+    { "path": "/odosa-egharevba", "prerender": true },
+    { "path": "/affiliate", "prerender": true },
+    { "path": "/login", "prerender": false },
+    { "path": "/admin", "prerender": false }
+  ],
+  "notFound": {
+    "path": "/__ssg_not_found__",
+    "output": "404.html",
+    "prerender": true
+  }
+}

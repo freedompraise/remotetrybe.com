@@ -1,27 +1,19 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
 import Programs from "../components/Programs";
-import Testimonials from "../components/Testimonials";
-import Career from "../components/Career";
-import Team from "../components/Team";
 import CTA from "../components/CTA";
-import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import { getOpenCohorts, Cohort } from "../utils/cohorts";
 import { formatDate } from "../utils/dateUtils";
 
+const HomeBelowFold = lazy(() => import("../components/home/HomeBelowFold"));
+
 const Index = () => {
+  const [openCohorts] = useState<Cohort[]>(() => getOpenCohorts());
 
-  const [openCohorts, setOpenCohorts] = useState<Cohort[]>([]);
-
-  useEffect(() => {
-    setOpenCohorts(getOpenCohorts());
-  }, []);
-
-  // Show the soonest closing open cohort for homepage highlight
   const soonestCohort = openCohorts[0];
 
   const ctaText = soonestCohort
@@ -35,11 +27,21 @@ const Index = () => {
         <Hero />
         <About />
         <Programs />
-        <Testimonials />
-        <Team />
-        <Career />
-        <Newsletter />
-        <CTA text={ctaText} link={soonestCohort && new Date(soonestCohort.registrationEnd) > new Date() ? "/va-masterclass#pricing" : "/va-masterclass"} />
+        <Suspense
+          fallback={
+            <div className="min-h-[28rem] bg-cream/30" aria-hidden />
+          }
+        >
+          <HomeBelowFold />
+        </Suspense>
+        <CTA
+          text={ctaText}
+          link={
+            soonestCohort && new Date(soonestCohort.registrationEnd) > new Date()
+              ? "/va-masterclass#pricing"
+              : "/va-masterclass"
+          }
+        />
       </main>
       <Footer />
       <ScrollReveal />

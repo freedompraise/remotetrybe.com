@@ -112,10 +112,14 @@ const CourseInfo: FC<CourseInfoProps> = ({ skills, softwareTools, handsOnSkills,
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center reveal">
             <div className="md:col-span-1">
-              <img 
-                src="/lovable-uploads/26d6d984-5c88-4d41-a698-0bcba915bf39.png" 
-                alt="Odosa Egharevba" 
-                className="rounded-2xl shadow-lg w-full max-w-sm mx-auto" 
+              <img
+                src="/lovable-uploads/26d6d984-5c88-4d41-a698-0bcba915bf39.png"
+                alt="Odosa Egharevba"
+                width={400}
+                height={500}
+                loading="lazy"
+                decoding="async"
+                className="rounded-2xl shadow-lg w-full max-w-sm mx-auto h-auto object-cover"
               />
             </div>
             

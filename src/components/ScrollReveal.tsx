@@ -1,29 +1,53 @@
-
 import { useEffect } from "react";
 
+const OBSERVER_OPTIONS: IntersectionObserverInit = {
+  root: null,
+  rootMargin: "0px 0px -8% 0px",
+  threshold: 0,
+};
+
+/**
+ * Activates `.reveal` sections when they enter the viewport.
+ * Watches for late-mounted nodes (e.g. lazy-loaded homepage sections).
+ */
 const ScrollReveal = () => {
   useEffect(() => {
-    const reveals = document.querySelectorAll(".reveal");
-    
-    const revealElements = () => {
-      for (let i = 0; i < reveals.length; i++) {
-        const windowHeight = window.innerHeight;
-        const elementTop = reveals[i].getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < windowHeight - elementVisible) {
-          reveals[i].classList.add("active");
+    const observed = new WeakSet<Element>();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          observer.unobserve(entry.target);
         }
-      }
+      });
+    }, OBSERVER_OPTIONS);
+
+    const scan = () => {
+      document.querySelectorAll(".reveal").forEach((el) => {
+        if (el.classList.contains("active")) return;
+        if (observed.has(el)) return;
+        observed.add(el);
+        observer.observe(el);
+      });
     };
-    
-    window.addEventListener("scroll", revealElements);
-    
-    // Initial check to reveal elements that are already in view
-    revealElements();
-    
+
+    let raf = 0;
+    const scheduleScan = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        scan();
+      });
+    };
+
+    scan();
+    const mo = new MutationObserver(scheduleScan);
+    mo.observe(document.body, { childList: true, subtree: true });
+
     return () => {
-      window.removeEventListener("scroll", revealElements);
+      mo.disconnect();
+      observer.disconnect();
     };
   }, []);
 

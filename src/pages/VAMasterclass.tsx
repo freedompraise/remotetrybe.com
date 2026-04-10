@@ -7,10 +7,10 @@ import PaymentModal from "../components/PaymentModal";
 import VATestimonials from "../components/VAMasterclass/VATestimonials";
 import VAHero from "../components/VAMasterclass/VAHero";
 import VAFAQ from "../components/VAMasterclass/VAFAQ";
-import { Cohort, cohorts, getCohortById, getOpenCohorts } from "../utils/cohorts";
+import { Cohort, getCohortById, getOpenCohorts } from "../utils/cohorts";
 import { formatDate, formatDateRange } from "../utils/dateUtils";
 import { useReferralCode } from "../hooks/useReferralCode";
-import { modules, faqs, testimonialVideos, skills, softwareTools, handsOnSkills, bonusResources } from "../constants/vaMasterclass";
+import { faqs, testimonialVideos, skills, softwareTools, handsOnSkills, bonusResources } from "../constants/vaMasterclass";
 
 const VAMasterclass = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);

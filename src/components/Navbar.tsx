@@ -11,10 +11,17 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 50);
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -129,10 +136,16 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center" onClick={() => handleNavigation('/')}>
-          <img 
-            src="/lovable-uploads/f2974bc5-09ee-4340-b746-efc13ec12533.png" 
-            alt="RemoteTrybe Logo" 
-            className="h-12" 
+          <img
+            src="/lovable-uploads/f2974bc5-09ee-4340-b746-efc13ec12533.png"
+            alt="RemoteTrybe Logo"
+            className="h-12 w-auto"
+            width={180}
+            height={48}
+            decoding="async"
+            {...({
+              fetchpriority: location.pathname === "/" ? "high" : "low",
+            } as Record<string, string>)}
           />
         </Link>
         
