@@ -98,16 +98,20 @@ export default {
 						transform: 'translateY(0)'
 					}
 				},
-				'slide-in': {
-					'0%': {
-						opacity: '0',
-						transform: 'translateX(-20px)'
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'translateX(0)'
-					}
+			'slide-in': {
+				'0%': {
+					opacity: '0',
+					transform: 'translateX(-20px)'
+				},
+				'100%': {
+					opacity: '1',
+					transform: 'translateX(0)'
 				}
+			},
+			'marquee': {
+				'0%': { transform: 'translateX(0)' },
+				'100%': { transform: 'translateX(-50%)' }
+			}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
