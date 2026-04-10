@@ -6,8 +6,8 @@ import ScrollReveal from "../components/ScrollReveal";
 
 const stats = [
   { icon: Award, value: "Top Rated Plus", label: "Ranking on Upwork", description: "Top 3% of performers" },
-  { icon: Users, value: "1,000+", label: "Successful Graduates", description: "Lives transformed" },
-  { icon: UserCheck, value: "40K+", label: "LinkedIn Followers", description: "Growing community" },
+  { icon: Users, value: "2,000+", label: "Successful Graduates", description: "Lives transformed" },
+  { icon: UserCheck, value: "50K+", label: "LinkedIn Followers", description: "Growing community" },
 ];
 
 const socialLinks = [
@@ -157,7 +157,7 @@ const OdosaEgharevba = () => {
 
               <div className="space-y-6 text-foreground/80 text-lg leading-relaxed">
                 <p>
-                  Odosa Egharevba is a Top-Rated Plus freelancer, educator, and the visionary founder of RemoteTrybe. Based in Lagos, Nigeria, she has carved a prominent niche in the global digital economy as an expert Virtual Assistant and Project Manager. With a professional background rooted in operational efficiency and executive support, Odosa has transitioned from a successful independent career into a dedicated mentor for thousands of aspiring digital professionals.
+                  Odosa Egharevba is a Top-Rated Plus freelancer, educator, and the visionary founder of RemoteTrybe. Based in Lagos, Nigeria, she has carved a prominent niche in the global digital economy as an expert Virtual Assistant. With a professional background rooted in operational efficiency and executive support, Odosa has transitioned from a successful independent career into a dedicated mentor for thousands of aspiring digital professionals.
                 </p>
                 <p>
                   As the driving force behind RemoteTrybe, Odosa focuses on transforming lives through the "VA Masterclass," a comprehensive training program designed to move individuals from technical curiosity to career readiness. Her expertise spans administrative operations, project management tools like Asana and Trello, and strategic client communication. Today, she is recognized not only for her technical proficiency but also for her commitment to building a sustainable ecosystem where African talent can thrive on the global stage.
@@ -283,7 +283,7 @@ const OdosaEgharevba = () => {
             name: "Odosa Egharevba",
             jobTitle: ["Virtual Assistant Coach", "RemoteTrybe Founder"],
             description:
-              "Founder of RemoteTrybe, top-rated Upwork freelancer, and virtual assistant coach with 1000+ successful graduates.",
+              "Founder of RemoteTrybe, top-rated Upwork freelancer, and virtual assistant coach with 2000+ successful graduates.",
             url: "https://remotetrybe.com/founder",
             sameAs: [
               "https://www.linkedin.com/in/odosa-egharevba-68634a248",
