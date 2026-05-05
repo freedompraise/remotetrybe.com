@@ -114,7 +114,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
             <h3 className="font-semibold text-yellow-800 mb-2">Important Notes:</h3>
             <p className="text-sm text-yellow-700">
-              After payment, please follow the redirection or read through the Paystack or Selar receipt sent to your email to access that class form. Once completed, you'll get access to the classroom link via email. 
+              After payment, please follow the redirection or read through the Paystack or Selar receipt sent to your email to access that class form. Once completed, you'll get access to the cla[...]
 
               Please use a Gmail account as your email.
             </p>
@@ -124,6 +124,11 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
             {selectedCohort?.id === 'cohort9' && new Date() <= new Date('2026-03-30T23:59:59') && (
               <p className="text-sm text-green-700 mt-2 font-semibold">
                  Early Bird Special: Get 15% off from the 16th until the 30th of March, 2026 (11:59 PM)! Use code RT26 at checkout.
+              </p>
+            )}
+            {selectedCohort?.id === 'cohort10' && new Date() >= new Date('2026-05-11T00:00:00') && new Date() <= new Date('2026-05-25T23:59:59') && (
+              <p className="text-sm text-green-700 mt-2 font-semibold">
+                 Cohort 10 Special: Get 5% off from May 11th to May 25th, 2026 (11:59 PM)! Use code RTOFF5 at checkout.
               </p>
             )}
           </div>
