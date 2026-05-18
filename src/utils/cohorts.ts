@@ -26,6 +26,16 @@ export interface Cohort {
 
 export const cohorts: Cohort[] = [
   {
+    id: "cohort12",
+    name: "Cohort 12",
+    registrationStart: "2026-09-07",
+    registrationEnd: "2026-11-01",
+    trainingStart: "2026-11-06",
+    trainingEnd: "2026-12-13",
+    whatsappLink: import.meta.env.VITE_COHORT12_WA_LINK as string,
+    paystackProductUrl: "https://paystack.com/buy/virtual-assistant-masterclass-by-remotetrybe-cohort-1-ltuttx"
+  },
+  {
     id: "cohort11",
     name: "Cohort 11",
     registrationStart: "2026-07-06",      
