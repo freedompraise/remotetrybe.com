@@ -82,7 +82,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="font-semibold mb-2">Easy Earnings</h3>
                 <p className="text-gray-600 text-sm">
-                  5% commission for every successful enrollment.
+                  20% commission for every successful enrollment.
                 </p>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm text-center">
