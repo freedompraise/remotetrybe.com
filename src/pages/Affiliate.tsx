@@ -91,7 +91,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="font-semibold mb-2">Big Rewards</h3>
                 <p className="text-gray-600 text-sm">
-                  Earn up to ₦20,000 for 10 successful referrals.
+                  Earn up to ₦40,000 for 10 successful referrals.
                 </p>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm text-center">
@@ -100,7 +100,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="font-semibold mb-2">Get Paid</h3>
                 <p className="text-gray-600 text-sm">
-                  Eligible for payout after 5 successful referrals.
+                  Eligible for payout after 3 successful referrals.
                 </p>
               </div>
             </div>
