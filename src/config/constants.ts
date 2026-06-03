@@ -30,6 +30,8 @@ export const VA_MASTERCLASS_CONFIG = {
   // Pricing
   PRICE_NGN: 32000, // Nigerian Naira
   PRICE_USD: 35,
+  /** Paystack amount in kobo (smallest currency unit) */
+  PRICE_KOBO: 3200000,
 
   // Program details
   COMMUNITY_SIZE: 800, // VA community members

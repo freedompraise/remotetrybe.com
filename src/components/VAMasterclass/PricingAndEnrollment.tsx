@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Check } from "lucide-react";
 import { Cohort } from "../../utils/cohorts";
 import { formatDate, formatDateRange } from "../../utils/dateUtils";
+import { VA_MASTERCLASS_CONFIG } from "../../config/constants";
 
 interface PricingAndEnrollmentProps {
     upcomingCohorts: Cohort[];
@@ -94,8 +95,8 @@ const PricingAndEnrollment: FC<PricingAndEnrollmentProps> = ({
 
                                 <div className="flex justify-center mb-4">
                                     <div className="text-center">
-                                        <div className="text-4xl font-bold text-primary">₦32,000</div>
-                                        <div className="text-gray-500">or $35 USD</div>
+                                        <div className="text-4xl font-bold text-primary">₦{VA_MASTERCLASS_CONFIG.PRICE_NGN.toLocaleString()}</div>
+                                        <div className="text-gray-500">or ${VA_MASTERCLASS_CONFIG.PRICE_USD} USD</div>
                                     </div>
                                 </div>
 

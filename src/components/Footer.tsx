@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Instagram, Youtube, Facebook, Linkedin } from "lucide-react";
+import { FOUNDER_CONTACT } from "../config/constants";
 
 const Footer = () => {
   const location = useLocation();
@@ -47,7 +48,7 @@ const Footer = () => {
                 <Instagram size={20} />
               </a>
               <a 
-                href="https://youtube.com/@odosaegharevba" 
+                href={FOUNDER_CONTACT.YOUTUBE}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"

@@ -1,5 +1,6 @@
 import { Check, Users, Clock } from "lucide-react";
 import { FC } from "react";
+import { VA_MASTERCLASS_CONFIG, FOUNDER_CONTACT, BUSINESS_METRICS } from "../../config/constants";
 
 // Define types for the props based on their structure in constants/vaMasterclass
 interface Skill {
@@ -100,7 +101,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ skills, softwareTools, handsOnSkills,
               </div>
               <h3 className="text-xl font-semibold mb-3">Community Support</h3>
               <p className="text-gray-600">
-                Join our 1000+ community of VAs for networking, job opportunities, and ongoing mentorship.
+                Join our {VA_MASTERCLASS_CONFIG.COMMUNITY_SIZE}+ community of VAs for networking, job opportunities, and ongoing mentorship.
               </p>
             </div>
           </div>
@@ -128,7 +129,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ skills, softwareTools, handsOnSkills,
               <h1 className="text-2xl font-bold mb-4">Odosa Egharevba</h1>
               <p className="text-gray-700 mb-6">
                 Odosa Egharevba is a top-rated Upwork freelancer with earnings of over $30K on Upwork
-                She has 32,000+ LinkedIn followers and has hosted live sessions for more than 5,000 viewers.
+                She has {BUSINESS_METRICS.FOUNDER_LINKEDIN_FOLLOWERS} LinkedIn followers and has hosted live sessions for more than 5,000 viewers.
               </p>
               <p className="text-gray-700 mb-8">
                 With years of experience in training virtual assistants, Odosa has helped hundreds of professionals 
@@ -137,7 +138,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ skills, softwareTools, handsOnSkills,
               </p>
               <div className="flex flex-wrap gap-4">
                 <a 
-                  href="https://linkedin.com/in/odosa-egharevba-68634a248" 
+                  href={FOUNDER_CONTACT.LINKEDIN}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#0077B5] text-white px-4 py-2 rounded-lg inline-flex items-center hover:bg-opacity-90 transition-colors"
@@ -145,7 +146,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ skills, softwareTools, handsOnSkills,
                   LinkedIn Profile
                 </a>
                 <a 
-                  href="https://youtube.com/@odosaegharevba"
+                  href={FOUNDER_CONTACT.YOUTUBE}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#6FDA44] text-white px-4 py-2 rounded-lg inline-flex items-center hover:bg-opacity-90 transition-colors"
