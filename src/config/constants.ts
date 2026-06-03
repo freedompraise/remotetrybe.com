@@ -9,7 +9,7 @@ export const AFFILIATE_CONFIG = {
   REFERRALS_FOR_MAX_REWARD: 10,
 
   // Payout amounts (in Naira)
-  PAYOUT_TIER_1: 20000, // For 5+ referrals
+  PAYOUT_TIER_1: 20000, // For 3+ referrals
   PAYOUT_TIER_2: 40000, // For 10+ referrals
 
   // Commission rate
@@ -18,6 +18,28 @@ export const AFFILIATE_CONFIG = {
 
 export const BUSINESS_METRICS = {
   STUDENTS_GRADUATED: 2000,
+  TRAINED_PROFESSIONALS: 1000, // Used in About section (may be outdated, should be 2000+)
+  SPECIALIZED_PROGRAMS: 6,
+  FOUNDER_UPWORK_RANKING: "Top Rated Plus",
+  FOUNDER_UPWORK_PERCENTILE: "Top 3%",
+  FOUNDER_LINKEDIN_FOLLOWERS: "50K+",
+  PROGRAM_FOUNDING_YEAR: 2022,
+};
+
+export const VA_MASTERCLASS_CONFIG = {
+  // Pricing
+  PRICE_NGN: 32000, // Nigerian Naira
+  PRICE_USD: 35,
+
+  // Program details
+  COMMUNITY_SIZE: 800, // VA community members
+};
+
+export const FOUNDER_CONTACT = {
+  EMAIL: "odosa@remotetrybe.com",
+  LINKEDIN: "https://www.linkedin.com/in/odosa-egharevba-68634a248",
+  YOUTUBE: "https://youtube.com/@odosaegharevba",
+  TWITTER: "https://x.com/odosaabi",
 };
 
 /**
