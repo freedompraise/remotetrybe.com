@@ -158,20 +158,20 @@ const OdosaEgharevba = () => {
 
               <div className="space-y-6 text-foreground/80 text-lg leading-relaxed">
                 <p>
-                  Odosa Egharevba is a Top-Rated Plus freelancer, educator, and the visionary founder of RemoteTrybe. Based in Lagos, Nigeria, she has carved a prominent niche in the global digit[...]
+                  Odosa Egharevba is a Top-Rated Plus freelancer, educator, and the visionary founder of RemoteTrybe. Based in Lagos, Nigeria, she has carved a prominent niche in the global digital economy as one of the most successful virtual assistants on Upwork. With years of experience building high-impact client relationships and delivering exceptional service, Odosa has emerged as a trusted voice in the remote work space.
                 </p>
                 <p>
-                  As the driving force behind RemoteTrybe, Odosa focuses on transforming lives through the "VA Masterclass," a comprehensive training program designed to move individuals from tec[...]
+                  As the driving force behind RemoteTrybe, Odosa focuses on transforming lives through the "VA Masterclass," a comprehensive training program designed to move individuals from technical novices to job-ready virtual assistants. Her curriculum draws from real-world experience and proven strategies that have helped hundreds of students land lucrative remote positions and build sustainable freelance careers. The program goes beyond theory—it equips participants with the exact skills, confidence, and professional presence needed to compete in the global marketplace.
                 </p>
                 <p>
-                  Her path was not just about personal success, but about recognizing the vast, untapped potential of individuals who lacked the roadmap to enter the digital space. Motivated by a[...]
+                  Her path was not just about personal success, but about recognizing the vast, untapped potential of individuals who lacked the roadmap to enter the digital space. Motivated by a deep sense of purpose, Odosa created RemoteTrybe to democratize access to world-class training and mentorship. She believes that with the right guidance and tools, anyone can build a thriving career in the digital economy—regardless of their background or starting point.
                 </p>
               </div>
 
               {/* Philosophy quote */}
               <blockquote className="mt-12 border-l-4 border-primary/30 pl-6 py-2">
                 <p className="text-lg italic text-muted-foreground leading-relaxed">
-                  "The digital economy is the ultimate equalizer, provided one has the right guidance and a commitment to continuous learning. The goal is not just to teach a skill, but to foster[...]
+                  "The digital economy is the ultimate equalizer, provided one has the right guidance and a commitment to continuous learning. The goal is not just to teach a skill, but to foster mindsets and connections that empower individuals to thrive on their own terms."
                 </p>
                 <footer className="mt-3 text-sm font-medium text-foreground">
                   — Odosa Egharevba
