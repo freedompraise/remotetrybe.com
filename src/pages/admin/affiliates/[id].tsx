@@ -6,6 +6,7 @@ import {
   markPayoutAsPaid,
   logNewPayout,
 } from '../../../lib/supabaseAdmin';
+import { AFFILIATE_CONFIG } from '../../../config/constants';
 
 export default function AffiliateProfilePage() {
   const { id } = useParams();
@@ -14,8 +15,8 @@ export default function AffiliateProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [logPayoutOpen, setLogPayoutOpen] = useState(false);
-  const [logAmount, setLogAmount] = useState(20000);
-  const [logReason, setLogReason] = useState('Crossed 5 referrals');
+  const [logAmount, setLogAmount] = useState(AFFILIATE_CONFIG.PAYOUT_TIER_1);
+  const [logReason, setLogReason] = useState(`Crossed ${AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT} referrals`);
   const [logLoading, setLogLoading] = useState(false);
   const [actionMsg, setActionMsg] = useState('');
 
@@ -81,7 +82,7 @@ export default function AffiliateProfilePage() {
   if (loading) return <div>Loading...</div>;
   if (error || !affiliate) return <div className="text-red-500">{error || 'Affiliate not found.'}</div>;
 
-  const eligible = affiliate.referral_count >= 5;
+  const eligible = affiliate.referral_count >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT;
   const totalEarnings = payouts.filter(p => p.status === 'paid').reduce((sum, p) => sum + (p.amount || 0), 0);
 
   return (
@@ -192,4 +193,4 @@ export default function AffiliateProfilePage() {
       </div>
     </div>
   );
-} 
+}

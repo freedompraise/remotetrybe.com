@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import AffiliateModal from "../components/AffiliateModal";
 import ScrollReveal from "../components/ScrollReveal";
 import { getAffiliates } from '../lib/supabaseAdmin';
+import { AFFILIATE_CONFIG, BUSINESS_METRICS } from '../config/constants';
 
 const Affiliate = () => {
   const [showAffiliateModal, setShowAffiliateModal] = useState(false);
@@ -26,7 +27,7 @@ const Affiliate = () => {
   // Compute metrics locally
   const totalAffiliates = affiliates.length;
   const totalReferrals = affiliates.reduce((sum, a) => sum + (a.referral_count || 0), 0);
-  const totalEligible = affiliates.filter(a => a.referral_count >= 5).length;
+  const totalEligible = affiliates.filter(a => a.referral_count >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT).length;
 
   return (
     <>
@@ -82,7 +83,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="font-semibold mb-2">Easy Earnings</h3>
                 <p className="text-gray-600 text-sm">
-                  20% commission for every successful enrollment.
+                  {AFFILIATE_CONFIG.COMMISSION_PERCENTAGE}% commission for every successful enrollment.
                 </p>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm text-center">
@@ -91,7 +92,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="font-semibold mb-2">Big Rewards</h3>
                 <p className="text-gray-600 text-sm">
-                  Earn up to ₦40,000 for 10 successful referrals.
+                  Earn up to ₦{AFFILIATE_CONFIG.PAYOUT_TIER_2.toLocaleString()} for {AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD} successful referrals.
                 </p>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm text-center">
@@ -100,7 +101,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="font-semibold mb-2">Get Paid</h3>
                 <p className="text-gray-600 text-sm">
-                  Eligible for payout after 3 successful referrals.
+                  Eligible for payout after {AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT} successful referrals.
                 </p>
               </div>
             </div>

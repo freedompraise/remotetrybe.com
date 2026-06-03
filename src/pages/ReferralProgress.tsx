@@ -4,6 +4,7 @@ import { Search, CheckCircle, AlertCircle } from "lucide-react"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { getAffiliateByEmail, requestPayout } from "../lib/supabaseAdmin"
+import { AFFILIATE_CONFIG, getAffiliatePayoutAmount, getReferralsNeededForPayout } from "../config/constants"
 
 interface AffiliateData {
   id?: string
@@ -52,8 +53,7 @@ const ReferralProgress = () => {
     setRequestLoading(true)
     setRequestMsg(null)
     try {
-      // Tiered payout: 5+ => 20,000 ; 10+ => 40,000
-      const amount = affiliate.referral_count >= 10 ? 40000 : 20000
+      const amount = getAffiliatePayoutAmount(affiliate.referral_count)
       const reason = `Requested by affiliate after ${affiliate.referral_count} referral${affiliate.referral_count === 1 ? '' : 's'}`
       const inserted = await requestPayout({ affiliateId: affiliate.id!, amount, reason })
       setAffiliate(prev => prev ? { ...prev, has_requested_payout: true, last_requested_at: inserted?.created_at || new Date().toISOString() } : prev)
@@ -66,18 +66,18 @@ const ReferralProgress = () => {
   }
 
   const getProgressMessage = (referralCount: number) => {
-    if (referralCount >= 10) {
+    if (referralCount >= AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD) {
       return {
         title: "🎉 Outstanding Achievement!",
         message: "You have reached 10+ referrals. You are eligible for our maximum rewards."
       }
-    } else if (referralCount >= 5) {
+    } else if (referralCount >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT) {
       return {
         title: "🌟 Great Progress!",
-        message: "You have reached 5+ referrals and are eligible for payout. Keep going."
+        message: `You have reached ${AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT}+ referrals and are eligible for payout. Keep going.`
       }
     } else {
-      const remaining = 5 - referralCount
+      const remaining = getReferralsNeededForPayout(referralCount)
       return {
         title: "🚀 Keep Going!",
         message: `You need ${remaining} more referral${remaining === 1 ? "" : "s"} to hit your first payout.`
@@ -162,12 +162,12 @@ const ReferralProgress = () => {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-sm text-gray-600">Last Payment Date</div>
                   <div className="text-lg font-semibold">
-                    {affiliate.last_paid_at ? new Date(affiliate.last_paid_at).toLocaleDateString() : (affiliate.last_requested_at ? new Date(affiliate.last_requested_at).toLocaleDateString() : '—')}
+                    {affiliate.last_paid_at ? new Date(affiliate.last_paid_at).toLocaleDateString() : (affiliate.last_requested_at ? new Date(affiliate.last_requested_at).toLocaleDateString() : 'N/A')}
                   </div>
                 </div>
               </div>
 
-              {affiliate.referral_count >= 5 && !affiliate.has_paid_payout && !affiliate.has_requested_payout && (
+              {affiliate.referral_count >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT && !affiliate.has_paid_payout && !affiliate.has_requested_payout && (
                 <div className="text-center">
                   <button
                     onClick={handleRequestPayout}
@@ -193,15 +193,15 @@ const ReferralProgress = () => {
                 <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                   <div
                     style={{
-                      width: `${Math.min((affiliate.referral_count / 10) * 100, 100)}%`
+                      width: `${Math.min((affiliate.referral_count / AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD) * 100, 100)}%`
                     }}
                     className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary"
                   />
                 </div>
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
                   <span>0</span>
-                  <span>5</span>
-                  <span>10+</span>
+                  <span>{AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT}</span>
+                  <span>{AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD}+</span>
                 </div>
               </div>
             </div>

@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { AFFILIATE_CONFIG } from '../config/constants';
 
 let affiliateCache = [];
 let affiliateCacheLoaded = false;
@@ -87,7 +88,7 @@ export async function getAffiliateMetrics() {
   await loadAllAffiliates();
   const totalAffiliates = affiliateCache.length;
   const totalReferrals = affiliateCache.reduce((sum, a) => sum + (a.referral_count || 0), 0);
-  const totalEligible = affiliateCache.filter(a => a.referral_count >= 5).length;
+  const totalEligible = affiliateCache.filter(a => a.referral_count >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT).length;
   return { totalAffiliates, totalReferrals, totalEligible };
 }
 
