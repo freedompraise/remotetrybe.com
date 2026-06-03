@@ -3,16 +3,17 @@ import { Linkedin, Youtube, X, Mail, ExternalLink, Award, Users, UserCheck } fro
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
+import { BUSINESS_METRICS, FOUNDER_CONTACT } from "../config/constants";
 
 const stats = [
-  { icon: Award, value: "Top Rated Plus", label: "Ranking on Upwork", description: "Top 3% of performers" },
-  { icon: Users, value: "2,000+", label: "Successful Graduates", description: "Lives transformed" },
-  { icon: UserCheck, value: "50K+", label: "LinkedIn Followers", description: "Growing community" },
+  { icon: Award, value: BUSINESS_METRICS.FOUNDER_UPWORK_RANKING, label: "Ranking on Upwork", description: BUSINESS_METRICS.FOUNDER_UPWORK_PERCENTILE },
+  { icon: Users, value: `${BUSINESS_METRICS.STUDENTS_GRADUATED.toLocaleString()}+`, label: "Successful Graduates", description: "Lives transformed" },
+  { icon: UserCheck, value: BUSINESS_METRICS.FOUNDER_LINKEDIN_FOLLOWERS, label: "LinkedIn Followers", description: "Growing community" },
 ];
 
 const socialLinks = [
   {
-    href: "https://www.linkedin.com/in/odosa-egharevba-68634a248",
+    href: FOUNDER_CONTACT.LINKEDIN,
     icon: Linkedin,
     label: "LinkedIn",
     description: "Connect professionally",
@@ -20,7 +21,7 @@ const socialLinks = [
     iconColor: "text-[#0077B5]",
   },
   {
-    href: "https://youtube.com/@odosaegharevba",
+    href: FOUNDER_CONTACT.YOUTUBE,
     icon: Youtube,
     label: "YouTube",
     description: "Watch tutorials & insights",
@@ -28,7 +29,7 @@ const socialLinks = [
     iconColor: "text-[#FF0000]",
   },
   {
-    href: "https://x.com/odosaabi",
+    href: FOUNDER_CONTACT.TWITTER,
     icon: X,
     label: "X (Twitter)",
     description: "Follow for updates",
@@ -157,20 +158,20 @@ const OdosaEgharevba = () => {
 
               <div className="space-y-6 text-foreground/80 text-lg leading-relaxed">
                 <p>
-                  Odosa Egharevba is a Top-Rated Plus freelancer, educator, and the visionary founder of RemoteTrybe. Based in Lagos, Nigeria, she has carved a prominent niche in the global digital economy as an expert Virtual Assistant. With a professional background rooted in operational efficiency and executive support, Odosa has transitioned from a successful independent career into a dedicated mentor for thousands of aspiring digital professionals.
+                  Odosa Egharevba is a Top-Rated Plus freelancer, educator, and the visionary founder of RemoteTrybe. Based in Lagos, Nigeria, she has carved a prominent niche in the global digit[...]
                 </p>
                 <p>
-                  As the driving force behind RemoteTrybe, Odosa focuses on transforming lives through the "VA Masterclass," a comprehensive training program designed to move individuals from technical curiosity to career readiness. Her expertise spans administrative operations, project management tools like Asana and Trello, and strategic client communication. Today, she is recognized not only for her technical proficiency but also for her commitment to building a sustainable ecosystem where African talent can thrive on the global stage.
+                  As the driving force behind RemoteTrybe, Odosa focuses on transforming lives through the "VA Masterclass," a comprehensive training program designed to move individuals from tec[...]
                 </p>
                 <p>
-                  Her path was not just about personal success, but about recognizing the vast, untapped potential of individuals who lacked the roadmap to enter the digital space. Motivated by a desire to democratize access to global opportunities, Odosa founded RemoteTrybe with a clear mission: to create a structured, supportive environment where anyone with a laptop and a willing spirit could learn the skills necessary to work for international clients from anywhere in the world.
+                  Her path was not just about personal success, but about recognizing the vast, untapped potential of individuals who lacked the roadmap to enter the digital space. Motivated by a[...]
                 </p>
               </div>
 
               {/* Philosophy quote */}
               <blockquote className="mt-12 border-l-4 border-primary/30 pl-6 py-2">
                 <p className="text-lg italic text-muted-foreground leading-relaxed">
-                  "The digital economy is the ultimate equalizer, provided one has the right guidance and a commitment to continuous learning. The goal is not just to teach a skill, but to foster the confidence and professional integrity required to build a sustainable, global career from any corner of the globe."
+                  "The digital economy is the ultimate equalizer, provided one has the right guidance and a commitment to continuous learning. The goal is not just to teach a skill, but to foster[...]
                 </p>
                 <footer className="mt-3 text-sm font-medium text-foreground">
                   — Odosa Egharevba
@@ -260,11 +261,11 @@ const OdosaEgharevba = () => {
                 For speaking engagements, media inquiries, or collaboration opportunities
               </p>
               <a
-                href="mailto:odosa@remotetrybe.com"
+                href={`mailto:${FOUNDER_CONTACT.EMAIL}`}
                 className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors border-b border-primary/20 hover:border-primary/40 pb-0.5"
               >
                 <Mail size={16} />
-                odosa@remotetrybe.com
+                {FOUNDER_CONTACT.EMAIL}
               </a>
             </div>
           </div>
@@ -283,17 +284,17 @@ const OdosaEgharevba = () => {
             name: "Odosa Egharevba",
             jobTitle: ["Virtual Assistant Coach", "RemoteTrybe Founder"],
             description:
-              "Founder of RemoteTrybe, top-rated Upwork freelancer, and virtual assistant coach with 2000+ successful graduates.",
+              `Founder of RemoteTrybe, top-rated Upwork freelancer, and virtual assistant coach with ${BUSINESS_METRICS.STUDENTS_GRADUATED}+ successful graduates.`,
             url: "https://remotetrybe.com/founder",
             sameAs: [
-              "https://www.linkedin.com/in/odosa-egharevba-68634a248",
-              "https://youtube.com/@odosaegharevba",
-              "https://x.com/odosaabi",
+              FOUNDER_CONTACT.LINKEDIN,
+              FOUNDER_CONTACT.YOUTUBE,
+              FOUNDER_CONTACT.TWITTER,
             ],
             alumniOf: {
               "@type": "Organization",
               name: "RemoteTrybe",
-              foundingDate: "2022",
+              foundingDate: `${BUSINESS_METRICS.PROGRAM_FOUNDING_YEAR}`,
               founders: [{ "@type": "Person", name: "Odosa Egharevba" }],
             },
           }),

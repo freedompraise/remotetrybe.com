@@ -1,5 +1,6 @@
 // About.tsx
 import { CheckCircle, Users, Briefcase, BookOpen, Clock } from "lucide-react";
+import { BUSINESS_METRICS } from "../config/constants";
 
 const About = () => {
   return (
@@ -36,7 +37,7 @@ const About = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Our Expertise</h3>
             <p className="text-gray-600">
-              From setting up Upwork profiles to mastering client communication and remote workflows—we cover what schools don’t.
+              From setting up Upwork profiles to mastering client communication and remote workflows—we cover what schools don't.
             </p>
           </div>
 
@@ -56,7 +57,7 @@ const About = () => {
             <div className="flex justify-center mb-4">
               <Users className="text-primary" size={32} />
             </div>
-            <h3 className="text-3xl font-bold text-primary mb-2">1000+</h3>
+            <h3 className="text-3xl font-bold text-primary mb-2">{BUSINESS_METRICS.STUDENTS_GRADUATED.toLocaleString()}+</h3>
             <p className="text-gray-600">Trained Professionals</p>
           </div>
 
@@ -71,7 +72,7 @@ const About = () => {
             <div className="flex justify-center mb-4">
               <BookOpen className="text-primary" size={32} />
             </div>
-            <h3 className="text-3xl font-bold text-primary mb-2">6+</h3>
+            <h3 className="text-3xl font-bold text-primary mb-2">{BUSINESS_METRICS.SPECIALIZED_PROGRAMS}+</h3>
             <p className="text-gray-600">Specialized Programs</p>
           </div>
 

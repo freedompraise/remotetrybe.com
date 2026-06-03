@@ -1,4 +1,5 @@
-import { LucideIcon, Users, Check, Clock, Calendar, Share2, FileText, Briefcase, Target, BookOpen, Zap, Laptop, MessageSquare, Mail, Calendar as CalendarIcon, Headphones, File, Search, Plane, Database, Layout, BarChart, Workflow } from 'lucide-react';
+import { LucideIcon, Users, Check, Clock, Calendar, Share2, FileText, Briefcase, Target, BookOpen, Zap, Laptop, MessageSquare, Mail, Calendar as CalendarIcon, Headphones, File, Search, Plane, Database, Layout, Workflow, BarChart } from "lucide-react";
+import { VA_MASTERCLASS_CONFIG } from "../config/constants";
 
 export interface Skill {
   title: string;
@@ -163,7 +164,7 @@ export const modules = [
 export const faqs = [
   {
     question: "How much does the program cost?",
-    answer: "The Virtual Assistant Masterclass costs ₦32,000 or $35. We offer flexible payment options and early-bird discounts for select cohorts."
+    answer: `The Virtual Assistant Masterclass costs ₦${VA_MASTERCLASS_CONFIG.PRICE_NGN.toLocaleString()} or $${VA_MASTERCLASS_CONFIG.PRICE_USD}. We offer flexible payment options and early-bird discounts for select cohorts.`
   },
   {
     question: "Do I need prior experience to enroll?",
@@ -179,7 +180,7 @@ export const faqs = [
   },
   {
     question: "Is there ongoing support after the program ends?",
-    answer: "Absolutely! You'll have lifetime access to our 800+ VA community with ongoing mentorship and resources."
+    answer: `Absolutely! You'll have lifetime access to our ${VA_MASTERCLASS_CONFIG.COMMUNITY_SIZE}+ VA community with ongoing mentorship and resources.`
   },
   {
     question: "Will there be class recordings available?",
@@ -218,4 +219,4 @@ export const testimonialVideos = [
     title: "How I became a highly skilled Virtual Assistant",
     src: "https://drive.google.com/file/d/185b7k0A_usaelwD7Q9xvI3MF2nmH8AEI/view?usp=drivesdk"
   }
-]; 
+];
