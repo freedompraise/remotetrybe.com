@@ -45,18 +45,37 @@ export function clearAffiliatesCache() {
   affiliateCacheLoaded = false;
 }
 
-export async function getAffiliates({ page = 1, pageSize = 20, search = '', sortBy = 'joined', sortOrder = 'desc' } = {}) {
+export async function getAffiliates({
+  page = 1,
+  pageSize = 20,
+  search = '',
+  sortBy = 'joined',
+  sortOrder = 'desc',
+  statusFilter = 'all',
+} = {}) {
   await loadAllAffiliates();
-  let filtered = affiliateCache;
+  let filtered = [...affiliateCache];
+
+  if (statusFilter === 'requested') {
+    filtered = filtered.filter(a => !!a.has_requested_payout && !a.has_paid_payout);
+  } else if (statusFilter === 'unpaid') {
+    filtered = filtered.filter(a => !a.has_paid_payout);
+  }
+
   if (search) {
     const s = search.toLowerCase();
-    filtered = filtered.filter(a => a.full_name.toLowerCase().includes(s));
+    filtered = filtered.filter(a =>
+      [a.full_name, a.email, a.ref_code, a.phone]
+        .filter(Boolean)
+        .some(value => String(value).toLowerCase().includes(s))
+    );
   }
   
   // Sort
   filtered.sort((a, b) => {
-    let aVal, bVal;
-    
+    let aVal = 0;
+    let bVal = 0;
+
     if (sortBy === 'joined') {
       aVal = new Date(a.created_at).getTime();
       bVal = new Date(b.created_at).getTime();
@@ -65,10 +84,14 @@ export async function getAffiliates({ page = 1, pageSize = 20, search = '', sort
       bVal = b.referral_count || 0;
     }
     
+    if (aVal === bVal) {
+      return 0;
+    }
+
     if (sortOrder === 'asc') {
-      return aVal > bVal ? 1 : -1;
+      return aVal - bVal;
     } else {
-      return aVal < bVal ? 1 : -1;
+      return bVal - aVal;
     }
   });
   
@@ -88,8 +111,9 @@ export async function getAffiliateMetrics() {
   await loadAllAffiliates();
   const totalAffiliates = affiliateCache.length;
   const totalReferrals = affiliateCache.reduce((sum, a) => sum + (a.referral_count || 0), 0);
-  const totalEligible = affiliateCache.filter(a => a.referral_count >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT).length;
-  return { totalAffiliates, totalReferrals, totalEligible };
+  const totalEligible = affiliateCache.filter(a => (a.referral_count || 0) >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT).length;
+  const totalRequested = affiliateCache.filter(a => !!a.has_requested_payout && !a.has_paid_payout).length;
+  return { totalAffiliates, totalReferrals, totalEligible, totalRequested };
 }
 
 export async function getEligibleUnpaidAffiliates() {
@@ -175,7 +199,7 @@ export async function getAffiliateByEmail(email: string) {
     .from('affiliates')
     .select('*')
     .ilike('email', email)
-    .single();
+    .maybeSingle();
 
   if (affiliateError) throw affiliateError;
   if (!affiliate) return null;

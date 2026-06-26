@@ -1,89 +1,100 @@
-// ReferralProgress.tsx
-import { useState } from "react"
-import { Search, CheckCircle, AlertCircle } from "lucide-react"
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
-import { getAffiliateByEmail, requestPayout } from "../lib/supabaseAdmin"
-import { AFFILIATE_CONFIG, getAffiliatePayoutAmount, getReferralsNeededForPayout } from "../config/constants"
+import { useState } from "react";
+import { Search, CheckCircle, AlertCircle } from "lucide-react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { getAffiliateByEmail, requestPayout } from "../lib/supabaseAdmin";
+import { AFFILIATE_CONFIG, getAffiliatePayoutAmount, getReferralsNeededForPayout } from "../config/constants";
 
 interface AffiliateData {
-  id?: string
-  full_name: string
-  email: string
-  ref_code: string
-  referral_count: number
-  has_paid_payout?: boolean
-  last_paid_at?: string | null
-  has_requested_payout?: boolean
-  last_requested_at?: string | null
-} 
-
-
+  id?: string;
+  full_name: string;
+  email: string;
+  ref_code: string;
+  referral_count: number;
+  has_paid_payout?: boolean;
+  last_paid_at?: string | null;
+  has_requested_payout?: boolean;
+  last_requested_at?: string | null;
+}
 
 const ReferralProgress = () => {
-  const [email, setEmail] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [affiliate, setAffiliate] = useState<AffiliateData | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [requestLoading, setRequestLoading] = useState(false)
-  const [requestMsg, setRequestMsg] = useState<string | null>(null)
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [affiliate, setAffiliate] = useState<AffiliateData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [requestLoading, setRequestLoading] = useState(false);
+  const [requestMsg, setRequestMsg] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setRequestMsg(null);
+
     try {
-      const data = await getAffiliateByEmail(email)
+      const data = await getAffiliateByEmail(email);
       if (!data) {
-        setError("No affiliate found with this email address")
-        setAffiliate(null)
+        setError("No affiliate found with this email address.");
+        setAffiliate(null);
       } else {
-        setAffiliate(data)
+        setAffiliate(data);
       }
     } catch {
-      setError("An error occurred while fetching your referral data")
-      setAffiliate(null)
+      setError("An error occurred while fetching your referral data.");
+      setAffiliate(null);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleRequestPayout = async () => {
-    if (!affiliate) return
-    setRequestLoading(true)
-    setRequestMsg(null)
+    if (!affiliate?.id) return;
+
+    setRequestLoading(true);
+    setRequestMsg(null);
+
     try {
-      const amount = getAffiliatePayoutAmount(affiliate.referral_count)
-      const reason = `Requested by affiliate after ${affiliate.referral_count} referral${affiliate.referral_count === 1 ? '' : 's'}`
-      const inserted = await requestPayout({ affiliateId: affiliate.id!, amount, reason })
-      setAffiliate(prev => prev ? { ...prev, has_requested_payout: true, last_requested_at: inserted?.created_at || new Date().toISOString() } : prev)
-      setRequestMsg('Payout requested.')
-    } catch (e) {
-      setRequestMsg('Failed to request payout.')
+      const amount = getAffiliatePayoutAmount(affiliate.referral_count);
+      const reason = `Requested by affiliate after ${affiliate.referral_count} referral${affiliate.referral_count === 1 ? '' : 's'}`;
+      const inserted = await requestPayout({ affiliateId: affiliate.id, amount, reason });
+      setAffiliate(prev =>
+        prev
+          ? {
+              ...prev,
+              has_requested_payout: true,
+              last_requested_at: inserted?.created_at || new Date().toISOString(),
+            }
+          : prev
+      );
+      setRequestMsg("Payout requested.");
+    } catch {
+      setRequestMsg("Failed to request payout.");
     } finally {
-      setRequestLoading(false)
+      setRequestLoading(false);
     }
-  }
+  };
 
   const getProgressMessage = (referralCount: number) => {
     if (referralCount >= AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD) {
       return {
-        title: "🎉 Outstanding Achievement!",
-        message: "You have reached 10+ referrals. You are eligible for our maximum rewards."
-      }
-    } else if (referralCount >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT) {
-      return {
-        title: "🌟 Great Progress!",
-        message: `You have reached ${AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT}+ referrals and are eligible for payout. Keep going.`
-      }
-    } else {
-      const remaining = getReferralsNeededForPayout(referralCount)
-      return {
-        title: "🚀 Keep Going!",
-        message: `You need ${remaining} more referral${remaining === 1 ? "" : "s"} to hit your first payout.`
-      }
+        title: "Outstanding achievement!",
+        message: "You have reached 10+ referrals. You are eligible for our maximum rewards.",
+      };
     }
-  }
+
+    if (referralCount >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT) {
+      return {
+        title: "Great progress!",
+        message: `You have reached ${AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT}+ referrals and are eligible for payout. Keep going.`,
+      };
+    }
+
+    const remaining = getReferralsNeededForPayout(referralCount);
+    return {
+      title: "Keep going!",
+      message: `You need ${remaining} more referral${remaining === 1 ? "" : "s"} to hit your first payout.`,
+    };
+  };
 
   return (
     <>
@@ -116,7 +127,7 @@ const ReferralProgress = () => {
                 disabled={loading}
                 className="w-full sm:w-auto bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {loading ? <span className="animate-spin">⌛</span> : <Search size={20} />}
+                {loading ? <span className="animate-spin">⏳</span> : <Search size={20} />}
                 Check Progress
               </button>
             </div>
@@ -151,18 +162,32 @@ const ReferralProgress = () => {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-sm text-gray-600">Payment Status</div>
                   <div className="flex items-center gap-2">
-                    <span className={`inline-block w-2 h-2 rounded-full ${
-                      affiliate.has_paid_payout ? 'bg-green-500' : affiliate.has_requested_payout ? 'bg-blue-500' : 'bg-yellow-500'
-                    }`} />
+                    <span
+                      className={`inline-block w-2 h-2 rounded-full ${
+                        affiliate.has_paid_payout
+                          ? 'bg-green-500'
+                          : affiliate.has_requested_payout
+                            ? 'bg-blue-500'
+                            : 'bg-yellow-500'
+                      }`}
+                    />
                     <span className="text-lg font-semibold">
-                      {affiliate.has_paid_payout ? 'Paid' : affiliate.has_requested_payout ? 'Requested' : 'Unpaid'}
+                      {affiliate.has_paid_payout
+                        ? 'Paid'
+                        : affiliate.has_requested_payout
+                          ? 'Requested'
+                          : 'Unpaid'}
                     </span>
                   </div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-sm text-gray-600">Last Payment Date</div>
                   <div className="text-lg font-semibold">
-                    {affiliate.last_paid_at ? new Date(affiliate.last_paid_at).toLocaleDateString() : (affiliate.last_requested_at ? new Date(affiliate.last_requested_at).toLocaleDateString() : 'N/A')}
+                    {affiliate.last_paid_at
+                      ? new Date(affiliate.last_paid_at).toLocaleDateString()
+                      : affiliate.last_requested_at
+                        ? new Date(affiliate.last_requested_at).toLocaleDateString()
+                        : 'N/A'}
                   </div>
                 </div>
               </div>
@@ -172,7 +197,7 @@ const ReferralProgress = () => {
                   <button
                     onClick={handleRequestPayout}
                     disabled={requestLoading}
-                    className="mt-4 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90"
+                    className="mt-4 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50"
                   >
                     {requestLoading ? 'Requesting...' : 'Request Payout'}
                   </button>
@@ -193,7 +218,7 @@ const ReferralProgress = () => {
                 <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                   <div
                     style={{
-                      width: `${Math.min((affiliate.referral_count / AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD) * 100, 100)}%`
+                      width: `${Math.min((affiliate.referral_count / AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD) * 100, 100)}%`,
                     }}
                     className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary"
                   />
@@ -210,7 +235,7 @@ const ReferralProgress = () => {
       </main>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default ReferralProgress
+export default ReferralProgress;
