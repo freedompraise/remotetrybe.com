@@ -104,35 +104,35 @@ const Affiliate = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-sm text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Check className="text-primary" size={24} />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold mb-2">Easy Earnings</h3>
+                  <p className="text-gray-600 text-sm">
+                    {AFFILIATE_CONFIG.FIRST_TIER_COMMISSION_PERCENTAGE}% commission for your first {AFFILIATE_CONFIG.FIRST_TIER_REFERRALS} referrals, then {AFFILIATE_CONFIG.SECOND_TIER_COMMISSION_PERCENTAGE}% commission for referrals {AFFILIATE_CONFIG.FIRST_TIER_REFERRALS + 1} to {AFFILIATE_CONFIG.SECOND_TIER_REFERRALS}.
+                  </p>
                 </div>
-                <h3 className="font-semibold mb-2">Easy Earnings</h3>
-                <p className="text-gray-600 text-sm">
-                  {AFFILIATE_CONFIG.COMMISSION_PERCENTAGE}% commission for every successful enrollment.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Check className="text-primary" size={24} />
-                </div>
+                <div className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="text-primary" size={24} />
+                  </div>
                 <h3 className="font-semibold mb-2">Big Rewards</h3>
                 <p className="text-gray-600 text-sm">
-                  Earn up to NGN {AFFILIATE_CONFIG.PAYOUT_TIER_2.toLocaleString()} for {AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD} successful referrals.
+                    Payout unlocks after {AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT} successful referrals, and the full 6-referral cycle can earn up to NGN {AFFILIATE_CONFIG.PAYOUT_TIER_2.toLocaleString()}.
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Check className="text-primary" size={24} />
+                <div className="bg-white p-6 rounded-xl shadow-sm text-center">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold mb-2">Get Paid</h3>
+                  <p className="text-gray-600 text-sm">
+                    Eligible for payout after {AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT} successful referrals.
+                  </p>
                 </div>
-                <h3 className="font-semibold mb-2">Get Paid</h3>
-                <p className="text-gray-600 text-sm">
-                  Eligible for payout after {AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT} successful referrals.
-                </p>
               </div>
-            </div>
           </div>
         </section>
 

@@ -6,7 +6,7 @@ import {
   markPayoutAsPaid,
   logNewPayout,
 } from '../../../lib/supabaseAdmin';
-import { AFFILIATE_CONFIG } from '../../../config/constants';
+import { AFFILIATE_CONFIG, getAffiliatePayoutAmount } from '../../../config/constants';
 
 type AffiliateProfile = {
   id: string;
@@ -38,7 +38,7 @@ export default function AffiliateProfilePage() {
   const [logPayoutOpen, setLogPayoutOpen] = useState(false);
   const [logAmount, setLogAmount] = useState(AFFILIATE_CONFIG.PAYOUT_TIER_1);
   const [logReason, setLogReason] = useState(
-    `Crossed ${AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT} referrals`
+    `Completed the ${AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT}-referral reward cycle`
   );
   const [logLoading, setLogLoading] = useState(false);
   const [actionMsg, setActionMsg] = useState('');
@@ -82,6 +82,17 @@ export default function AffiliateProfilePage() {
       cancelled = true;
     };
   }, [id]);
+
+  useEffect(() => {
+    if (!affiliate) return;
+
+    setLogAmount(getAffiliatePayoutAmount(affiliate.referral_count));
+    setLogReason(
+      affiliate.referral_count >= AFFILIATE_CONFIG.SECOND_TIER_REFERRALS
+        ? `Completed the ${AFFILIATE_CONFIG.SECOND_TIER_REFERRALS}-referral reward cycle`
+        : `Crossed ${AFFILIATE_CONFIG.FIRST_TIER_REFERRALS} referrals`
+    );
+  }, [affiliate]);
 
   const handleMarkPaid = async (payoutId: string) => {
     setActionMsg('');

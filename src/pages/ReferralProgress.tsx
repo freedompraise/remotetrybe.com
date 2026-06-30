@@ -3,7 +3,7 @@ import { Search, CheckCircle, AlertCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { getAffiliateByEmail, requestPayout } from "../lib/supabaseAdmin";
-import { AFFILIATE_CONFIG, getAffiliatePayoutAmount, getReferralsNeededForPayout } from "../config/constants";
+import { AFFILIATE_CONFIG, getAffiliatePayoutAmount } from "../config/constants";
 
 interface AffiliateData {
   id?: string;
@@ -78,21 +78,21 @@ const ReferralProgress = () => {
     if (referralCount >= AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD) {
       return {
         title: "Outstanding achievement!",
-        message: "You have reached 10+ referrals. You are eligible for our maximum rewards.",
+        message: `You have reached ${AFFILIATE_CONFIG.SECOND_TIER_REFERRALS} referrals and unlocked the full reward cycle.`,
       };
     }
 
-    if (referralCount >= AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT) {
+    if (referralCount >= AFFILIATE_CONFIG.FIRST_TIER_REFERRALS) {
       return {
         title: "Great progress!",
-        message: `You have reached ${AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT}+ referrals and are eligible for payout. Keep going.`,
+        message: `You have unlocked payout eligibility at ${AFFILIATE_CONFIG.FIRST_TIER_COMMISSION_PERCENTAGE}%. Reach ${AFFILIATE_CONFIG.SECOND_TIER_REFERRALS} referrals to unlock the ${AFFILIATE_CONFIG.SECOND_TIER_COMMISSION_PERCENTAGE}% tier.`,
       };
     }
 
-    const remaining = getReferralsNeededForPayout(referralCount);
+    const remaining = AFFILIATE_CONFIG.FIRST_TIER_REFERRALS - referralCount;
     return {
       title: "Keep going!",
-      message: `You need ${remaining} more referral${remaining === 1 ? "" : "s"} to hit your first payout.`,
+      message: `You need ${remaining} more referral${remaining === 1 ? "" : "s"} to unlock your first ${AFFILIATE_CONFIG.FIRST_TIER_COMMISSION_PERCENTAGE}% tier.`,
     };
   };
 
@@ -225,8 +225,8 @@ const ReferralProgress = () => {
                 </div>
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
                   <span>0</span>
-                  <span>{AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT}</span>
-                  <span>{AFFILIATE_CONFIG.REFERRALS_FOR_MAX_REWARD}+</span>
+                  <span>{AFFILIATE_CONFIG.FIRST_TIER_REFERRALS}</span>
+                  <span>{AFFILIATE_CONFIG.SECOND_TIER_REFERRALS}</span>
                 </div>
               </div>
             </div>

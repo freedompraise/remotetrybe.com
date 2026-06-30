@@ -1,9 +1,20 @@
 import { useEffect } from "react";
+import type { LucideIcon } from "lucide-react";
 import { Linkedin, Youtube, X, Mail, ExternalLink, Award, Users, UserCheck } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import { BUSINESS_METRICS, FOUNDER_CONTACT } from "../config/constants";
+
+type SocialLink = {
+  href: string;
+  label: string;
+  description: string;
+  color: string;
+  iconColor: string;
+  icon?: LucideIcon;
+  iconSrc?: string;
+};
 
 const stats = [
   { icon: Award, value: BUSINESS_METRICS.FOUNDER_UPWORK_RANKING, label: "Ranking on Upwork", description: BUSINESS_METRICS.FOUNDER_UPWORK_PERCENTILE },
@@ -11,7 +22,7 @@ const stats = [
   { icon: UserCheck, value: BUSINESS_METRICS.FOUNDER_LINKEDIN_FOLLOWERS, label: "LinkedIn Followers", description: "Growing community" },
 ];
 
-const socialLinks = [
+const socialLinks: SocialLink[] = [
   {
     href: FOUNDER_CONTACT.LINKEDIN,
     icon: Linkedin,
@@ -35,6 +46,22 @@ const socialLinks = [
     description: "Follow for updates",
     color: "hover:border-foreground/20 hover:bg-foreground/5",
     iconColor: "text-foreground",
+  },
+  {
+    href: FOUNDER_CONTACT.TIKTOK,
+    iconSrc: "/icons/tiktok.svg",
+    label: "TikTok",
+    description: "Short-form insights & tips",
+    color: "hover:border-[#000000]/40 hover:bg-[#000000]/5",
+    iconColor: "text-[#000000]",
+  },
+  {
+    href: FOUNDER_CONTACT.LINKTREE,
+    icon: ExternalLink,
+    label: "Linktree",
+    description: "explore my safe space",
+    color: "hover:border-[#43E660]/40 hover:bg-[#43E660]/5",
+    iconColor: "text-[#43E660]",
   },
 ];
 
@@ -97,7 +124,17 @@ const OdosaEgharevba = () => {
                       aria-label={link.label}
                       className={`p-2.5 rounded-full border border-border bg-background/60 backdrop-blur-sm transition-all duration-300 ${link.color}`}
                     >
-                      <link.icon size={18} className={link.iconColor} />
+                      {link.icon ? (
+                        <link.icon size={18} className={link.iconColor} />
+                      ) : (
+                        <img
+                          src={link.iconSrc}
+                          alt=""
+                          width={18}
+                          height={18}
+                          className="h-[18px] w-[18px] object-contain"
+                        />
+                      )}
                     </a>
                   ))}
                 </div>
@@ -239,7 +276,17 @@ const OdosaEgharevba = () => {
                     className={`group flex items-center gap-4 p-5 bg-card border border-border rounded-2xl transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 ${link.color}`}
                   >
                     <div className={`flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center bg-primary/5 ${link.iconColor} group-hover:scale-110 transition-transform duration-300`}>
-                      <link.icon size={22} />
+                      {link.icon ? (
+                        <link.icon size={22} />
+                      ) : (
+                        <img
+                          src={link.iconSrc}
+                          alt=""
+                          width={22}
+                          height={22}
+                          className="h-[22px] w-[22px] object-contain"
+                        />
+                      )}
                     </div>
                     <div className="min-w-0">
                       <div className="font-semibold text-foreground text-sm">{link.label}</div>
@@ -290,6 +337,8 @@ const OdosaEgharevba = () => {
               FOUNDER_CONTACT.LINKEDIN,
               FOUNDER_CONTACT.YOUTUBE,
               FOUNDER_CONTACT.TWITTER,
+              FOUNDER_CONTACT.TIKTOK,
+              FOUNDER_CONTACT.LINKTREE,
             ],
             alumniOf: {
               "@type": "Organization",

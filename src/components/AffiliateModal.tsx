@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { X, Copy, Check } from 'lucide-react';
 import { useToast } from './ui/use-toast';
 import { findOrCreateAffiliate } from '../lib/supabaseAdmin';
+import { AFFILIATE_CONFIG } from '../config/constants';
 import { AffiliateInsert } from '../types/supabase';
 
 interface AffiliateModalProps {
@@ -183,7 +184,7 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
               </div>
 
               <p className="text-xs text-gray-600 bg-blue-50 p-3 rounded-lg">
-                After registering, you&apos;ll receive your unique referral link. Make sure to copy it to start earning.
+                After registering, you&apos;ll receive your unique referral link. Share it to earn 5% on your first {AFFILIATE_CONFIG.FIRST_TIER_REFERRALS} referrals and 20% on the next {AFFILIATE_CONFIG.SECOND_TIER_REFERRALS - AFFILIATE_CONFIG.FIRST_TIER_REFERRALS}.
               </p>
 
               <button
@@ -202,11 +203,11 @@ const AffiliateModal = ({ isOpen, onClose }: AffiliateModalProps) => {
             </div>
             <h2 className="text-2xl font-bold mb-4">Welcome to RemoteTrybe Affiliates!</h2>
             <p className="text-gray-600 mb-6">
-              Share your unique referral link and start earning 5% commission for each successful enrollment.
+              Share your unique referral link and earn 5% commission for your first {AFFILIATE_CONFIG.FIRST_TIER_REFERRALS} successful referrals, then 20% for the next {AFFILIATE_CONFIG.SECOND_TIER_REFERRALS - AFFILIATE_CONFIG.FIRST_TIER_REFERRALS}.
             </p>
             <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-lg mb-6">
               <p className="text-sm font-semibold text-blue-900">
-                Important: Copy your referral link below and start sharing.
+                Important: you unlock payout once you reach {AFFILIATE_CONFIG.MIN_REFERRALS_FOR_PAYOUT} successful referrals.
               </p>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg mb-6">
