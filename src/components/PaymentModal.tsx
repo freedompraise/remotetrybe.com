@@ -18,6 +18,7 @@ interface PaymentModalProps {
 const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: PaymentModalProps) => {
   const [isForeign, setIsForeign] = useState(false);
   const [userName, setUserName] = useState("");
+  const [selectedProvider, setSelectedProvider] = useState<'selar' | 'nestuge'>('selar');
   const { toast } = useToast();
   const { markReferralPending } = useReferralCode();
 
@@ -31,10 +32,17 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
   let paymentLink: string | null = null;
 
   if (isForeign) {
-    const params = new URLSearchParams();
-    if (referralCode) params.set("referral", referralCode);
-    if (cohortId) params.set("cohortId", cohortId);
-    paymentLink = `https://selar.com/m/remote-trybe?${params.toString()}`;
+    if (selectedProvider === 'nestuge') {
+      const params = new URLSearchParams();
+      if (referralCode) params.set("referral", referralCode);
+      if (cohortId) params.set("cohortId", cohortId);
+      paymentLink = `https://remotetrybe.nestuge.com/remotetrybe?utm_ref=storefront&${params.toString()}`;
+    } else {
+      const params = new URLSearchParams();
+      if (referralCode) params.set("referral", referralCode);
+      if (cohortId) params.set("cohortId", cohortId);
+      paymentLink = `https://selar.com/m/remote-trybe?${params.toString()}`;
+    }
   } else if (selectedCohort?.paystackProductUrl) {
     const url = new URL(selectedCohort.paystackProductUrl);
     if (referralCode) url.searchParams.set("ref", referralCode);
@@ -114,14 +122,14 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
             <h3 className="font-semibold text-yellow-800 mb-2">Important Notes:</h3>
             <p className="text-sm text-yellow-700">
-              After payment, please follow the redirection or read through the Paystack or Selar receipt sent to your email to access that class form. Once completed, you'll get access to the cla[...]
+              After payment, please follow the redirection or read through the Paystack, Selar, or Nestuge receipt sent to your email to access that class form. Once completed, you'll get access to the class.
 
               Please use a Gmail account as your email.
             </p>
             <p className="text-sm text-yellow-700 mt-2">
               Class begins the Friday after the cohort registration deadline.
             </p>
-  
+   
             {selectedCohort?.id === 'cohort10' && new Date() >= new Date('2026-05-11T00:00:00') && new Date() <= new Date('2026-05-25T23:59:59') && (
               <p className="text-sm text-green-700 mt-2 font-semibold">
                  Cohort 10 Special: Get 15% off from May 11th to May 25th, 2026 (11:59 PM)! Use code RTOFF5 at checkout.
@@ -154,9 +162,35 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
               </button>
             </div>
             {isForeign && (
-              <p className="text-xs text-yellow-700 mt-2">
-                International payment opens in a new tab. Complete on Selar.
-              </p>
+              <div className="mt-3 space-y-2">
+                <p className="text-xs text-yellow-700">
+                  Choose your preferred payment provider:
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProvider('selar')}
+                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      selectedProvider === 'selar'
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-gray-800 border-gray-300 hover:border-primary"
+                    }`}
+                  >
+                    Selar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProvider('nestuge')}
+                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      selectedProvider === 'nestuge'
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-gray-800 border-gray-300 hover:border-primary"
+                    }`}
+                  >
+                    Nestuge
+                  </button>
+                </div>
+              </div>
             )}
           </div>
 
@@ -167,7 +201,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
                 className="w-full block bg-primary text-white text-center py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
               >
                 {isForeign
-                  ? "Pay on Selar"
+                  ? `Pay on ${selectedProvider === 'nestuge' ? 'Nestuge' : 'Selar'}`
                   : `Pay ₦${(baseAmount / 100).toLocaleString()}`}
               </button>
             ) : (
@@ -180,7 +214,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
               </button>
             )}
             <p className="text-xs text-center text-gray-500 mt-2">
-              {isForeign ? "Powered by Selar" : "Secured by Paystack"}
+              {isForeign ? `Powered by ${selectedProvider === 'nestuge' ? 'Nestuge' : 'Selar'}` : "Secured by Paystack"}
             </p>
           </div>
         </div>
