@@ -41,7 +41,7 @@ const PaymentModal = ({ isOpen, onClose, amount, cohortId, referralCode }: Payme
       const params = new URLSearchParams();
       if (referralCode) params.set("referral", referralCode);
       if (cohortId) params.set("cohortId", cohortId);
-      paymentLink = `https://selar.com/m/remote-trybe?${params.toString()}`;
+      paymentLink = `https://selar.com/remotetrybe?${params.toString()}`;
     }
   } else if (selectedCohort?.paystackProductUrl) {
     const url = new URL(selectedCohort.paystackProductUrl);
