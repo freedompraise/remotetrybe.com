@@ -17,19 +17,19 @@ const pressArticles: PressArticle[] = [
     source: "Vanguard News",
     title: "Odosa calls for greater investment in Nigeria’s remote work economy",
     href: "https://www.vanguardngr.com/2026/07/odosa-calls-for-greater-investment-in-nigerias-remote-work-economy/amp/",
-    logo: "https://logo.clearbit.com/www.vanguardngr.com",
+    logo: "/icons/vanguard.jpeg",
   },
   {
     source: "Guardian Nigeria",
     title: "Egharevba Odosa bags nomination for 100 Under 40 Tech Award",
     href: "https://guardian.ng/news/nigeria/metro/egharevba-odosa-bags-nomination-for-prestigious-100-under-40-tech-award/",
-    logo: "https://logo.clearbit.com/guardian.ng",
+    logo: "/icons/guardian.png",
   },
   {
     source: "Vanguard News",
     title: "Remote Trybe unveils social media design course",
     href: "https://www.vanguardngr.com/2026/06/remote-trybe-unveils-social-media-design-course-expanding-africas-digital-skills/amp/",
-    logo: "https://logo.clearbit.com/www.vanguardngr.com",
+    logo: "/icons/vanguard.jpeg",
   },
 ];
 
