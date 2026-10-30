@@ -47,7 +47,7 @@ export const FOUNDER_CONTACT = {
   EMAIL: "odosa@remotetrybe.com",
   LINKEDIN: "https://www.linkedin.com/in/odosa-egharevba-68634a248",
   YOUTUBE: "https://youtube.com/@odosaegharevba",
-  TWITTER: "https://x.com/odosaabi",
+  TWITTER: "https://x.com/odosaar?s=11",
   TIKTOK: "https://www.tiktok.com/@odosar?_r=1&_t=ZS-97YvOIViXqf",
   LINKTREE: "https://linktr.ee/odosaa",
 };
