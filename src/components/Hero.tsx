@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import PressMarquee from "./PressMarquee";
 import VideoPlayer from "./VideoPlayer";
 
 const Hero = () => {
@@ -22,8 +23,12 @@ const Hero = () => {
                 Explore Programs
               </a>
             </div>
+
+            <div className="mt-8 max-w-3xl">
+              <PressMarquee variant="hero" />
+            </div>
           </div>
-          
+
           <VideoPlayer
             src="https://drive.google.com/file/d/18NQwVZ3U1p-qYwLEuJNziYiH1jslmLZ4/view"
             title="Gift's Success Story"

@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import { Linkedin, Youtube, X, Mail, ExternalLink, Award, Users, UserCheck } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import PressMarquee from "../components/PressMarquee";
 import ScrollReveal from "../components/ScrollReveal";
 import { BUSINESS_METRICS, FOUNDER_CONTACT } from "../config/constants";
 
@@ -137,6 +138,10 @@ const OdosaEgharevba = () => {
                       )}
                     </a>
                   ))}
+                </div>
+
+                <div className="mt-8 max-w-2xl">
+                  <PressMarquee variant="founder" />
                 </div>
               </div>
             </div>
